@@ -1,0 +1,129 @@
+#main-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: var(--header-height);
+  border-bottom: 1px solid var(--gray-border);
+  background-color: var(--black);
+}
+
+.main-header__logo img {
+  color: var(--primary);
+}
+
+.main-header__navbar {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.main-header__navbar .main-header__navbar-item {
+  position: relative;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 0 8px;
+  color: var(--white);
+  text-transform: none;
+}
+
+.main-header__navbar .main-header__navbar-item:before {
+  position: absolute;
+  content: "";
+  height: 2px;
+  position: absolute;
+  top: calc(100% + 8px);
+  width: 100%;
+  background-color: currentColor;
+  -webkit-animation: disappearToCenter 0.3s ease-in-out forwards;
+          animation: disappearToCenter 0.3s ease-in-out forwards;
+}
+
+.main-header__navbar-item:hover {
+  -webkit-animation: BlackToFadded 0.3s ease-in-out forwards;
+          animation: BlackToFadded 0.3s ease-in-out forwards;
+}
+
+.main-header__navbar-item:hover:before {
+  -webkit-animation: appearFromCenter 0.3s ease-in-out forwards;
+          animation: appearFromCenter 0.3s ease-in-out forwards;
+}
+
+@-webkit-keyframes appearFromCenter {
+  0% {
+    -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+  }
+}
+
+@keyframes appearFromCenter {
+  0% {
+    -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+  }
+}
+
+@-webkit-keyframes disappearToCenter {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+  }
+  100% {
+    -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+  }
+}
+
+@keyframes disappearToCenter {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+  }
+  100% {
+    -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+  }
+}
+
+@-webkit-keyframes BlackToFadded {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.65;
+  }
+}
+
+@keyframes BlackToFadded {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.65;
+  }
+}
+
+.main-header__actions .actions__btn {
+  position: relative;
+  font-weight: 400;
+  color: var(--white);
+  text-transform: none;
+}
+
+.actions__btn.MuiButton-root:hover {
+  background: red;
+}
+/*# sourceMappingURL=style.css.map */
