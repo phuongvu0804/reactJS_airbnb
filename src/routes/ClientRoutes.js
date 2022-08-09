@@ -1,10 +1,14 @@
 import { lazy } from "react";
+import HomeTemplate from "@/containers/HomeTemplate";
+
+//Pages
+const HomePage = lazy(() => import("@/containers/HomeTemplate/HomePage"));
 
 const ClientRoutes = {
     path: "/",
-    element: <div>Home</div>,
+    element: <HomeTemplate />,
     children: [
-        { path: "home", element: <div>Home</div> },
+        { path: "", element: <HomePage /> },
         { path: "room-detail", element: <div>Room Detail</div> },
     ],
 };

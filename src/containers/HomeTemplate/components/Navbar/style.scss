@@ -1,0 +1,129 @@
+#main-header {
+    display: flex;
+    justify-content: center;
+    height: var(--header-height);
+    border-bottom: 1px solid var(--gray-border);
+    background-color: var(--black);
+}
+
+.main-header__logo {
+    img {
+        color: var(--primary);
+    }
+}
+
+.main-header__navbar {
+    flex-grow: 1;
+    justify-content: center;
+
+    .main-header__navbar-item {
+        position: relative;
+        font-size: 16px;
+        font-weight: 300;
+        padding: 5px 8px;
+        color: var(--white);
+        text-transform: none;
+
+        &:before {
+            position: absolute;
+            content: "";
+            height: 2px;
+            position: absolute;
+            top: calc(100% + 8px);
+            width: 100%;
+            background-color: currentColor;
+            animation: disappearToCenter 0.3s ease-in-out forwards;
+        }
+
+        &.MuiButton-root {
+            border-radius: 22px;
+
+            &:hover {
+                border-radius: 22px;
+            }
+        }
+    }
+}
+
+.main-header__navbar-item:hover {
+    animation: BlackToFadded 0.3s ease-in-out forwards;
+
+    &:before {
+        animation: appearFromCenter 0.3s ease-in-out forwards;
+    }
+}
+
+@keyframes appearFromCenter {
+    0% {
+        transform: scaleX(0);
+    }
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes disappearToCenter {
+    0% {
+        transform: scaleX(1);
+    }
+    100% {
+        transform: scaleX(0);
+    }
+}
+
+@keyframes BlackToFadded {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.65;
+    }
+}
+
+.main-header__actions {
+    .actions__btn {
+        position: relative;
+        font-weight: 400;
+        color: var(--white);
+        text-transform: none;
+        border-radius: 22px;
+    }
+
+    .actions__btn-icon {
+    }
+
+    .actions__btn-icon {
+    }
+
+    .actions__sub-nav {
+    }
+
+    .sub-nav__item {
+    }
+
+    .sub-nav__item-link {
+    }
+}
+
+.actions__btn.MuiButton-root,
+.actions__btn.MuiIconButton-root {
+    &:hover {
+        background: rgb(255 255 255 / 25%);
+        border-radius: 22px;
+    }
+}
+
+.actions__btn {
+    &.actions__btn--user {
+        background: transparent;
+        padding: 5px 5px 5px 12px;
+        border-radius: 21px;
+        border: 1px solid var(--gray-border);
+        transition: box-shadow 0.2s ease;
+
+        &:hover {
+            background: transparent;
+            box-shadow: 0 2px 4px rgba(255, 255, 255, 20%);
+        }
+    }
+}
