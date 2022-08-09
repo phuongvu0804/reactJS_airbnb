@@ -1,8 +1,10 @@
 import { lazy } from "react";
 
+const Form = lazy(() => import("@/components/Form"));
+
 const AuthRoutes = {
     path: "auth",
-    element: <div>Auth</div>,
+    element: <Form />,
     children: [
         { path: "login", element: <div>Login</div> },
         { path: "signup", element: <div>Signup</div> },
