@@ -1,0 +1,92 @@
+.auth {
+    &-background {
+        min-height: 100vh;
+        background-color: rgb(243, 244, 246);
+    }
+
+    &-form-container {
+        margin-top: 30px;
+        padding: 30px;
+    }
+
+    &-form-title {
+        font-weight: 700 !important;
+        margin-bottom: 17px !important;
+    }
+
+    &-form-input-label {
+        margin-bottom: 10px;
+        color: var(--black) !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+    }
+
+    &-form-input {
+        .MuiInputBase-input {
+            padding: 10px 16px !important;
+            font-size: 16px;
+        }
+
+        .MuiOutlinedInput-root:hover fieldset {
+            border-color: rgba(0, 0, 0, 0.23);
+        }
+        .Mui-focused fieldset {
+            border-color: var(--primary) !important;
+        }
+    }
+
+    &-btn-submit {
+        background-size: 200% 200% !important;
+        background-image: radial-gradient(
+            circle at center center,
+            rgb(255, 56, 92) 0%,
+            rgb(230, 30, 77) 27.5%,
+            rgb(227, 28, 95) 40%,
+            rgb(215, 4, 102) 57.5%,
+            rgb(189, 30, 89) 75%,
+            rgb(189, 30, 89) 100%
+        ) !important;
+        font-size: 13px !important;
+        padding: 14px 24px !important;
+    }
+
+    &-login-remember {
+        .MuiFormControlLabel-label {
+            font-size: 13px;
+            font-weight: 500;
+        }
+    }
+
+    &-forgot-password {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--primary) !important;
+
+        &:hover {
+            color: var(--black) !important;
+        }
+    }
+
+    &-footer {
+        margin-top: 40px;
+
+        &-link {
+            font-size: 13px;
+            color: var(--gray) !important;
+        }
+    }
+
+    &-signup-link {
+        margin-top: 20px !important;
+        text-align: right;
+        font-size: 13px !important;
+
+        a {
+            color: var(--primary) !important;
+
+            &:hover {
+                color: var(--black) !important;
+            }
+        }
+    }
+}
