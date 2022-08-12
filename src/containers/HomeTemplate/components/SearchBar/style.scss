@@ -1,0 +1,35 @@
+.home-page__search-bar {
+    position: absolute;
+    display: flex;
+    flex: 1;
+    top: var(--header-height);
+    left: 50%;
+    transform: translateX(-50%);
+    height: 66px;
+    width: 850px;
+    padding: 14px 24px;
+    background-color: white;
+    border-radius: 32px;
+    border: 1px solid var(--gray-border);
+}
+
+.search-bar__form {
+    display: flex;
+    align-items: center;
+
+    .search-bar__input-label {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--black);
+    }
+}
+
+.search-bar__input-control {
+    height: 100%;
+}
+
+.search-bar__input {
+    .MuiOutlinedInput-notchedOutline {
+        border: none;
+    }
+}

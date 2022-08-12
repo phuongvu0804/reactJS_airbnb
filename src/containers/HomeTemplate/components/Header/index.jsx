@@ -24,11 +24,34 @@ import images from "@/assets/images";
 
 //Others
 import "./style.scss";
+import { Divider } from "@mui/material";
+import SearchBar from "../SearchBar";
 
 const pages = ["Stay", "Experiences", "Online Experiences"];
-const settings = ["Đăng ký", "Đăng nhập", "Cho thuê nhà", "Tổ chức trải nghiệm", "Trợ giúp"];
+const settings = [
+    {
+        label: "Sign up",
+        divider: false,
+    },
+    {
+        label: "Log in",
+        divider: true,
+    },
+    {
+        label: "Host your home",
+        divider: false,
+    },
+    {
+        label: "Host an experience",
+        divider: false,
+    },
+    {
+        label: "Help",
+        divider: false,
+    },
+];
 
-const Navbar = () => {
+const Header = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -138,6 +161,7 @@ const Navbar = () => {
                             <MenuIcon className="actions__btn-icon" />
                             <AccountCircleIcon className="actions__btn-icon" />
                         </IconButton>
+                        {/* Actions' sub nav */}
                         <Menu
                             className="actions__sub-nav"
                             sx={{ mt: "45px" }}
@@ -156,22 +180,30 @@ const Navbar = () => {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem className="sub-nav__item" key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography
-                                        className="sub-nav__item-link"
-                                        component={Link}
-                                        to="/"
-                                        textAlign="center"
+                                <div key={setting.label}>
+                                    <MenuItem
+                                        className="sub-nav__item"
+                                        key={setting.label}
+                                        onClick={handleCloseUserMenu}
                                     >
-                                        {setting}
-                                    </Typography>
-                                </MenuItem>
+                                        <Typography
+                                            className="sub-nav__item-link"
+                                            component={Link}
+                                            to="/"
+                                            textAlign="center"
+                                        >
+                                            {setting.label}
+                                        </Typography>
+                                    </MenuItem>
+                                    {setting.divider ? <Divider /> : ""}
+                                </div>
                             ))}
                         </Menu>
                     </Box>
                 </Toolbar>
             </Container>
+            <SearchBar />
         </AppBar>
     );
 };
-export default Navbar;
+export default Header;
