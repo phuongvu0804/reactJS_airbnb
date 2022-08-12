@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import React from "react";
 
 function SubmitBtn({ children, startIcon, endIcon, className, variant }) {
     return (

@@ -3,14 +3,18 @@
 
 :root {
     --primary: #ff385c;
+    --primary-hover: #df1362;
     --white: #fff;
     --black: #222222;
     --gray: #717171;
-    --gray-hover: #f7f7f7;
+    --light-gray: #dddddd;
+    --gray-hover: #ff7f7;
 
     --gray-border: #dddddc;
+    --gray-search-bar: #ebebeb;
 
     --header-height: 80px;
+    --border-radius-search-bar: 32px;
 }
 
 * {

@@ -70,19 +70,17 @@ const Header = () => {
         setAnchorElUser(null);
     };
 
-    const TabletMobileNavbar = () => {
+    const TableTabletNavbar = () => {
         return (
             <>
                 <Box className="main-header__navbar" sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                     <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleOpenNavMenu}
-                        color="inherit"
+                        className="main-header__logo"
+                        component={Link}
+                        to="/"
+                        sx={{ display: { xs: "flex", md: "none" } }}
                     >
-                        <MenuIcon />
+                        <Image className="main-header__logo-img" src={images.logoIcon} alt="Airbnb logo" />
                     </IconButton>
                     <Menu
                         id="menu-appbar"
@@ -115,7 +113,7 @@ const Header = () => {
 
     return (
         <AppBar id="main-header" position="static">
-            <Container maxWidth="lg">
+            <Container maxWidth="lg" sx={{ display: { xs: "none", md: "flex" } }}>
                 <Toolbar disableGutters>
                     <IconButton
                         className="main-header__logo"
@@ -126,8 +124,8 @@ const Header = () => {
                         <Image className="main-header__logo-img" src={images.logoWhite} alt="Airbnb logo" />
                     </IconButton>
 
-                    {/* Nabar for tablet + mobile starts */}
-                    {TabletMobileNavbar()}
+                    {/* Nabar for tablet starts */}
+                    {TableTabletNavbar()}
                     {/* Nabar for tablet + mobile ends */}
 
                     {/* Navbar for PC starts */}

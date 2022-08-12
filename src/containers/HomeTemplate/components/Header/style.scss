@@ -3,7 +3,6 @@
     display: flex;
     justify-content: center;
     height: var(--header-height);
-    border-bottom: 1px solid var(--gray-border);
     background-color: var(--black);
 }
 
@@ -146,6 +145,17 @@
         &:hover {
             background: transparent;
             box-shadow: 0 2px 4px rgba(255, 255, 255, 20%);
+        }
+    }
+}
+
+@media (min-width: 740px) and (max-width: 1023px) {
+    .main-header__navbar {
+        justify-content: start;
+    }
+    .main-header__logo {
+        img {
+            filter: invert(100%) sepia(0%) saturate(7483%) hue-rotate(252deg) brightness(121%) contrast(99%);
         }
     }
 }
