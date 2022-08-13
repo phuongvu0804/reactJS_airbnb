@@ -4,6 +4,7 @@ const images = {
     logoWhite: require("@/assets/images/logoWhite.svg").default,
     logoIcon: require("@/assets/images/logoIcon.svg").default,
     animalService: require("@/assets/images/animal-service.jpeg"),
+    carouselImg: require("@/assets/images/carousel.jpeg"),
 };
 
 export default images;
