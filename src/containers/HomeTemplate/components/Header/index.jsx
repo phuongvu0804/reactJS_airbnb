@@ -12,9 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import Image from "@/components/Image";
 import LanguageIcon from "@mui/icons-material/Language";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -24,11 +22,34 @@ import images from "@/assets/images";
 
 //Others
 import "./style.scss";
+import { Divider } from "@mui/material";
+import SearchBar from "../SearchBar";
 
 const pages = ["Stay", "Experiences", "Online Experiences"];
-const settings = ["Đăng ký", "Đăng nhập", "Cho thuê nhà", "Tổ chức trải nghiệm", "Trợ giúp"];
+const settings = [
+    {
+        label: "Sign up",
+        divider: false,
+    },
+    {
+        label: "Log in",
+        divider: true,
+    },
+    {
+        label: "Host your home",
+        divider: false,
+    },
+    {
+        label: "Host an experience",
+        divider: false,
+    },
+    {
+        label: "Help",
+        divider: false,
+    },
+];
 
-const Navbar = () => {
+const Header = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -47,19 +68,17 @@ const Navbar = () => {
         setAnchorElUser(null);
     };
 
-    const TabletMobileNavbar = () => {
+    const TableTabletNavbar = () => {
         return (
             <>
-                <Box className="main-header__navbar" sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <Box className="main-header__navbar" sx={{ flexGrow: 1, display: { xs: "flex", sm: "flex" } }}>
                     <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleOpenNavMenu}
-                        color="inherit"
+                        className="main-header__logo"
+                        component={Link}
+                        to="/"
+                        sx={{ display: { xs: "flex", md: "none" } }}
                     >
-                        <MenuIcon />
+                        <Image className="main-header__logo-img" src={images.logoIcon} alt="Airbnb logo" />
                     </IconButton>
                     <Menu
                         id="menu-appbar"
@@ -92,8 +111,8 @@ const Navbar = () => {
 
     return (
         <AppBar id="main-header" position="static">
-            <Container maxWidth="lg">
-                <Toolbar disableGutters>
+            <Container maxWidth="lg" sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}>
+                <Toolbar className="main-header__content" disableGutters sx={{ width: { md: "100%" } }}>
                     <IconButton
                         className="main-header__logo"
                         component={Link}
@@ -103,8 +122,8 @@ const Navbar = () => {
                         <Image className="main-header__logo-img" src={images.logoWhite} alt="Airbnb logo" />
                     </IconButton>
 
-                    {/* Nabar for tablet + mobile starts */}
-                    {TabletMobileNavbar()}
+                    {/* Nabar for tablet starts */}
+                    <TableTabletNavbar />
                     {/* Nabar for tablet + mobile ends */}
 
                     {/* Navbar for PC starts */}
@@ -138,6 +157,7 @@ const Navbar = () => {
                             <MenuIcon className="actions__btn-icon" />
                             <AccountCircleIcon className="actions__btn-icon" />
                         </IconButton>
+                        {/* Actions' sub nav */}
                         <Menu
                             className="actions__sub-nav"
                             sx={{ mt: "45px" }}
@@ -156,22 +176,30 @@ const Navbar = () => {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem className="sub-nav__item" key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography
-                                        className="sub-nav__item-link"
-                                        component={Link}
-                                        to="/"
-                                        textAlign="center"
+                                <div key={setting.label}>
+                                    <MenuItem
+                                        className="sub-nav__item"
+                                        key={setting.label}
+                                        onClick={handleCloseUserMenu}
                                     >
-                                        {setting}
-                                    </Typography>
-                                </MenuItem>
+                                        <Typography
+                                            className="sub-nav__item-link"
+                                            component={Link}
+                                            to="/"
+                                            textAlign="center"
+                                        >
+                                            {setting.label}
+                                        </Typography>
+                                    </MenuItem>
+                                    {setting.divider ? <Divider /> : ""}
+                                </div>
                             ))}
                         </Menu>
                     </Box>
                 </Toolbar>
             </Container>
+            <SearchBar />
         </AppBar>
     );
 };
-export default Navbar;
+export default Header;

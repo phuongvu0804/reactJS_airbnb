@@ -6,6 +6,11 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import configureStore from "./store";
 
+//MUI Datepicker config
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+
+import { LocalizationProvider } from "@mui/x-date-pickers";
+
 //Components
 import App from "./App";
 import GlobalStyles from "@/components/GlobalStyles";
@@ -14,11 +19,13 @@ const store = configureStore();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <Provider store={store}>
-        <GlobalStyles>
-            <App />
-        </GlobalStyles>
-    </Provider>,
+    <LocalizationProvider dateAdapter={AdapterMoment}>
+        <Provider store={store}>
+            <GlobalStyles>
+                <App />
+            </GlobalStyles>
+        </Provider>
+    </LocalizationProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

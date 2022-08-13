@@ -20,7 +20,7 @@ axiosClient.interceptors.request.use(
 );
 
 axiosClient.interceptors.response.use(
-    (response) => response.data.content,
+    (response) => response.data,
     (error) => Promise.reject(error.response.data.content),
 );
 

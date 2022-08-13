@@ -1,0 +1,42 @@
+.home-page__carousel {
+    --carousel-y-gap: 30px;
+    background-color: var(--black);
+    padding-bottom: var(--carousel-y-gap);
+
+    .home-page__carousel-img {
+        margin: var(--carousel-y-gap) 0;
+        width: 100%;
+        height: 450px;
+        max-height: 450px;
+        object-fit: cover;
+        object-position: center;
+    }
+}
+
+.home-page__carousel-text {
+    font-size: 30px;
+    color: var(--white);
+    text-align: center;
+}
+
+//Responsive for mobile & tablet
+@media (max-width: 1023px) {
+    .home-page__carousel {
+        .home-page__carousel-img {
+            height: 380px;
+        }
+    }
+}
+
+//Responsive for mobile
+@media (max-width: 740px) {
+    .home-page__carousel {
+        --carousel-y-gap: 20px;
+        .home-page__carousel-img {
+        }
+    }
+
+    .home-page__carousel-text {
+        font-size: 20px;
+    }
+}

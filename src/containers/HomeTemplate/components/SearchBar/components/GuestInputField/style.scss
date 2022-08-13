@@ -1,0 +1,95 @@
+form.search-item__sub-modal {
+    position: absolute;
+    top: calc(80px + 64px) !important;
+    left: 52% !important;
+    z-index: 1;
+    max-height: calc(100vh - 150px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background-color: var(--white);
+}
+.search-item__sub-modal--guest {
+    border-radius: 32px;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 4%), 0 8px 16px rgb(0 0 0 / 15%);
+    padding: 16px 32px;
+}
+
+div.sub-modal__group {
+    display: flex;
+    flex-direction: row;
+    min-width: 330px;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    padding-right: 4px;
+}
+
+.group__title {
+    h4 {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 20px;
+        color: var(--black);
+        padding-bottom: 6px;
+    }
+
+    .group__sub-text {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 400;
+        color: rgb(113, 113, 113);
+        padding: 0;
+    }
+
+    .group__sub-text--link {
+        font-weight: 600;
+        text-transform: none;
+        text-decoration: underline;
+    }
+}
+
+.group__filter {
+    display: flex;
+    align-items: center;
+    min-width: 104px;
+    margin-left: 5px;
+}
+
+.group__filter-btn {
+}
+
+.group__filter-number {
+    font-size: 16px;
+    color: var(--black);
+}
+
+//Responsive for tablet
+@media (min-width: 740px) and (max-width: 1023px) {
+    form.search-item__sub-modal {
+        top: calc(80px + 64px) !important;
+        left: 43% !important;
+    }
+}
+
+//Responsive for mobile
+@media (max-width: 740px) {
+    form.search-item__sub-modal {
+        z-index: 1305;
+        right: 12px !important;
+        left: 12px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+
+        &.search-item__sub-modal--guest {
+            padding: 14px 24px;
+        }
+    }
+
+    div.sub-modal__group {
+        padding-top: 16px !important;
+        padding-bottom: 16px !important;
+        padding-right: 4px !important;
+    }
+}

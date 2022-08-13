@@ -1,0 +1,16 @@
+.closing-btn {
+    border-radius: 50%;
+    border: 1px solid rgb(176, 176, 176);
+    outline: none;
+    margin: 0px;
+    padding: 0px;
+    color: rgb(34, 34, 34);
+    background-color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    touch-action: manipulation;
+    background-clip: padding-box;
+    box-shadow: none;
+    transition: transform 0.25s ease 0s;
+    height: 32px;
+    width: 32px;
+}
