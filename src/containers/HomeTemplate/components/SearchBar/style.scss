@@ -6,6 +6,7 @@
     left: 50%;
     transform: translateX(-50%);
     height: 66px;
+    width: 850px;
     background-color: var(--white);
     border-radius: var(--border-radius-search-bar);
     border: 1px solid var(--gray-border);
@@ -18,6 +19,7 @@
 .search-bar__form {
     display: flex;
     align-items: center;
+    width: 100%;
 
     .search-bar__input-label {
         font-size: 12px;
@@ -27,7 +29,7 @@
 }
 
 div.search-bar__input-control {
-    padding-right: 32px;
+    width: 100%;
 }
 
 // div.search-bar__input-control.active,
@@ -52,6 +54,10 @@ div.search-bar__input-control {
             color: var(--black);
         }
     }
+
+    &.search-bar__input--date-picker {
+        height: 1.4rem;
+    }
 }
 
 .search-bar__input-wrapper {
@@ -68,9 +74,16 @@ div.search-bar__input-control {
         background-color: var(--white);
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     }
+
+    .search-bar__input-placeholder {
+        font-size: 14px;
+        font-weight: 300;
+        color: #aaa7a7;
+    }
 }
 
 .search-bar__input-wrapper--last {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 0 14px 0 0;
@@ -126,8 +139,15 @@ div.search-bar__input-control {
         top: 14px;
         left: 24px;
         right: 24px;
+        width: unset;
         transform: none;
         background-color: transparent;
+
+        .search-bar-mobile {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
 
         .search-bar__search-btn {
             color: var(--white);

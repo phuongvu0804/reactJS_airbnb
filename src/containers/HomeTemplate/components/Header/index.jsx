@@ -12,9 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import Image from "@/components/Image";
 import LanguageIcon from "@mui/icons-material/Language";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -73,7 +71,7 @@ const Header = () => {
     const TableTabletNavbar = () => {
         return (
             <>
-                <Box className="main-header__navbar" sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                <Box className="main-header__navbar" sx={{ flexGrow: 1, display: { xs: "flex", sm: "flex" } }}>
                     <IconButton
                         className="main-header__logo"
                         component={Link}
@@ -113,8 +111,8 @@ const Header = () => {
 
     return (
         <AppBar id="main-header" position="static">
-            <Container maxWidth="lg" sx={{ display: { xs: "none", md: "flex" } }}>
-                <Toolbar disableGutters>
+            <Container maxWidth="lg" sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}>
+                <Toolbar className="main-header__content" disableGutters sx={{ width: { md: "100%" } }}>
                     <IconButton
                         className="main-header__logo"
                         component={Link}
@@ -125,7 +123,7 @@ const Header = () => {
                     </IconButton>
 
                     {/* Nabar for tablet starts */}
-                    {TableTabletNavbar()}
+                    <TableTabletNavbar />
                     {/* Nabar for tablet + mobile ends */}
 
                     {/* Navbar for PC starts */}

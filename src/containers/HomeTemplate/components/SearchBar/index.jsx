@@ -2,111 +2,34 @@ import { useState } from "react";
 
 //Material UI
 import TextField from "@mui/material/TextField";
-import { Box, Divider, FormControl, FormLabel, Grid, IconButton, Modal, Typography } from "@mui/material";
+import { Box, Divider, FormControl, FormLabel, IconButton, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { Search } from "@mui/icons-material";
 
 import "./style.scss";
 import SubmitBtn from "@/components/SubmitBtn";
-import { Search } from "@mui/icons-material";
+import SearchModalMobile from "./components/SearchModalMobile";
+import GuestInputField from "./components/GuestInputField";
 
 function SearchBar() {
-    const style = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: 400,
-        bgcolor: "background.paper",
-        border: "2px solid #000",
-        boxShadow: 24,
-        p: 4,
+    const searchTabsMobile = ["Anywhere", "Any week", "Add guests"];
+
+    const [openModal, setOpenModal] = useState(false);
+    const [checkInTime, setCheckInTime] = useState(new Date());
+    const [checkOutTime, setCheckOutTime] = useState(new Date());
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(anchorEl ? null : event.currentTarget);
     };
 
-    const searchTabs = [
-        {
-            id: 1,
-            wrapperTab: false,
-            formControlClassName: "search-bar__input-control search-bar__input-control--where",
-            sx: { flex: 2 },
-            divider: true,
-            others: "",
-            children: {
-                formLabelName: "Where",
-                formLabelClassName: "search-bar__input-label",
-                textFieldClassName: "search-bar__input",
-                textFieldVariant: "outlined",
-                textFieldPlaceholder: "Search destinations",
-            },
-        },
-        {
-            id: 2,
-            wrapperTab: false,
-            formControlClassName: "search-bar__input-control",
-            sx: { flex: 1 },
-            divider: true,
-            others: "",
-            children: {
-                formLabelName: "Check in",
-                formLabelClassName: "search-bar__input-label",
-                textFieldClassName: "search-bar__input",
-                textFieldVariant: "outlined",
-                textFieldPlaceholder: "Add dates",
-            },
-        },
-        {
-            id: 3,
-            wrapperTab: false,
-            formControlClassName: "search-bar__input-control ",
-            sx: { flex: 1 },
-            divider: true,
-            others: "",
-            children: {
-                formLabelName: "Check out",
-                formLabelClassName: "search-bar__input-label",
-                textFieldClassName: "search-bar__input",
-                textFieldVariant: "outlined",
-                textFieldPlaceholder: "Add dates",
-            },
-        },
-        {
-            id: 4,
-            wrapperTab: "search-bar__input-wrapper--last",
-            formControlClassName: "search-bar__input-control",
-            sx: { flex: 2 },
-            divider: false,
-            others: "",
-            children: {
-                formLabelName: "Who",
-                formLabelClassName: "search-bar__input-label",
-                textFieldClassName: "search-bar__input",
-                textFieldVariant: "outlined",
-                textFieldPlaceholder: "Add guests",
-            },
-        },
-    ];
+    const open = Boolean(anchorEl);
+    const id = open ? "simple-popper" : undefined;
 
-    const searchTabsMobile = ["Anywhere", "Any week", "Add guests"];
-    const [tabState, setTabState] = useState({
-        activeTab: null,
-        searchTabs: searchTabs,
-    });
-    const [openModal, setOpenModal] = useState(false);
-
-    const toggleActiveStyle = (item) => {
-        if (!item.wrapperTab) {
-            if (item.id === tabState.activeTab) {
-                return "search-bar__input-wrapper active";
-            } else {
-                return "search-bar__input-wrapper";
-            }
-        } else {
-            if (item.id === tabState.activeTab) {
-                return `search-bar__input-wrapper ${item.wrapperTab} active`;
-            } else {
-                return `search-bar__input-wrapper ${item.wrapperTab}`;
-            }
-        }
+    const datePickerStyle = {
+        height: "1.43rem",
     };
 
     const handleCloseModal = () => setOpenModal(false);
@@ -115,56 +38,64 @@ function SearchBar() {
 
     const SearchBarPCTablet = () => {
         return (
-            <>
-                <Box className="search-bar__form" sx={{ display: { xs: "none", md: "flex" } }}>
-                    {searchTabs.map((item) => (
-                        <Box key={item.id} sx={{ ...item.sx }} className={toggleActiveStyle(item)}>
-                            <FormControl
-                                className={
-                                    item.id === tabState.activeTab
-                                        ? `${item.formControlClassName} active`
-                                        : ` : ${item.formControlClassName}`
-                                }
-                                {...item.others}
-                                onClick={() => setTabState({ ...tabState, activeTab: item.id })}
-                            >
-                                <FormLabel className={item.children.formLabelClassName}>
-                                    {item.children.formLabelName}
-                                </FormLabel>
-                                <TextField
-                                    className={item.children.textFieldClassName}
-                                    placeholder={item.children.textFieldPlaceholder}
-                                    variant={item.children.textFieldVariant}
-                                />
-                            </FormControl>
-                            {item.id === 4 ? (
-                                <SubmitBtn
-                                    className="seacrh-bar__form-btn"
-                                    startIcon={<Search />}
-                                    variant="contained"
-                                ></SubmitBtn>
-                            ) : (
-                                ""
-                            )}
-                            {item.divider ? (
-                                <Divider
-                                    className="search-bar__divider"
-                                    orientation="vertical"
-                                    variant="middle"
-                                    flexItem
-                                />
-                            ) : (
-                                ""
-                            )}
-                        </Box>
-                    ))}
+            <Box className="search-bar-pc-tablet search-bar__form" sx={{ display: { xs: "none", sm: "flex" } }}>
+                <Box className="search-bar__input-wrapper" sx={{ flex: 1.2 }}>
+                    <FormControl className="search-bar__input-control search-bar__input-control--where">
+                        <FormLabel className="search-bar__input-label">Where</FormLabel>
+                        <TextField className="search-bar__input" placeholder="Search destinations" variant="outlined" />
+                    </FormControl>
                 </Box>
-            </>
+                <Divider className="search-bar__divider" orientation="vertical" variant="middle" flexItem />
+                <Box className="search-bar__input-wrapper" sx={{ flex: 1 }}>
+                    <FormControl className="search-bar__input-control search-bar__input-control--where">
+                        <FormLabel className="search-bar__input-label">Check in</FormLabel>
+                        <DesktopDatePicker
+                            value={checkInTime}
+                            onChange={(newValue) => {
+                                setCheckInTime(newValue);
+                            }}
+                            renderInput={(params) => (
+                                <TextField className="search-bar__input search-bar__input--date-picker" {...params} />
+                            )}
+                            sx={datePickerStyle}
+                        />
+                    </FormControl>
+                </Box>
+                <Divider className="search-bar__divider" orientation="vertical" variant="middle" flexItem />
+                <Box className="search-bar__input-wrapper" sx={{ flex: 1 }}>
+                    <FormControl className="search-bar__input-control search-bar__input-control--where">
+                        <FormLabel className="search-bar__input-label">Check out</FormLabel>
+                        <DesktopDatePicker
+                            value={checkOutTime}
+                            onChange={(newValue) => {
+                                setCheckOutTime(newValue);
+                            }}
+                            renderInput={(params) => (
+                                <TextField className="search-bar__input search-bar__input--date-picker" {...params} />
+                            )}
+                            sx={datePickerStyle}
+                        />
+                    </FormControl>
+                </Box>
+                <Divider className="search-bar__divider" orientation="vertical" variant="middle" flexItem />
+                <Box className="search-bar__input-wrapper search-bar__input-wrapper--last" sx={{ flex: 1.2 }}>
+                    <FormControl
+                        className="search-bar__input-control search-bar__input-control--where"
+                        ia-describedby={id}
+                        onClick={handleClick}
+                    >
+                        <FormLabel className="search-bar__input-label">Who</FormLabel>
+                        <Typography className="search-bar__input-placeholder">Add guests</Typography>
+                    </FormControl>
+                    <GuestInputField id={id} open={open} anchorEl={anchorEl} />
+                    <SubmitBtn className="seacrh-bar__form-btn" startIcon={<Search />} variant="contained"></SubmitBtn>
+                </Box>
+            </Box>
         );
     };
     const SearchBarMobile = ({ onClick }) => {
         return (
-            <>
+            <Box className="search-bar-mobile" sx={{ display: { xs: "block", sm: "none" } }}>
                 <IconButton className="search-bar__search-btn" onClick={onClick}>
                     <SearchIcon />
                 </IconButton>
@@ -181,31 +112,20 @@ function SearchBar() {
                 <IconButton className="search-bar__filter-btn" onClick={onClick}>
                     <TuneIcon />
                 </IconButton>
-            </>
+            </Box>
         );
     };
+
     return (
-        <div
-            className={tabState.activeTab ? "home-page__search-bar active" : "home-page__search-bar"}
-            onMouseOut={() => setTabState({ ...tabState, activeTab: null })}
-        >
+        <div className="home-page__search-bar">
             <SearchBarPCTablet />
             <SearchBarMobile onClick={handleOpenModal} />
-            <Modal
-                open={openModal}
+            <SearchModalMobile
+                onOpen={openModal}
                 onClose={handleCloseModal}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
-                </Box>
-            </Modal>
+            />
         </div>
     );
 }

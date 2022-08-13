@@ -88,12 +88,6 @@
         text-transform: none;
         border-radius: 22px;
     }
-
-    .actions__btn-icon {
-    }
-
-    .actions__btn-icon {
-    }
 }
 
 .actions__sub-nav {
@@ -150,6 +144,9 @@
 }
 
 @media (min-width: 740px) and (max-width: 1023px) {
+    .main-header__content {
+        width: 100%;
+    }
     .main-header__navbar {
         justify-content: start;
     }
