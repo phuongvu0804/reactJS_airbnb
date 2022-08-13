@@ -19,12 +19,15 @@
         margin-bottom: 17px;
     }
 
-    &-form-input-label.MuiInputLabel-root {
-        margin-bottom: 10px;
-        color: var(--black);
-        font: {
-            size: 13px;
-            weight: 500;
+    &-form-input-label {
+        &.MuiInputLabel-root,
+        &.MuiFormLabel-root {
+            margin-bottom: 10px;
+            color: var(--black) !important;
+            font: {
+                size: 13px;
+                weight: 500;
+            }
         }
     }
 
@@ -40,6 +43,12 @@
 
         .MuiOutlinedInput-root:hover fieldset {
             border-color: rgba(0, 0, 0, 0.23);
+        }
+    }
+
+    &-form-radio-group {
+        &.MuiFormGroup-root {
+            flex-direction: row;
         }
     }
 
@@ -62,8 +71,10 @@
 
     &-login-remember {
         .MuiFormControlLabel-label {
-            font-size: 13px;
-            font-weight: 500;
+            font: {
+                size: 13px;
+                weight: 500;
+            }
         }
     }
 
@@ -88,13 +99,14 @@
         }
     }
 
-    &-signup-link.MuiTypography-root {
+    &-direction-link.MuiTypography-root {
         margin-top: 20px;
         text-align: right;
         font-size: 13px;
 
-        .MuiLink-root {
+        a {
             color: var(--primary);
+            text-decoration: none;
 
             &:hover {
                 color: var(--black);
