@@ -6,6 +6,7 @@ const AuthTemplate = lazy(() => import("@/containers/AuthTemplate"));
 
 // Pages
 const LoginPage = lazy(() => import("@/containers/AuthTemplate/LoginPage"));
+const SignupPage = lazy(() => import("@/containers/AuthTemplate/SignupPage"));
 
 const AuthRoutes = {
     path: "auth",
@@ -13,7 +14,7 @@ const AuthRoutes = {
     children: [
         { path: "", element: <Navigate to="login" /> },
         { path: "login", element: <LoginPage /> },
-        { path: "signup", element: <div>Signup</div> },
+        { path: "signup", element: <SignupPage /> },
     ],
 };
 
