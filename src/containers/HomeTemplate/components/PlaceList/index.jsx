@@ -11,7 +11,14 @@ import "./style.scss";
 import PlaceListMobile from "./components/PlaceListMobile";
 import PlaceListCard from "./components/PlaceListCard";
 
-function PlaceList() {
+function PlaceList({ data }) {
+    const renderListCards = () => {
+        return data?.map((item, index) => (
+            <Grid key={index} item xs={6} sm={3} className="place-card">
+                <PlaceListCard data={item} />
+            </Grid>
+        ));
+    };
     return (
         <div className="home-page__place-list">
             <Container maxWidth="lg">
@@ -21,11 +28,9 @@ function PlaceList() {
                     className="place-card__tablet-pc-list"
                     sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}
                 >
-                    <Grid item xs={6} sm={3} className="place-card">
-                        <PlaceListCard />
-                    </Grid>
+                    {renderListCards()}
                 </Grid>
-                <PlaceListMobile className="place-card__mobile-list" />
+                <PlaceListMobile className="place-card__mobile-list" data={data} />
             </Container>
         </div>
     );
