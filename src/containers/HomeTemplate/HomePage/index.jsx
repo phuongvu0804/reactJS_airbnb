@@ -11,7 +11,7 @@ import { locationApi } from "@/api";
 
 function HomePage() {
     const [placeList, setPlaceList] = useState([]);
-    const dispatch = useDispatch();
+    const [serverError, setServerError] = useState("");
     useEffect(() => {
         const fetchPlaceList = async () => {
             try {
@@ -20,6 +20,7 @@ function HomePage() {
             } catch (error) {
                 //Solve error scenario
                 console.log(error);
+                setServerError(error);
             }
         };
         fetchPlaceList();

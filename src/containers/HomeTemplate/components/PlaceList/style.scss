@@ -57,6 +57,11 @@ div.place-card {
 }
 
 @media (max-width: 740px) {
+    .home-page__main-title {
+        font-size: 20px;
+        line-height: 1.8;
+    }
+
     div.place-card__mobile-list {
         --arrow-x-gap: -15px;
         display: block;

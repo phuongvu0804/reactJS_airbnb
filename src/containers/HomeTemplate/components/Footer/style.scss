@@ -1,0 +1,145 @@
+#main-footer {
+    position: relative;
+    background-color: #f7f7f7;
+    border-top: 1px solid #dddddd;
+}
+
+.main-footer__top {
+    padding: 48px 0;
+}
+
+.main-footer__category-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+}
+
+a.category-list__item {
+    font-size: 14px;
+    font-weight: 300;
+    padding: 10px 0;
+    color: var(--black);
+    line-height: 18px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.main-footer__bottom {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    border-top: 1px solid #dddddd;
+}
+
+.main-footer__right-list {
+    display: flex;
+
+    .main-footer__right-item-icon {
+        font-size: 4px;
+        margin-right: 4px;
+    }
+}
+
+p.main-footer__right-item,
+.main-footer__right-item--link,
+.main-footer__tool-item {
+    font-size: 14px;
+    color: var(--black);
+    font-weight: 300;
+}
+
+.main-footer__right-item--link,
+.main-footer__tool-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.main-footer__actions,
+.main-footer__tool-list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.main-footer__tool-item {
+    .main-footer__tool-icon {
+        font-size: 18px;
+    }
+}
+
+.main-footer__social-list {
+    justify-content: flex-end;
+}
+
+.main-footer__social-item {
+    .main-footer__social-item-icon {
+        font-size: 20px;
+    }
+}
+
+//Responsive for tablet
+@media (min-width: 740px) and (max-width: 1023px) {
+    #main-footer {
+        border-bottom: unset;
+    }
+
+    .main-footer__top {
+        padding: 40px 0 0 0;
+    }
+
+    div.main-footer__category {
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .main-footer__bottom {
+        padding: 0 0 24px 0;
+        border-top: unset;
+    }
+}
+
+//Responsive for mobile
+@media (max-width: 740px) {
+    .main-footer__top {
+        padding: 24px 0;
+    }
+
+    div.main-footer__category {
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid #dddddd;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+
+    .main-footer__bottom {
+        padding: 0 0 24px 0;
+        border-top: unset;
+
+        .main-footer__right-item,
+        .main-footer__tool-list,
+        .main-footer__social-list {
+            justify-content: flex-start;
+            margin-bottom: 10px;
+        }
+    }
+
+    .main-footer__social-item {
+        &:first-of-type {
+            padding: 0;
+        }
+
+        &:hover {
+            background-color: transparent;
+        }
+    }
+}
