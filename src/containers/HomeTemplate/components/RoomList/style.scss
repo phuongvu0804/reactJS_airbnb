@@ -1,3 +1,7 @@
+.home-page__room-list {
+    padding-bottom: 60px;
+}
+
 .room-card {
     padding-right: 20px;
     max-height: 400px;
@@ -25,6 +29,10 @@
 
 //Responsive for mobile
 @media (max-width: 740px) {
+    .home-page__room-list {
+        padding-bottom: 30px;
+    }
+
     .room-card__img {
         height: 80px;
     }

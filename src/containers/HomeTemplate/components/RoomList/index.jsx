@@ -31,8 +31,8 @@ function RoomList() {
     ];
 
     const renderRoomList = () => {
-        return roomCategories.map((item) => (
-            <Grid item xs={4} component={Link} to="/" className="room-card">
+        return roomCategories.map((item, index) => (
+            <Grid item xs={4} key={index} component={Link} to="/" className="room-card">
                 <div className="room-card__img">
                     <Image src={item.image} alt={`Illustrations about ${item.alt}`} />
                 </div>
