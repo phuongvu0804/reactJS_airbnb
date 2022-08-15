@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 //Material UI
-import * as React from "react";
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -17,6 +17,7 @@ import Image from "@/components/Image";
 import LanguageIcon from "@mui/icons-material/Language";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
+import { useNavigate } from "react-router-dom";
 //Components
 import images from "@/assets/images";
 
@@ -25,33 +26,40 @@ import "./style.scss";
 import { Divider } from "@mui/material";
 import SearchBar from "../SearchBar";
 
-const pages = ["Stay", "Experiences", "Online Experiences"];
+const pages = ["Location", "Stays", "Online Experiences"];
 const settings = [
     {
         label: "Sign up",
+        link: "/auth/login",
         divider: false,
     },
     {
         label: "Log in",
+        link: "/auth/signup",
         divider: true,
     },
     {
         label: "Host your home",
+        link: "/",
         divider: false,
     },
     {
         label: "Host an experience",
+        link: "/",
         divider: false,
     },
     {
         label: "Help",
+        link: "/",
         divider: false,
     },
 ];
 
 const Header = () => {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [searchCategory, setSearchCategory] = useState("Location");
+    let navigate = useNavigate();
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -66,6 +74,11 @@ const Header = () => {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    const handleCategory = (page) => {
+        setSearchCategory(page);
+        handleCloseNavMenu();
     };
 
     const TableTabletNavbar = () => {
@@ -99,7 +112,7 @@ const Header = () => {
                         }}
                     >
                         {pages.map((page) => (
-                            <MenuItem key={page} onClick={handleCloseNavMenu}>
+                            <MenuItem key={page} onClick={() => handleCategory(page)}>
                                 <Typography textAlign="center">{page}</Typography>
                             </MenuItem>
                         ))}
@@ -131,10 +144,12 @@ const Header = () => {
                         {pages.map((page) => (
                             <Button
                                 key={page}
-                                component={Link}
-                                to="/"
-                                onClick={handleCloseNavMenu}
-                                className="main-header__navbar-item"
+                                onClick={() => handleCategory(page)}
+                                className={
+                                    page === searchCategory
+                                        ? "main-header__navbar-item active"
+                                        : "main-header__navbar-item"
+                                }
                             >
                                 {page}
                             </Button>
@@ -157,6 +172,7 @@ const Header = () => {
                             <MenuIcon className="actions__btn-icon" />
                             <AccountCircleIcon className="actions__btn-icon" />
                         </IconButton>
+
                         {/* Actions' sub nav */}
                         <Menu
                             className="actions__sub-nav"
@@ -180,16 +196,9 @@ const Header = () => {
                                     <MenuItem
                                         className="sub-nav__item"
                                         key={setting.label}
-                                        onClick={handleCloseUserMenu}
+                                        onClick={(handleCloseUserMenu, () => navigate(setting.link))}
                                     >
-                                        <Typography
-                                            className="sub-nav__item-link"
-                                            component={Link}
-                                            to="/"
-                                            textAlign="center"
-                                        >
-                                            {setting.label}
-                                        </Typography>
+                                        {setting.label}
                                     </MenuItem>
                                     {setting.divider ? <Divider /> : ""}
                                 </div>
@@ -198,7 +207,7 @@ const Header = () => {
                     </Box>
                 </Toolbar>
             </Container>
-            <SearchBar />
+            <SearchBar searchCategory={searchCategory} />
         </AppBar>
     );
 };

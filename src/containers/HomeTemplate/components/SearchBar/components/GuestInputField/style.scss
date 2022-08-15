@@ -1,7 +1,7 @@
 form.search-item__sub-modal {
     position: absolute;
-    top: calc(80px + 64px) !important;
-    left: 52% !important;
+    top: 0 !important;
+    left: 0% !important;
     z-index: 1;
     max-height: calc(100vh - 150px);
     overflow-x: hidden;
@@ -9,6 +9,7 @@ form.search-item__sub-modal {
     overscroll-behavior: contain;
     background-color: var(--white);
 }
+
 .search-item__sub-modal--guest {
     border-radius: 32px;
     box-shadow: 0 0 0 1px rgb(0 0 0 / 4%), 0 8px 16px rgb(0 0 0 / 15%);
@@ -67,10 +68,6 @@ div.sub-modal__group {
 
 //Responsive for tablet
 @media (min-width: 740px) and (max-width: 1023px) {
-    form.search-item__sub-modal {
-        top: calc(80px + 64px) !important;
-        left: 43% !important;
-    }
 }
 
 //Responsive for mobile

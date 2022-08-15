@@ -1,4 +1,4 @@
-import * as actTypes from "../constants/placeList";
+import * as actTypes from "../constants/locationList";
 
 const initState = {
     loading: false,
@@ -6,21 +6,21 @@ const initState = {
     error: null,
 };
 
-const placeListReducer = (state = initState, action) => {
+const locationListReducer = (state = initState, action) => {
     switch (action.type) {
-        case actTypes.GET_PLACE_LIST_REQUEST:
+        case actTypes.GET_LOCATION_LIST_REQUEST:
             state.loading = true;
             state.data = null;
             state.error = null;
             return { ...state };
 
-        case actTypes.GET_PLACE_LIST_SUCCESS:
+        case actTypes.GET_LOCATION_LIST_SUCCESS:
             state.loading = false;
             state.data = action.payload;
             state.error = null;
             return { ...state };
 
-        case actTypes.GET_PLACE_LIST_FAIL:
+        case actTypes.GET_LOCATION_LIST_FAIL:
             state.loading = false;
             state.data = null;
             state.error = action.payload;
@@ -31,4 +31,4 @@ const placeListReducer = (state = initState, action) => {
     }
 };
 
-export default placeListReducer;
+export default locationListReducer;
