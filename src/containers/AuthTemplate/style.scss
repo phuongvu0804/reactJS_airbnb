@@ -1,0 +1,116 @@
+.auth {
+    &-page {
+        min-height: 100vh;
+        background-color: rgb(243, 244, 246);
+    }
+
+    &-logo {
+        display: block;
+        margin-bottom: 30px;
+        color: var(--primary);
+    }
+
+    &-form-container {
+        padding: 30px;
+    }
+
+    &-form-title.MuiTypography-root {
+        font-weight: 700;
+        margin-bottom: 17px;
+    }
+
+    &-form-input-label {
+        &.MuiInputLabel-root,
+        &.MuiFormLabel-root {
+            margin-bottom: 10px;
+            color: var(--black) !important;
+            font: {
+                size: 13px;
+                weight: 500;
+            }
+        }
+    }
+
+    &-form-input.MuiTextField-root {
+        .MuiInputBase-input {
+            padding: 10px 16px;
+            font-size: 16px;
+        }
+
+        .Mui-focused fieldset {
+            border-color: var(--primary) !important;
+        }
+
+        .MuiOutlinedInput-root:hover fieldset {
+            border-color: rgba(0, 0, 0, 0.23);
+        }
+    }
+
+    &-form-radio-group {
+        &.MuiFormGroup-root {
+            flex-direction: row;
+        }
+    }
+
+    &-btn-submit.MuiLoadingButton-root {
+        background: {
+            size: 200% 200%;
+            image: radial-gradient(
+                circle at center center,
+                rgb(255, 56, 92) 0%,
+                rgb(230, 30, 77) 27.5%,
+                rgb(227, 28, 95) 40%,
+                rgb(215, 4, 102) 57.5%,
+                rgb(189, 30, 89) 75%,
+                rgb(189, 30, 89) 100%
+            );
+        }
+        font-size: 13px;
+        padding: 14px 24px;
+    }
+
+    &-login-remember {
+        .MuiFormControlLabel-label {
+            font: {
+                size: 13px;
+                weight: 500;
+            }
+        }
+    }
+
+    &-forgot-password.MuiLink-root {
+        font: {
+            size: 13px;
+            weight: 500;
+        }
+        color: var(--primary);
+
+        &:hover {
+            color: var(--black);
+        }
+    }
+
+    &-footer {
+        margin-top: 40px;
+
+        &-link.MuiLink-root {
+            font-size: 13px;
+            color: var(--gray);
+        }
+    }
+
+    &-direction-link.MuiTypography-root {
+        margin-top: 20px;
+        text-align: right;
+        font-size: 13px;
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+
+            &:hover {
+                color: var(--black);
+            }
+        }
+    }
+}
