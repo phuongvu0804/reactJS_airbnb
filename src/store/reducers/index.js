@@ -1,9 +1,11 @@
 import { combineReducers } from "redux";
 
-import placeListReducer from "./placeList";
+import locationListReducer from "./locationList";
+import roomListReducer from "./roomList";
 
 const rootReducer = combineReducers({
-    placeList: placeListReducer,
+    locationList: locationListReducer,
+    roomList: roomListReducer,
 });
 
 export default rootReducer;

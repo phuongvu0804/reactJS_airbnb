@@ -45,7 +45,8 @@
     }
 }
 
-.main-header__navbar-item:hover {
+.main-header__navbar-item:hover,
+.main-header__navbar-item.active {
     animation: BlackToFadded 0.3s ease-in-out forwards;
 
     &:before {
@@ -101,23 +102,17 @@
     }
     .sub-nav__item {
         padding: 12px 16px;
+        font-size: 15px;
+        color: var(--black);
     }
 
     .sub-nav__item:hover {
-        background-color: var(--gray-hover);
-    }
-
-    .sub-nav__item-link {
-        font-size: 15px;
-        color: var(--black);
-        text-decoration: none;
+        background-color: var(--light-gray);
     }
 }
 
 .sub-nav__item:active {
-    .sub-nav__item-link {
-        font-weight: 600;
-    }
+    font-weight: 600;
 }
 
 .actions__btn.MuiButton-root,

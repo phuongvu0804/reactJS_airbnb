@@ -1,13 +1,18 @@
 import axiosClient from "./config/axiosClient";
 
-const resourceName = "locations/";
+const resourceName = "locations";
 
 const locationApi = {
-    getLocationList: (params) => {
-        return axiosClient.get(resourceName, { params });
+    getLocationList: (searchData) => {
+        if (searchData === "") {
+            return axiosClient.get(resourceName);
+        } else {
+            const url = resourceName + `?location=${searchData}`;
+            return axiosClient.get(url);
+        }
     },
     getLocationListByEvaluation: (evaluation) => {
-        const url = resourceName + `by-valueate?valueate=${evaluation}`;
+        const url = resourceName + `/by-valueate?valueate=${evaluation}`;
         return axiosClient.get(url);
     },
     deleteLocation: (id) => {
