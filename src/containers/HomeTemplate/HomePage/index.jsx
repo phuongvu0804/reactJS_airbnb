@@ -8,23 +8,15 @@ import RoomList from "../components/RoomList";
 //Others
 import { locationApi } from "@/api";
 import PlaceList from "../components/PlaceList";
+import { callApi } from "@/api/config/request";
 
 function HomePage() {
     const [locationList, setLocationList] = useState([]);
-    const [serverError, setServerError] = useState("");
 
     useEffect(() => {
-        const fetchlocationList = async () => {
-            try {
-                const locationList = await locationApi.getLocationListByEvaluation(9);
-                setLocationList(locationList.slice(0, 8));
-            } catch (error) {
-                //Solve error scenario
-                console.log(error);
-                setServerError(error);
-            }
-        };
-        fetchlocationList();
+        callApi(locationApi.getLocationListByEvaluation(9), (resp) => {
+            setLocationList(resp.data.slice(0, 8));
+        });
     }, []);
 
     return (

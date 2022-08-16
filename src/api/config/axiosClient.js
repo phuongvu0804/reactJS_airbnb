@@ -1,5 +1,6 @@
 import axios from "axios";
 import apiConfig from "./apiConfig";
+import { logError, validateResponse } from "./request";
 
 const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -20,8 +21,12 @@ axiosClient.interceptors.request.use(
 );
 
 axiosClient.interceptors.response.use(
-    (response) => response.data,
-    (error) => Promise.reject(error.response.data.content),
+    (response) => {
+        return response;
+    },
+    (error) => {
+        Promise.reject(error.response.data.content);
+    },
 );
 
 export default axiosClient;
