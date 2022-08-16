@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 //Material UI
@@ -29,7 +29,7 @@ import { pages, settings } from "./constants";
 const Header = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const [searchCategory, setSearchCategory] = useState("Location");
+    const [searchCategory, setSearchCategory] = useState("Stays");
     let navigate = useNavigate();
 
     const handleOpenUserMenu = (event) => {

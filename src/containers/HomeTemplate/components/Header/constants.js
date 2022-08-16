@@ -1,4 +1,4 @@
-const pages = ["Location", "Stays", "Online Experiences"];
+const pages = ["Stays", "Online Experiences"];
 const settings = [
     {
         label: "Sign up",

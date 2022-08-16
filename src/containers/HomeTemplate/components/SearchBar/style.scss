@@ -5,11 +5,12 @@
     top: var(--header-height);
     left: 50%;
     transform: translateX(-50%);
-    height: 66px;
+    height: var(--search-height);
     width: 850px;
     background-color: var(--white);
     border-radius: var(--border-radius-search-bar);
     border: 1px solid var(--gray-border);
+    z-index: 10;
 
     &.active {
         background-color: var(--light-gray);

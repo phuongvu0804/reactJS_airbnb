@@ -3,13 +3,14 @@ import HomeTemplate from "@/containers/HomeTemplate";
 
 //Pages
 const HomePage = lazy(() => import("@/containers/HomeTemplate/HomePage"));
+const RoomListPage = lazy(() => import("@/containers/HomeTemplate/RoomListPage"));
 
 const ClientRoutes = {
     path: "/",
     element: <HomeTemplate />,
     children: [
         { path: "", element: <HomePage /> },
-        { path: "room-detail", element: <div>Room Detail</div> },
+        { path: "room-list", element: <RoomListPage /> },
     ],
 };
 

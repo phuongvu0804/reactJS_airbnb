@@ -19,7 +19,7 @@ function PlaceList({ data }) {
     return (
         <div className="home-page__place-list">
             <Container maxWidth="lg">
-                <h3 className="home-page__main-title">Discover near places</h3>
+                <h3 className="page__main-title">Discover near places</h3>
                 <Grid
                     container
                     className="place-card__tablet-pc-list"

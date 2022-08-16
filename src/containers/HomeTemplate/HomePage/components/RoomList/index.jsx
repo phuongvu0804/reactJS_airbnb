@@ -26,7 +26,7 @@ function RoomList() {
     return (
         <div className="home-page__room-list">
             <Container>
-                <h3 className="home-page__main-title">Stay anywhere</h3>
+                <h3 className="page__main-title">Stay anywhere</h3>
                 <Grid container>{renderRoomList()}</Grid>
             </Container>
         </div>

@@ -34,4 +34,4 @@ const actGetRoomList = (locationId = "") => {
     };
 };
 
-export { actGetRoomList, actGetRoomListSuccess };
+export { actGetRoomList, actGetRoomListSuccess, actGetRoomListFail };
