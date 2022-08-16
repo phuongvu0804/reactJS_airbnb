@@ -14,7 +14,12 @@
     --gray-search-bar: #ebebeb;
 
     --header-height: 80px;
+    --search-height: 66px;
+    --room-list-header-height: 72px;
     --border-radius-search-bar: 32px;
+    --border-card: 18px;
+
+    --margin-3: 30px;
 }
 
 * {
@@ -31,4 +36,16 @@ body {
     font-size: 16px;
     line-height: 1.43;
     text-rendering: optimizeSpeed;
+}
+
+.page__main-title {
+    font-size: 27px;
+    line-height: 3em;
+}
+
+@media (max-width: 740px) {
+    .page__main-title {
+        font-size: 20px;
+        line-height: 1.8;
+    }
 }

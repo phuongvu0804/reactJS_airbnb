@@ -47,7 +47,7 @@ const validateResponse = async (response) => {
         }
     }
 
-    return response;
+    return response.data;
 };
 
 const logError = (err) => {

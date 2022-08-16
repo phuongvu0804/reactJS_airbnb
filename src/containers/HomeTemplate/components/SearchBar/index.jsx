@@ -17,14 +17,18 @@ import GuestInputField from "./components/GuestInputField";
 //Others
 import "./style.scss";
 import { actGetLocationList } from "@/store/actions/locationList";
-import { actGetRoomListSuccess } from "@/store/actions/roomList";
+import { actGetRoomListFail, actGetRoomListSuccess, actGetRoomList } from "@/store/actions/roomList";
 import { roomApi } from "@/api";
+import { callApi } from "@/api/config/request";
+import { useNavigate } from "react-router-dom";
 
 function SearchBar({ searchCategory }) {
     const searchTabsMobile = ["Anywhere", "Any week", "Add guests"];
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const searchLocation = useSelector((state) => state.locationList.data);
+
     const [openModal, setOpenModal] = useState(false);
     const [checkInTime, setCheckInTime] = useState(new Date());
     const [checkOutTime, setCheckOutTime] = useState(new Date());
@@ -35,6 +39,7 @@ function SearchBar({ searchCategory }) {
         Infants: 0,
         Pets: 0,
     });
+
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -52,37 +57,62 @@ function SearchBar({ searchCategory }) {
 
     const handleOpenModal = () => setOpenModal(true);
 
+    const calculateTotalGuest = () => {
+        let guestTotal = 0;
+        for (let guest in guestNumber) {
+            guestTotal += guestNumber[guest];
+        }
+        return guestTotal;
+    };
+
     const handleRoomList = () => {
-        //Get location id and get room list by location id
-        if (searchLocation.length !== 0) {
+        //Check if location exists
+        if (searchLocation?.length !== 0) {
             const locationId = searchLocation[0]._id;
-            const fetchRoomList = async () => {
-                try {
-                    const roomList = await roomApi.getRoomList(locationId);
 
-                    if (guestNumber !== 0) {
-                        roomList.filter((room) => room.guests >= guestNumber);
+            callApi(
+                roomApi.getRoomList(locationId),
+                (resp) => {
+                    //Check if location has any room
+                    if (resp.length !== 0) {
+                        const guestTotal = calculateTotalGuest();
+
+                        //Filter rooms by guest number
+                        if (guestTotal !== 0) {
+                            const filteredResp = resp.filter((room) => room.guests >= guestTotal);
+
+                            //Check if room with filter exists
+                            if (filteredResp.length === 0) {
+                                return dispatch(actGetRoomListFail("Location has no accomodation satisfied"));
+                            }
+
+                            return dispatch(actGetRoomListSuccess(filteredResp));
+                        } else {
+                            return dispatch(actGetRoomListSuccess(resp));
+                        }
+                    } else {
+                        return dispatch(actGetRoomListFail("Location has no accomodation"));
                     }
-
-                    dispatch(actGetRoomListSuccess(roomList));
-                } catch (err) {
-                    //Solve error scenario
-                    console.log(err);
-                }
-            };
-
-            fetchRoomList();
+                },
+                (resp) => dispatch(actGetRoomListFail(resp)),
+            );
         } else {
             //Navigate to page with no result
-            console.log("empty");
+            dispatch(actGetRoomListFail("Location doesn't exist"));
         }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(actGetLocationList(searchData));
-        if (searchCategory !== "Location") {
-            handleRoomList();
+        if (searchCategory === "Stays") {
+            if (searchData === "") {
+                dispatch(actGetRoomList());
+            } else {
+                dispatch(actGetLocationList(searchData));
+                handleRoomList();
+            }
+
+            navigate("room-list");
         }
     };
 

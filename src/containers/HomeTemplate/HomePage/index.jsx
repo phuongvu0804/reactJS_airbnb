@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 //Components
-import Carousel from "../components/Carousel";
-import RoomList from "../components/RoomList";
+import Carousel from "./components/Carousel";
+import RoomList from "./components/RoomList";
 
 //Others
 import { locationApi } from "@/api";
-import PlaceList from "../components/PlaceList";
+import PlaceList from "./components/PlaceList";
 import { callApi } from "@/api/config/request";
 
 function HomePage() {
@@ -15,7 +15,7 @@ function HomePage() {
 
     useEffect(() => {
         callApi(locationApi.getLocationListByEvaluation(9), (resp) => {
-            setLocationList(resp.data.slice(0, 8));
+            setLocationList(resp.slice(0, 8));
         });
     }, []);
 
