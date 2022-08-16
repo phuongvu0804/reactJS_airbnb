@@ -3,9 +3,6 @@ import React from "react";
 //Material UI
 import { Container, Grid } from "@mui/material";
 
-//components
-import Image from "@/components/Image";
-
 //Others
 import "./style.scss";
 import PlaceListMobile from "./components/PlaceListMobile";

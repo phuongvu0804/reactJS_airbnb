@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 //Material UI
 import TextField from "@mui/material/TextField";
@@ -15,7 +16,6 @@ import GuestInputField from "./components/GuestInputField";
 
 //Others
 import "./style.scss";
-import { useDispatch, useSelector } from "react-redux";
 import { actGetLocationList } from "@/store/actions/locationList";
 import { actGetRoomListSuccess } from "@/store/actions/roomList";
 import { roomApi } from "@/api";
@@ -54,7 +54,6 @@ function SearchBar({ searchCategory }) {
 
     const handleRoomList = () => {
         //Get location id and get room list by location id
-
         if (searchLocation.length !== 0) {
             const locationId = searchLocation[0]._id;
             const fetchRoomList = async () => {
@@ -195,6 +194,11 @@ function SearchBar({ searchCategory }) {
                 onClose={handleCloseModal}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                guestNumber={guestNumber}
+                setGuestNumber={setGuestNumber}
+                searchData={searchData}
+                setSearchData={setSearchData}
+                onSubmit={handleSubmit}
             />
         </div>
     );

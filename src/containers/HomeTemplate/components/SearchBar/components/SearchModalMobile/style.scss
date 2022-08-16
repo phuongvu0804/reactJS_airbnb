@@ -32,15 +32,6 @@
         font-weight: 600;
         margin-bottom: 14px;
     }
-
-    .sub-modal__search-btn {
-        position: fixed;
-        bottom: 0;
-        left: 12px;
-        right: 12px;
-        padding: 12px 24px;
-        background: #f7f7f7 !important;
-    }
 }
 
 div.search-modal__search-item {
@@ -87,5 +78,21 @@ div.search-modal__search-item {
         border-radius: 8px;
         padding: 18px 24px !important;
         font-size: 16px;
+    }
+}
+
+//Responsive for mobile
+@media (max-width: 740px) {
+    .sub-modal__search-btn {
+        position: fixed;
+        bottom: 0;
+        left: 12px;
+        right: 12px;
+        padding: 12px 24px;
+        button {
+            &:hover {
+                background-color: var(--primary-hover);
+            }
+        }
     }
 }

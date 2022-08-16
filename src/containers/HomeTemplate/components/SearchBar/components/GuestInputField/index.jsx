@@ -9,36 +9,10 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import "./style.scss";
 import AnimalModal from "../AnimalModal";
 import CloseBtn from "@/components/CloseBtn";
+import { settings } from "./constants";
 
 function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNumber }) {
     const [openAnimalModal, setOpenAnimalModal] = useState(false);
-    // const [guestInput, setGuestInput] = useState();
-
-    const settings = [
-        {
-            inputName: "Adults",
-            subText: "Ages 13 or above",
-            link: false,
-            divider: true,
-        },
-        {
-            inputName: "Children",
-            subText: "Ages 2 - 12",
-            link: false,
-            divider: true,
-        },
-        {
-            inputName: "Infants",
-            subText: "Under 2",
-            link: false,
-            divider: true,
-        },
-        {
-            inputName: "Pets",
-            subText: "Bringing a service animal ?",
-            link: true,
-        },
-    ];
 
     const renderGuestInputField = () => {
         return settings.map((item, index) => (

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //Material UI
 import { useState } from "react";
@@ -10,50 +11,20 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Image from "@/components/Image";
 import LanguageIcon from "@mui/icons-material/Language";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Divider } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
 //Components
 import images from "@/assets/images";
 
 //Others
 import "./style.scss";
-import { Divider } from "@mui/material";
 import SearchBar from "../SearchBar";
-
-const pages = ["Location", "Stays", "Online Experiences"];
-const settings = [
-    {
-        label: "Sign up",
-        link: "/auth/login",
-        divider: false,
-    },
-    {
-        label: "Log in",
-        link: "/auth/signup",
-        divider: true,
-    },
-    {
-        label: "Host your home",
-        link: "/",
-        divider: false,
-    },
-    {
-        label: "Host an experience",
-        link: "/",
-        divider: false,
-    },
-    {
-        label: "Help",
-        link: "/",
-        divider: false,
-    },
-];
+import { pages, settings } from "./constants";
 
 const Header = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -61,9 +32,6 @@ const Header = () => {
     const [searchCategory, setSearchCategory] = useState("Location");
     let navigate = useNavigate();
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };

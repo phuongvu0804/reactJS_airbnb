@@ -1,35 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 //Material UI
 import { Container, Grid } from "@mui/material";
 
 //Components
-import images from "@/assets/images";
 import Image from "@/components/Image";
 
 //others
 import "./style.scss";
-import { Link } from "react-router-dom";
+import { roomCategories } from "./constants";
 
 function RoomList() {
-    const roomCategories = [
-        {
-            name: "Entire place",
-            alt: "entire place",
-            image: images.roomListEntire,
-        },
-        {
-            name: "Modern place",
-            alt: "modern place",
-            image: images.roomListModern,
-        },
-        {
-            name: "Surrounded by Nature",
-            alt: "places surrounded by Nature",
-            image: images.roomListNatural,
-        },
-    ];
-
     const renderRoomList = () => {
         return roomCategories.map((item, index) => (
             <Grid item xs={4} key={index} component={Link} to="/" className="room-card">

@@ -1,17 +1,7 @@
 import { useState } from "react";
 
 //Material UI
-import {
-    Modal,
-    Typography,
-    TextField,
-    FormControl,
-    FormLabel,
-    InputAdornment,
-    Button,
-    IconButton,
-    Popper,
-} from "@mui/material";
+import { Modal, Typography, TextField, FormControl, FormLabel, InputAdornment, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box } from "@mui/system";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
@@ -22,7 +12,7 @@ import GuestInputField from "../GuestInputField";
 import SubmitBtn from "@/components/SubmitBtn";
 import CloseBtn from "@/components/CloseBtn";
 
-function SearchModalMobile({ onOpen, onClose }) {
+function SearchModalMobile({ onOpen, onClose, guestNumber, setGuestNumber, searchData, setSearchData, onSubmit }) {
     const [value, setValue] = useState(new Date());
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -43,6 +33,7 @@ function SearchModalMobile({ onOpen, onClose }) {
         boxShadow: 24,
         p: 4,
     };
+
     return (
         <Modal
             className="search-modal__bg"
@@ -68,6 +59,8 @@ function SearchModalMobile({ onOpen, onClose }) {
                                 </InputAdornment>
                             ),
                         }}
+                        onChange={(e) => setSearchData(e.target.value)}
+                        value={searchData}
                     />
                 </FormControl>
                 <FormControl className="search-modal__search-item">
@@ -85,10 +78,19 @@ function SearchModalMobile({ onOpen, onClose }) {
                     <Button className="search-item__text" ia-describedby={id} onClick={handleClick}>
                         Add guests
                     </Button>
-                    <GuestInputField id={id} open={open} anchorEl={anchorEl} onClick={handleClick} />
+                    <GuestInputField
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClick={handleClick}
+                        guestNumber={guestNumber}
+                        setGuestNumber={setGuestNumber}
+                    />
                 </FormControl>
                 <div className="sub-modal__search-btn">
-                    <SubmitBtn startIcon={<SearchIcon />}>Search</SubmitBtn>
+                    <SubmitBtn startIcon={<SearchIcon />} onSubmit={onSubmit}>
+                        Search
+                    </SubmitBtn>
                 </div>
             </Box>
         </Modal>

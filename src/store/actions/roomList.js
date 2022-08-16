@@ -1,4 +1,5 @@
 import { roomApi } from "@/api";
+import { callApi } from "@/api/config/request";
 import * as actTypes from "../constants/roomList";
 
 const actGetRoomListRequest = () => {
@@ -25,16 +26,11 @@ const actGetRoomList = (locationId = "") => {
     return (dispatch) => {
         dispatch(actGetRoomListRequest());
 
-        const fetchRoomList = async () => {
-            try {
-                const roomList = await roomApi.getRoomList(locationId);
-                dispatch(actGetRoomListSuccess(roomList));
-            } catch (error) {
-                dispatch(actGetRoomListFail(error));
-            }
-        };
-
-        fetchRoomList();
+        callApi(
+            roomApi.getRoomList(locationId),
+            (response) => dispatch(actGetRoomListSuccess(response)),
+            (error) => dispatch(actGetRoomListFail(error)),
+        );
     };
 };
 

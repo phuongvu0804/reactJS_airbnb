@@ -1,4 +1,5 @@
 import { locationApi } from "@/api";
+import { callApi } from "@/api/config/request";
 import * as actTypes from "../constants/locationList";
 
 const actGetLocationListRequest = () => {
@@ -25,16 +26,15 @@ const actGetLocationList = (searchData = "") => {
     return (dispatch) => {
         dispatch(actGetLocationListRequest());
 
-        const fetchPlaceList = async () => {
-            try {
-                const locationList = await locationApi.getLocationList(searchData);
-                dispatch(actGetLocationListSuccess(locationList));
-            } catch (error) {
+        callApi(
+            locationApi.getLocationList(searchData),
+            (response) => {
+                dispatch(actGetLocationListSuccess(response));
+            },
+            (error) => {
                 dispatch(actGetLocationListFail(error));
-            }
-        };
-
-        fetchPlaceList();
+            },
+        );
     };
 };
 
