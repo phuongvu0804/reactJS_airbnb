@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "@/components/Image";
 import { Button, Container, Grid, IconButton, Modal } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import images from "@/assets/images";
 import { Favorite } from "@mui/icons-material";
-import CloseBtn from "@/components/CloseBtn";
 
 //Others
 import "./style.scss";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function RoomListPage() {
     const roomList = useSelector((state) => state.roomList.roomList);
@@ -16,26 +15,24 @@ function RoomListPage() {
 
     const renderRooms = () => {
         return roomList?.map((room, index) => (
-            <Grid item xs={3} key={index}>
-                <div className="room-list__room-card">
-                    <div className="room-card__img">
-                        <Image src={room.image} alt="room's image" />
-                        <IconButton className="room-card__favorite-btn">
-                            <Favorite />
-                        </IconButton>
+            <Grid item xs={12} sm={4} md={3} key={index} component={Link} to="/" className="room-list__room-card">
+                <div className="room-card__img">
+                    <Image src={room.image} alt="room's image" />
+                    <IconButton className="room-card__favorite-btn">
+                        <Favorite />
+                    </IconButton>
+                </div>
+                <div className="room-card__content">
+                    <h5>{room.name}</h5>
+                    <div className="room-card__body">
+                        <p className="room-card__body-item">{room.bedRoom} bedroom</p>
+                        <p className="room-card__body-item">{room.bath} bathroom</p>
+                        <p className="room-card__body-item">{room.kitchen ? "Kitchen" : "No kitchen"}</p>
                     </div>
-                    <div className="room-card__content">
-                        <h5>{room.name}</h5>
-                        <div className="room-card__body">
-                            <p className="room-card__body-item">{room.bedRoom} bedroom</p>
-                            <p className="room-card__body-item">{room.bath} bathroom</p>
-                            <p className="room-card__body-item">{room.kitchen && "kitchen"}</p>
-                        </div>
-                        <div className="room-card__foot">
-                            <span className="room-card__foot-currency">VND</span>
-                            <span className="room-card__foot-price">{room.price}</span>
-                            <span className="room-card__foot-time">/ night</span>
-                        </div>
+                    <div className="room-card__foot">
+                        <span className="room-card__foot-currency">VND</span>
+                        <span className="room-card__foot-price">{room.price}</span>
+                        <span className="room-card__foot-time">/ night</span>
                     </div>
                 </div>
             </Grid>
