@@ -3,16 +3,28 @@ import { useDispatch, useSelector } from "react-redux";
 
 //Material UI
 import TextField from "@mui/material/TextField";
-import { Box, Divider, FormControl, FormLabel, IconButton, Typography } from "@mui/material";
+import {
+    Box,
+    Divider,
+    FormControl,
+    FormLabel,
+    IconButton,
+    Modal,
+    InputAdornment,
+    Typography,
+    Button,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { Search } from "@mui/icons-material";
 
 //Components
 import SubmitBtn from "@/components/SubmitBtn";
 import SearchModalMobile from "./components/SearchModalMobile";
 import GuestInputField from "./components/GuestInputField";
+import CloseBtn from "@/components/CloseBtn";
 
 //Others
 import "./style.scss";
@@ -23,6 +35,17 @@ import { callApi } from "@/api/config/request";
 import { useNavigate } from "react-router-dom";
 
 function SearchBar({ searchCategory }) {
+    const style = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 400,
+        bgcolor: "white",
+        border: "2px solid #000",
+        boxShadow: 24,
+        p: 4,
+    };
     const searchTabsMobile = ["Anywhere", "Any week", "Add guests"];
 
     const dispatch = useDispatch();
@@ -32,6 +55,7 @@ function SearchBar({ searchCategory }) {
     const [openModal, setOpenModal] = useState(false);
     const [checkInTime, setCheckInTime] = useState(new Date());
     const [checkOutTime, setCheckOutTime] = useState(new Date());
+    const [value, setValue] = useState(new Date());
     const [searchData, setSearchData] = useState("");
     const [guestNumber, setGuestNumber] = useState({
         Adults: 0,
@@ -67,7 +91,7 @@ function SearchBar({ searchCategory }) {
 
     const handleRoomList = () => {
         //Check if location exists
-        if (searchLocation?.length !== 0) {
+        if (searchLocation && searchLocation?.length !== 0) {
             const locationId = searchLocation[0]._id;
 
             callApi(
@@ -102,20 +126,6 @@ function SearchBar({ searchCategory }) {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (searchCategory === "Stays") {
-            if (searchData === "") {
-                dispatch(actGetRoomList());
-            } else {
-                dispatch(actGetLocationList(searchData));
-                handleRoomList();
-            }
-
-            navigate("room-list");
-        }
-    };
-
     const SearchBarMobile = ({ onClick }) => {
         return (
             <Box className="search-bar-mobile" sx={{ display: { xs: "block", sm: "none" } }}>
@@ -138,6 +148,20 @@ function SearchBar({ searchCategory }) {
             </Box>
         );
     };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (searchCategory === "Stays") {
+            if (searchData === "") {
+                dispatch(actGetRoomList());
+            } else {
+                dispatch(actGetLocationList(searchData));
+                handleRoomList();
+            }
+
+            navigate("room-list");
+        }
+        handleCloseModal();
+    };
 
     return (
         <div className="home-page__search-bar">
@@ -146,6 +170,7 @@ function SearchBar({ searchCategory }) {
                 className="search-bar-pc-tablet search-bar__form"
                 component="form"
                 sx={{ display: { xs: "none", sm: "flex" } }}
+                onSubmit={handleSubmit}
             >
                 <Box className="search-bar__input-wrapper" sx={{ flex: 1.2 }}>
                     <FormControl className="search-bar__input-control search-bar__input-control--where">
@@ -208,12 +233,7 @@ function SearchBar({ searchCategory }) {
                         guestNumber={guestNumber}
                         setGuestNumber={setGuestNumber}
                     />
-                    <SubmitBtn
-                        className="seacrh-bar__form-btn"
-                        startIcon={<Search />}
-                        variant="contained"
-                        onSubmit={handleSubmit}
-                    ></SubmitBtn>
+                    <SubmitBtn className="seacrh-bar__form-btn" startIcon={<Search />} variant="contained"></SubmitBtn>
                 </Box>
             </Box>
             {/* Search for PC + Tablet ends */}

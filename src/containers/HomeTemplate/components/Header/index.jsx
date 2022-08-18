@@ -52,7 +52,10 @@ const Header = () => {
     const TableTabletNavbar = () => {
         return (
             <>
-                <Box className="main-header__navbar" sx={{ flexGrow: 1, display: { xs: "flex", sm: "flex" } }}>
+                <Box
+                    className="main-header__navbar"
+                    sx={{ flexGrow: 1, display: { xs: "flex", sm: "flex", md: "none" } }}
+                >
                     <IconButton
                         className="main-header__logo"
                         component={Link}
