@@ -24,13 +24,17 @@ import images from "@/assets/images";
 //Others
 import "./style.scss";
 import SearchBar from "../SearchBar";
-import { pages, settings } from "./constants";
+import { pages, noUserSettings, withUserSettings } from "./constants";
 
 const Header = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [searchCategory, setSearchCategory] = useState("Stays");
+
     let navigate = useNavigate();
+
+    const user = localStorage.getItem("user");
+    let settings = user ? withUserSettings : noUserSettings;
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -47,6 +51,15 @@ const Header = () => {
     const handleCategory = (page) => {
         setSearchCategory(page);
         handleCloseNavMenu();
+    };
+
+    const handleSetting = (setting) => {
+        if (setting.label === "Log out") {
+            localStorage.removeItem("user");
+        } else {
+            navigate(setting.link);
+        }
+        handleCloseUserMenu();
     };
 
     const TableTabletNavbar = () => {
@@ -167,7 +180,7 @@ const Header = () => {
                                     <MenuItem
                                         className="sub-nav__item"
                                         key={setting.label}
-                                        onClick={(handleCloseUserMenu, () => navigate(setting.link))}
+                                        onClick={() => handleSetting(setting)}
                                     >
                                         {setting.label}
                                     </MenuItem>

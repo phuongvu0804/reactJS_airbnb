@@ -88,8 +88,7 @@ function SearchModalMobile({ onOpen, onClose, guestNumber, setGuestNumber, searc
                     />
                 </FormControl>
                 <div className="sub-modal__search-btn">
-                    <button type="submit">Search</button>
-                    {/* <SubmitBtn startIcon={<SearchIcon />}>Search</SubmitBtn> */}
+                    <SubmitBtn startIcon={<SearchIcon />}>Search</SubmitBtn>
                 </div>
             </Box>
         </Modal>

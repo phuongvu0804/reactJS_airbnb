@@ -1,0 +1,150 @@
+#filter-modal-content {
+    padding-top: 0;
+    width: 100%;
+    max-width: 820px;
+    border-radius: 12px;
+    background: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 28%) 0px 8px 28px;
+    border-color: transparent;
+}
+
+.filter-modal__head {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgb(235, 235, 235);
+    min-height: 64px;
+}
+
+.filter-modal__title {
+    flex: 1;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 800;
+    transform: translateX(-12px);
+}
+
+.filter-modal__body {
+    display: flex;
+    flex-direction: column;
+}
+
+div.filter-modal__group {
+    --padding-y: 32px;
+    padding: var(--padding-y) 0;
+    border-bottom: 1px solid rgb(235, 235, 235);
+    .filter-modal-group__title {
+        margin-bottom: 8px;
+        display: block;
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--black);
+    }
+
+    .MuiFormLabel-root .MuiInputLabel-root.Mui-focused {
+        color: var(--black);
+    }
+}
+
+.filter-modal__sub-group-wrapper {
+    display: flex;
+    align-items: center;
+
+    span {
+        margin: 0 10px;
+    }
+}
+
+div.filter-modal__sub-group {
+    display: flex;
+    flex-direction: column;
+    .MuiFormLabel-root.Mui-focused {
+        color: var(--black);
+    }
+
+    .sub-group__input + .sub-group__input {
+        margin-left: 4px;
+    }
+}
+
+.filter-modal-group__input,
+.sub-group__input {
+    max-width: 200px;
+
+    &.Mui-focused fieldset,
+    &:hover fieldset,
+    & .Mui-checked {
+        border-color: var(--black) !important;
+        color: var(--black) !important;
+    }
+}
+
+.filter-modal__foot {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 16px;
+
+    .filter-modal__btn {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 20px;
+        text-transform: unset;
+
+        &.filter-modal__btn--clear {
+            color: var(--black);
+            text-decoration: underline;
+        }
+
+        &.filter-modal__btn--search {
+            color: var(--white);
+            background-color: var(--black);
+            padding: 14px 24px;
+            min-width: 150px;
+        }
+    }
+}
+
+@media (min-width: 740px) and (max-width: 1023px) {
+    #filter-modal-content {
+        max-width: 640px;
+        max-height: 944px;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 739px) {
+    div.room-list__filter-modal {
+    }
+    #filter-modal-content {
+        top: 50px;
+        left: 0;
+        bottom: 0;
+        transform: unset;
+        overflow-y: auto;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    div.filter-modal__group {
+        --padding-y: 16px;
+    }
+
+    div.filter-modal__group--amenities {
+        .sub-group__input {
+            width: 100%;
+            margin: 0;
+        }
+
+        .sub-group__input + .sub-group__input {
+            margin-left: 0;
+        }
+    }
+
+    div.sub-group__input-wrapper {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+    .filter-modal__foot {
+        padding-top: 32px;
+    }
+}
