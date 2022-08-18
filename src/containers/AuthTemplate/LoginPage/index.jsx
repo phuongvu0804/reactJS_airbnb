@@ -1,5 +1,9 @@
+import { useSelector, useDispatch } from "react-redux";
+import { useAuth } from "@/hooks";
+import { useNavigate } from "react-router-dom";
+
 // Material UI
-import { Box, Stack, InputLabel, FormControlLabel, Checkbox, Link } from "@mui/material";
+import { Box, Stack, InputLabel, FormControlLabel, Checkbox, Link, Alert } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 // Components
@@ -10,14 +14,24 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-const loginSchema = yup
-    .object({
-        email: yup.string().required("This field is required.").email(),
-        password: yup.string().required(),
-    })
-    .required();
+// Redux actions
+import { actLogin } from "@/store/actions/auth";
+
+const loginSchema = yup.object({
+    email: yup.string().required("This field is required.").email("Email must be a valid email"),
+    password: yup
+        .string()
+        .matches(
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+            "Password must be minimum eight characters, at least one letter, one number and one special character.",
+        ),
+});
 
 const LoginPage = () => {
+    const auth = useAuth();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { login } = useSelector((state) => state.auth);
     const { control, handleSubmit } = useForm({
         reValidateMode: "onSubmit",
         resolver: yupResolver(loginSchema),
@@ -27,10 +41,13 @@ const LoginPage = () => {
         },
     });
 
-    const handleLogin = (user) => {};
+    const handleLogin = (user) => {
+        dispatch(actLogin(user, auth, navigate));
+    };
 
     return (
         <Stack component="form" noValidate spacing={2} onSubmit={handleSubmit(handleLogin)}>
+            {login.error && <Alert severity="error">{login.error}</Alert>}
             <Box>
                 <InputLabel className="auth-form-input-label">Email</InputLabel>
                 <Input name="email" className="auth-form-input" type="email" control={control} />
@@ -59,7 +76,13 @@ const LoginPage = () => {
                     Forgot your password?
                 </Link>
             </Stack>
-            <LoadingButton className="auth-btn-submit" type="submit" fullWidth variant="contained">
+            <LoadingButton
+                loading={login.loading}
+                className="auth-btn-submit"
+                type="submit"
+                fullWidth
+                variant="contained"
+            >
                 Continue
             </LoadingButton>
         </Stack>
