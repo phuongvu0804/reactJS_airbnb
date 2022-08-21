@@ -10,7 +10,6 @@ import {
     FormControlLabel,
     FormHelperText,
     FormLabel,
-    Input,
     InputAdornment,
     InputLabel,
     Modal,
@@ -27,11 +26,9 @@ import SubmitBtn from "@/components/SubmitBtn";
 //others
 import { filterSchema } from "@/validators";
 import { initialValues } from "./constants";
-import { actGetLocationList } from "@/store/actions/locationList";
-import { actGetRoomListFail, actGetRoomListSuccess, actGetRoomList } from "@/store/actions/roomList";
+import { actGetRoomListFail, actGetRoomListSuccess } from "@/store/actions/roomList";
 import { roomApi } from "@/api";
 import { callApi } from "@/api/config/request";
-import { useNavigate } from "react-router-dom";
 import "./style.scss";
 
 function RoomFilterModal({ onOpen, onClose }) {
