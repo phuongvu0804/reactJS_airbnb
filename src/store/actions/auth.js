@@ -6,9 +6,8 @@ const actLoginRequest = () => ({
     type: actTypes.LOGIN_REQUEST,
 });
 
-const actLoginSuccess = (data) => ({
+const actLoginSuccess = () => ({
     type: actTypes.LOGIN_SUCCESS,
-    payload: data,
 });
 
 const actLoginFail = (error) => ({
@@ -23,7 +22,7 @@ const actLogin = (user, auth, navigate) => {
         try {
             const { data } = await authApi.login(user);
             user = { ...data.user, token: data.token };
-            dispatch(actLoginSuccess(user));
+            dispatch(actLoginSuccess());
             auth.login(user);
             navigate(-1);
         } catch (error) {
@@ -33,34 +32,31 @@ const actLogin = (user, auth, navigate) => {
 };
 
 // Sign up
-// const actSignupRequest = () => ({
-//     type: actTypes.SIGNUP_REQUEST,
-// });
+const actSignupRequest = () => ({
+    type: actTypes.SIGNUP_REQUEST,
+});
 
-// const actSignupSuccess = (data) => ({
-//     type: actTypes.SIGNUP_SUCCESS,
-//     payload: data,
-// });
+const actSignupSuccess = () => ({
+    type: actTypes.SIGNUP_SUCCESS,
+});
 
-// const actSignupFail = (error) => ({
-//     type: actTypes.SIGNUP_FAIL,
-//     payload: error,
-// });
+const actSignupFail = (error) => ({
+    type: actTypes.SIGNUP_FAIL,
+    payload: error,
+});
 
-// const actSignup = (user) => {
-//     return (dispatch) => {
-//         dispatch(actSignupRequest());
+const actSignup = (user, navigate) => {
+    return async (dispatch) => {
+        dispatch(actSignupRequest());
 
-//         callApi(
-//             authApi.signup(user),
-//             (response) => {
-//                 dispatch(actSignupSuccess(response));
-//             },
-//             (error) => {
-//                 dispatch(actSignupFail(error));
-//             },
-//         );
-//     };
-// };
+        try {
+            await authApi.signup(user);
+            dispatch(actSignupSuccess());
+            navigate("/auth/login");
+        } catch (error) {
+            dispatch(actSignupFail(error));
+        }
+    };
+};
 
-export { actLogin };
+export { actLogin, actSignup };

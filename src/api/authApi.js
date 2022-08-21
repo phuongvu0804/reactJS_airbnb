@@ -8,7 +8,7 @@ const authApi = {
         return axiosClient.post(url, user);
     },
     signup: (user) => {
-        const url = resourceName + "/signup";
+        const url = resourceName + "/register";
         return axiosClient.post(url, user);
     },
 };
