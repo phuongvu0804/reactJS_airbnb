@@ -37,10 +37,60 @@ import "./style.scss";
 function RoomFilterModal({ onOpen, onClose }) {
     const dispatch = useDispatch();
     const searchLocation = useSelector((state) => state.locationList.data);
-    let roomList = useSelector((state) => state.roomList.roomList);
-    const [roomFilter, setRoomFilter] = useState(initialValues);
+    let roomData = useSelector((state) => state.roomList.roomList);
 
-    const handleRoomList = () => {
+    const [roomList, setRoomList] = useState(roomData);
+    // const [roomFilter, setRoomFilter] = useState(initialValues);
+
+    const handleRadioOptions = (roomList, roomFilter) => {
+        return roomList.filter((room) => {
+            return (
+                room.price >= roomFilter.minPrice &&
+                room.price <= roomFilter.maxPrice &&
+                room.guests >= roomFilter.totalGuest &&
+                room.bedRoom >= roomFilter.bedroom
+            );
+        });
+    };
+
+    const handleCheckBox = (roomList, roomFilter) => {
+        const checkBoxOptions = [
+            "wifi",
+            "hotTub",
+            "pool",
+            "dryer",
+            "heating",
+            "cableTV",
+            "indoorFireplace",
+            "gym",
+            "elevator",
+        ];
+
+        let allRooms = true;
+        for (let key of checkBoxOptions) {
+            if (roomFilter[key]) allRooms = false;
+        }
+
+        return roomList.filter((room) => {
+            if (allRooms) return room;
+            for (let key of checkBoxOptions) {
+                if (roomFilter[key] === room[key]) return room;
+            }
+        });
+    };
+
+    const handleRoomListFilter = (roomList, roomFilter) => {
+        let filteredList = [];
+        filteredList = handleRadioOptions(roomList, roomFilter);
+        console.log(filteredList);
+        filteredList = handleCheckBox(filteredList, roomFilter);
+        console.log(filteredList);
+        dispatch(actGetRoomListSuccess(filteredList));
+
+        return filteredList;
+    };
+
+    const handleGetRoomFiltered = (roomFilter) => {
         //Check if location exists
         if (searchLocation && searchLocation?.length !== 0) {
             const locationId = searchLocation[0]._id;
@@ -50,6 +100,9 @@ function RoomFilterModal({ onOpen, onClose }) {
                 (resp) => {
                     //Check if location has any room
                     if (resp.length !== 0) {
+                        //Filter rooms and dispatch to Redux store
+                        const filteredList = handleRoomListFilter(resp, roomFilter);
+                        dispatch(actGetRoomListSuccess(filteredList));
                     } else {
                         return dispatch(actGetRoomListFail("Location has no accomodation"));
                     }
@@ -62,52 +115,11 @@ function RoomFilterModal({ onOpen, onClose }) {
         }
     };
 
-    const handleNumericFilter = (key, room) => {
-        if (roomFilter[key] !== 0) {
-            switch (key) {
-                case "minPrice":
-                    return room.price >= roomFilter.minPrice;
-
-                case "maxPrice":
-                    return room.price >= roomFilter.maxPrice;
-
-                case "totalGuest":
-                    return room.guests >= roomFilter.totalGuest;
-
-                case "bedroom":
-                    return room.bedRoom >= roomFilter.bedroom;
-
-                case "bathroom":
-                    return room.bath >= roomFilter.bathroom;
-            }
-        }
-        return true;
-    };
-
-    const handleRoomListFilter = (data) => {
-        return data.filter((room) => {
-            for (let key in roomFilter) {
-                switch (key) {
-                    case "minPrice":
-                    case "maxPrice":
-                    case "totalGuest":
-                    case "bedroom":
-                    case "bathroom":
-                        return handleNumericFilter(key, room);
-                    default:
-                        return true;
-                }
-            }
-        });
-    };
-
     const { handleSubmit, values, errors, setFieldValue, handleChange, resetForm } = useFormik({
         initialValues: initialValues,
         validationSchema: filterSchema,
         onSubmit: (values) => {
-            setRoomFilter(values);
-            roomList = handleRoomListFilter(roomList);
-            console.log("roomList done", roomList);
+            handleGetRoomFiltered(values);
         },
     });
 
@@ -199,7 +211,7 @@ function RoomFilterModal({ onOpen, onClose }) {
                                 row
                                 className="sub-group__input-wrapper"
                                 onChange={handleRadioButton}
-                                value={values.bedroom || "Any"}
+                                value={values.bedroom || "0"}
                             >
                                 <FormControlLabel
                                     name="bedroom"
@@ -273,7 +285,7 @@ function RoomFilterModal({ onOpen, onClose }) {
                                 className="sub-group__input-wrapper"
                                 name="bathroom"
                                 onChange={handleRadioButton}
-                                value={values.bathroom || "Any"}
+                                value={values.bathroom || "0"}
                             >
                                 <FormControlLabel
                                     className="sub-group__input"
@@ -386,9 +398,9 @@ function RoomFilterModal({ onOpen, onClose }) {
                                     label="Cable TV"
                                 />
                                 <FormControlLabel
-                                    name="fireplace"
+                                    name="indoorFireplace"
                                     onChange={handleChange}
-                                    checked={values.fireplace}
+                                    checked={values.indoorFireplace}
                                     className="sub-group__input"
                                     control={<Checkbox />}
                                     label="Fireplace"

@@ -15,6 +15,7 @@ import RoomFilterModal from "./components/RoomFilterModal";
 
 function RoomListPage() {
     const roomList = useSelector((state) => state.roomList.roomList);
+
     const error = useSelector((state) => state.roomList.error);
 
     const [like, setLike] = useState(false);

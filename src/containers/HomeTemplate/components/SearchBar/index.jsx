@@ -92,7 +92,6 @@ function SearchBar({ searchCategory }) {
     const handleGetRoomByLocation = (locationList) => {
         //Check if location exists
         if (locationList && locationList?.length !== 0) {
-            console.log(locationList);
             const locationId = locationList[0]._id;
 
             callApi(
