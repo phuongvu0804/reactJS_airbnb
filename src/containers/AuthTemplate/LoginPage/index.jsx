@@ -12,20 +12,10 @@ import Input from "../components/Input";
 // Form handler
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { loginSchema } from "@/validators/auth";
 
 // Redux actions
 import { actLogin } from "@/store/actions/auth";
-
-const loginSchema = yup.object({
-    email: yup.string().required("This field is required.").email("Email must be a valid email"),
-    password: yup
-        .string()
-        .matches(
-            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-            "Password must be minimum eight characters, at least one letter, one number and one special character.",
-        ),
-});
 
 const LoginPage = () => {
     const auth = useAuth();

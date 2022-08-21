@@ -13,20 +13,10 @@ import Input from "../components/Input";
 // Form handler
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { signupSchema } from "@/validators/auth";
 
 // Redux actions
 import { actSignup } from "@/store/actions/auth";
-
-const signupSchema = yup.object({
-    name: yup.string().required("This field is required."),
-    email: yup.string().required("This field is required.").email(),
-    gender: yup.boolean(),
-    birthday: yup.string().required("This field is required."),
-    password: yup.string().required("This field is required."),
-    phone: yup.string().required("This field is required."),
-    address: yup.string().required(),
-});
 
 const SignupPage = () => {
     const dispatch = useDispatch();
@@ -64,7 +54,7 @@ const SignupPage = () => {
 
     return (
         <Stack component="form" noValidate spacing={2} onSubmit={handleSubmit(handleSignup)}>
-            <Grid container alignItems="center" spacing={2}>
+            <Grid container alignItems="flex-start" spacing={2}>
                 <Grid item xs={12} md={6}>
                     <InputLabel className="auth-form-input-label">Full Name</InputLabel>
                     <Input name="name" className="auth-form-input" control={control} />
