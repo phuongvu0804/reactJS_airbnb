@@ -1,9 +1,9 @@
 // Log in
-export const LOGIN_REQUEST = "@loginReducer/LOGIN_REQUEST";
-export const LOGIN_SUCCESS = "@loginReducer/LOGIN_SUCCESS";
-export const LOGIN_FAIL = "@loginReducer/LOGIN_FAIL";
+export const LOGIN_REQUEST = "@authReducer/LOGIN_REQUEST";
+export const LOGIN_SUCCESS = "@authReducer/LOGIN_SUCCESS";
+export const LOGIN_FAIL = "@authReducer/LOGIN_FAIL";
 
 // Sign up
-export const SIGNUP_REQUEST = "@loginReducer/SIGNUP_REQUEST";
-export const SIGNUP_SUCCESS = "@loginReducer/SIGNUP_SUCCESS";
-export const SIGNUP_FAIL = "@loginReducer/SIGNUP_FAIL";
+export const SIGNUP_REQUEST = "@authReducer/SIGNUP_REQUEST";
+export const SIGNUP_SUCCESS = "@authReducer/SIGNUP_SUCCESS";
+export const SIGNUP_FAIL = "@authReducer/SIGNUP_FAIL";

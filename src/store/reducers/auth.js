@@ -3,12 +3,10 @@ import * as actTypes from "../constants/auth";
 const initialState = {
     login: {
         loading: false,
-        data: null,
         error: null,
     },
     signup: {
         loading: false,
-        data: null,
         error: null,
     },
 };
@@ -21,7 +19,6 @@ const authReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 login: {
                     loading: true,
-                    data: null,
                     error: null,
                 },
             };
@@ -31,7 +28,6 @@ const authReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 login: {
                     loading: false,
-                    data: payload,
                     error: null,
                 },
             };
@@ -41,7 +37,6 @@ const authReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 login: {
                     loading: false,
-                    data: null,
                     error: payload,
                 },
             };
@@ -52,7 +47,6 @@ const authReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 signup: {
                     loading: true,
-                    data: null,
                     error: null,
                 },
             };
@@ -62,7 +56,6 @@ const authReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 signup: {
                     loading: false,
-                    data: payload,
                     error: null,
                 },
             };
@@ -72,7 +65,6 @@ const authReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 signup: {
                     loading: false,
-                    data: null,
                     error: payload,
                 },
             };

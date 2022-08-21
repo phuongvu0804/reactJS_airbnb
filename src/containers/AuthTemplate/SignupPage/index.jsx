@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useAuth } from "@/hooks";
 
 // Material UI
 import { Stack, InputLabel, FormControl, FormControlLabel, FormLabel, Grid, RadioGroup, Radio } from "@mui/material";
@@ -12,14 +15,23 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-const signupSchema = yup
-    .object({
-        email: yup.string().required("This field is required.").email(),
-        password: yup.string().required(),
-    })
-    .required();
+// Redux actions
+import { actSignup } from "@/store/actions/auth";
+
+const signupSchema = yup.object({
+    name: yup.string().required("This field is required."),
+    email: yup.string().required("This field is required.").email(),
+    gender: yup.boolean(),
+    birthday: yup.string().required("This field is required."),
+    password: yup.string().required("This field is required."),
+    phone: yup.string().required("This field is required."),
+    address: yup.string().required(),
+});
 
 const SignupPage = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const auth = useAuth();
     const [radioValue, setRadioValue] = useState(true);
     const { control, handleSubmit, setValue } = useForm({
         reValidateMode: "onSubmit",
@@ -27,13 +39,18 @@ const SignupPage = () => {
         defaultValues: {
             name: "",
             email: "",
+            gender: true,
+            birthday: "",
             password: "",
             phone: "",
-            birthday: "",
-            gender: true,
             address: "",
         },
     });
+    const { signup } = useSelector((state) => state.auth);
+
+    if (auth.user) {
+        return <Navigate to="/" />;
+    }
 
     const handleChangeRadio = (event) => {
         const booleanValue = event.target.value === "true";
@@ -42,7 +59,7 @@ const SignupPage = () => {
     };
 
     const handleSignup = (user) => {
-        console.log(user);
+        dispatch(actSignup(user, navigate));
     };
 
     return (
@@ -113,7 +130,13 @@ const SignupPage = () => {
                     <Input name="address" className="auth-form-input" control={control} />
                 </Grid>
             </Grid>
-            <LoadingButton className="auth-btn-submit" type="submit" fullWidth variant="contained">
+            <LoadingButton
+                loading={signup.loading}
+                className="auth-btn-submit"
+                type="submit"
+                fullWidth
+                variant="contained"
+            >
                 Sign Up
             </LoadingButton>
         </Stack>
