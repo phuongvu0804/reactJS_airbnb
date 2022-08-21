@@ -54,16 +54,16 @@ div.room-list__head {
             height: 100%;
         }
     }
-}
 
-.room-card__favorite-btn {
-    --side-gap: 10px;
-    position: absolute;
-    left: var(--side-gap);
-    top: var(--side-gap);
+    .room-card__favorite-btn {
+        --side-gap: 10px;
+        position: absolute;
+        left: var(--side-gap);
+        top: var(--side-gap);
 
-    &.active {
-        color: var(--primary);
+        &.active {
+            color: var(--primary);
+        }
     }
 }
 
