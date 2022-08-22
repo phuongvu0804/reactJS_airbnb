@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 
@@ -25,7 +24,7 @@ import SubmitBtn from "@/components/SubmitBtn";
 
 //others
 import { filterSchema } from "@/validators";
-import { initialValues } from "./constants";
+import { initialValues, style, radioOptions, checkBoxOptions_essentials, checkBoxOptions_features } from "./constants";
 import { actGetRoomListFail, actGetRoomListSuccess } from "@/store/actions/roomList";
 import { roomApi } from "@/api";
 import { callApi } from "@/api/config/request";
@@ -34,10 +33,6 @@ import "./style.scss";
 function RoomFilterModal({ onOpen, onClose }) {
     const dispatch = useDispatch();
     const searchLocation = useSelector((state) => state.locationList.data);
-    let roomData = useSelector((state) => state.roomList.roomList);
-
-    const [roomList, setRoomList] = useState(roomData);
-    // const [roomFilter, setRoomFilter] = useState(initialValues);
 
     const handleRadioOptions = (roomList, roomFilter) => {
         return roomList.filter((room) => {
@@ -45,7 +40,8 @@ function RoomFilterModal({ onOpen, onClose }) {
                 room.price >= roomFilter.minPrice &&
                 room.price <= roomFilter.maxPrice &&
                 room.guests >= roomFilter.totalGuest &&
-                room.bedRoom >= roomFilter.bedroom
+                room.bedRoom >= roomFilter.bedroom &&
+                room.bath >= roomFilter.bathroom
             );
         });
     };
@@ -79,9 +75,7 @@ function RoomFilterModal({ onOpen, onClose }) {
     const handleRoomListFilter = (roomList, roomFilter) => {
         let filteredList = [];
         filteredList = handleRadioOptions(roomList, roomFilter);
-        console.log(filteredList);
         filteredList = handleCheckBox(filteredList, roomFilter);
-        console.log(filteredList);
         dispatch(actGetRoomListSuccess(filteredList));
 
         return filteredList;
@@ -116,24 +110,13 @@ function RoomFilterModal({ onOpen, onClose }) {
         initialValues: initialValues,
         validationSchema: filterSchema,
         onSubmit: (values) => {
+            console.log(values);
             handleGetRoomFiltered(values);
         },
     });
 
     const handleRadioButton = (e) => {
         return setFieldValue(e.target.name, e.target.value);
-    };
-
-    const style = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: 400,
-        bgcolor: "var(--white)",
-        border: "2px solid #000",
-        boxShadow: 24,
-        p: 4,
     };
 
     return (
@@ -210,69 +193,16 @@ function RoomFilterModal({ onOpen, onClose }) {
                                 onChange={handleRadioButton}
                                 value={values.bedroom || "0"}
                             >
-                                <FormControlLabel
-                                    name="bedroom"
-                                    className="sub-group__input"
-                                    label="Any"
-                                    value="0"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    name="bedroom"
-                                    className="sub-group__input"
-                                    label="1"
-                                    value="1"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    name="bedroom"
-                                    className="sub-group__input"
-                                    label="2"
-                                    value="2"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    name="bedroom"
-                                    className="sub-group__input"
-                                    label="3"
-                                    value="3"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    name="bedroom"
-                                    className="sub-group__input"
-                                    label="4"
-                                    value="4"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    name="bedroom"
-                                    className="sub-group__input"
-                                    label="5"
-                                    value="5"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    name="bedroom"
-                                    className="sub-group__input"
-                                    label="6"
-                                    value="6"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    name="bedroom"
-                                    className="sub-group__input"
-                                    label="7"
-                                    value="7"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    name="bedroom"
-                                    className="sub-group__input"
-                                    label="8+"
-                                    value="8+"
-                                    control={<Radio />}
-                                />
+                                {radioOptions.map((item, index) => (
+                                    <FormControlLabel
+                                        key={index}
+                                        name="bedroom"
+                                        className="sub-group__input"
+                                        label={item.label}
+                                        value={item.value}
+                                        control={<Radio />}
+                                    />
+                                ))}
                             </RadioGroup>
                         </FormControl>
                         <FormControl className="filter-modal__sub-group">
@@ -284,60 +214,16 @@ function RoomFilterModal({ onOpen, onClose }) {
                                 onChange={handleRadioButton}
                                 value={values.bathroom || "0"}
                             >
-                                <FormControlLabel
-                                    className="sub-group__input"
-                                    label="Any"
-                                    value="0"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    className="sub-group__input"
-                                    label="1"
-                                    value="1"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    className="sub-group__input"
-                                    label="2"
-                                    value="2"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    className="sub-group__input"
-                                    label="3"
-                                    value="3"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    className="sub-group__input"
-                                    label="4"
-                                    value="4"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    className="sub-group__input"
-                                    label="5"
-                                    value="5"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    className="sub-group__input"
-                                    label="6"
-                                    value="6"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    className="sub-group__input"
-                                    label="7"
-                                    value="7"
-                                    control={<Radio />}
-                                />
-                                <FormControlLabel
-                                    className="sub-group__input"
-                                    label="8+"
-                                    value="8+"
-                                    control={<Radio />}
-                                />
+                                {radioOptions.map((item, index) => (
+                                    <FormControlLabel
+                                        key={index}
+                                        name="bathroom"
+                                        className="sub-group__input"
+                                        label={item.label}
+                                        value={item.value}
+                                        control={<Radio />}
+                                    />
+                                ))}
                             </RadioGroup>
                         </FormControl>
                     </div>
@@ -346,83 +232,33 @@ function RoomFilterModal({ onOpen, onClose }) {
                         <FormControl className="filter-modal__sub-group" sx={{ marginBottom: "10px" }}>
                             <FormLabel className="sub-group__title">Essentials</FormLabel>
                             <div>
-                                <FormControlLabel
-                                    name="wifi"
-                                    onChange={handleChange}
-                                    checked={values.wifi}
-                                    className="sub-group__input"
-                                    control={<Checkbox />}
-                                    label="Wifi"
-                                />
-                                <FormControlLabel
-                                    name="hotTub"
-                                    onChange={handleChange}
-                                    checked={values.hotTub}
-                                    className="sub-group__input"
-                                    control={<Checkbox />}
-                                    label="Hot tub"
-                                />
-                                <FormControlLabel
-                                    name="pool"
-                                    onChange={handleChange}
-                                    checked={values.pool}
-                                    className="sub-group__input"
-                                    control={<Checkbox />}
-                                    label="Pool"
-                                />
-                                <FormControlLabel
-                                    name="dryer"
-                                    onChange={handleChange}
-                                    checked={values.dryer}
-                                    className="sub-group__input"
-                                    control={<Checkbox />}
-                                    label="Dryer"
-                                />
-                                <FormControlLabel
-                                    name="heating"
-                                    onChange={handleChange}
-                                    checked={values.heating}
-                                    className="sub-group__input"
-                                    control={<Checkbox />}
-                                    label="Heating"
-                                />
-                                <FormControlLabel
-                                    name="cableTV"
-                                    onChange={handleChange}
-                                    checked={values.cableTV}
-                                    className="sub-group__input"
-                                    control={<Checkbox />}
-                                    label="Cable TV"
-                                />
-                                <FormControlLabel
-                                    name="indoorFireplace"
-                                    onChange={handleChange}
-                                    checked={values.indoorFireplace}
-                                    className="sub-group__input"
-                                    control={<Checkbox />}
-                                    label="Fireplace"
-                                />
+                                {checkBoxOptions_essentials.map((item, index) => (
+                                    <FormControlLabel
+                                        key={index}
+                                        name={item.value}
+                                        onChange={handleChange}
+                                        checked={values[item.value]}
+                                        className="sub-group__input"
+                                        control={<Checkbox />}
+                                        label={item.label}
+                                    />
+                                ))}
                             </div>
                         </FormControl>
                         <FormControl className="filter-modal__sub-group">
                             <FormLabel className="sub-group__title">Features</FormLabel>
                             <div>
-                                <FormControlLabel
-                                    name="gym"
-                                    onChange={handleChange}
-                                    checked={values.gym}
-                                    className="sub-group__input"
-                                    control={<Checkbox />}
-                                    label="Gym"
-                                />
-                                <FormControlLabel
-                                    name="elevator"
-                                    onChange={handleChange}
-                                    checked={values.elevator}
-                                    className="sub-group__input"
-                                    control={<Checkbox />}
-                                    label="Elevator"
-                                />
+                                {checkBoxOptions_features.map((item, index) => (
+                                    <FormControlLabel
+                                        key={index}
+                                        name={item.value}
+                                        onChange={handleChange}
+                                        checked={values[item.value]}
+                                        className="sub-group__input"
+                                        control={<Checkbox />}
+                                        label={item.label}
+                                    />
+                                ))}
                             </div>
                         </FormControl>
                     </div>

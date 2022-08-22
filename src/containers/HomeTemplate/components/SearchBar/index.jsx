@@ -125,6 +125,7 @@ function SearchBar({ searchCategory }) {
         } else {
             //Navigate to page with no result
             dispatch(actGetRoomListFail("Location doesn't exist"));
+            navigate("room-list");
         }
     };
 
@@ -139,6 +140,19 @@ function SearchBar({ searchCategory }) {
                 dispatch(actGetLocationListFail(err));
             },
         );
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (searchCategory === "Stays") {
+            if (searchData === "") {
+                dispatch(actGetRoomList());
+                navigate("room-list");
+            } else {
+                handleRoomList();
+            }
+        }
+        handleCloseModal();
     };
 
     const SearchBarMobile = ({ onClick }) => {
@@ -162,17 +176,6 @@ function SearchBar({ searchCategory }) {
                 </IconButton>
             </Box>
         );
-    };
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (searchCategory === "Stays") {
-            if (searchData === "") {
-                dispatch(actGetRoomList());
-            } else {
-                handleRoomList();
-            }
-        }
-        handleCloseModal();
     };
 
     return (

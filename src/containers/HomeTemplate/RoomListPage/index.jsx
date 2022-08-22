@@ -46,7 +46,7 @@ function RoomListPage() {
                         <Favorite />
                     </IconButton>
                 </div>
-                <Box className="room-card__content" component={Link} to={`/rooms/${room._id}`}>
+                <Box className="room-card__content" component={Link} to={`/room-details/${room._id}`}>
                     <h5>{room.name}</h5>
                     <div className="room-card__body">
                         <p className="room-card__body-item">{room.bedRoom} bedroom</p>

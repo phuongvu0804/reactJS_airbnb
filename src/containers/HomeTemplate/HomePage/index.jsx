@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-
 //Components
 import Carousel from "./components/Carousel";
 import RoomList from "./components/RoomList";
