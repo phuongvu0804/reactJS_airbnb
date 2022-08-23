@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useAuth } from "@/hooks";
 
 // Material UI
 import { Stack, InputLabel, FormControl, FormControlLabel, FormLabel, Grid, RadioGroup, Radio } from "@mui/material";
@@ -10,16 +13,15 @@ import Input from "../components/Input";
 // Form handler
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { signupSchema } from "@/validators/auth";
 
-const signupSchema = yup
-    .object({
-        email: yup.string().required("This field is required.").email(),
-        password: yup.string().required(),
-    })
-    .required();
+// Redux actions
+import { actSignup } from "@/store/actions/auth";
 
 const SignupPage = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const auth = useAuth();
     const [radioValue, setRadioValue] = useState(true);
     const { control, handleSubmit, setValue } = useForm({
         reValidateMode: "onSubmit",
@@ -27,13 +29,18 @@ const SignupPage = () => {
         defaultValues: {
             name: "",
             email: "",
+            gender: true,
+            birthday: "",
             password: "",
             phone: "",
-            birthday: "",
-            gender: true,
             address: "",
         },
     });
+    const { signup } = useSelector((state) => state.auth);
+
+    if (auth.user) {
+        return <Navigate to="/" />;
+    }
 
     const handleChangeRadio = (event) => {
         const booleanValue = event.target.value === "true";
@@ -42,12 +49,12 @@ const SignupPage = () => {
     };
 
     const handleSignup = (user) => {
-        console.log(user);
+        dispatch(actSignup(user, navigate));
     };
 
     return (
         <Stack component="form" noValidate spacing={2} onSubmit={handleSubmit(handleSignup)}>
-            <Grid container alignItems="center" spacing={2}>
+            <Grid container alignItems="flex-start" spacing={2}>
                 <Grid item xs={12} md={6}>
                     <InputLabel className="auth-form-input-label">Full Name</InputLabel>
                     <Input name="name" className="auth-form-input" control={control} />
@@ -113,7 +120,13 @@ const SignupPage = () => {
                     <Input name="address" className="auth-form-input" control={control} />
                 </Grid>
             </Grid>
-            <LoadingButton className="auth-btn-submit" type="submit" fullWidth variant="contained">
+            <LoadingButton
+                loading={signup.loading}
+                className="auth-btn-submit"
+                type="submit"
+                fullWidth
+                variant="contained"
+            >
                 Sign Up
             </LoadingButton>
         </Stack>
