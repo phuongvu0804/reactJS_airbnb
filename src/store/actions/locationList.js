@@ -38,4 +38,4 @@ const actGetLocationList = (searchData = "") => {
     };
 };
 
-export { actGetLocationList };
+export { actGetLocationList, actGetLocationListSuccess, actGetLocationListFail };

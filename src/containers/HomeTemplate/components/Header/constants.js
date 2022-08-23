@@ -1,13 +1,14 @@
 const pages = ["Stays", "Online Experiences"];
-const settings = [
+
+const noUserSettings = [
     {
         label: "Sign up",
-        link: "/auth/login",
+        link: "/auth/signup",
         divider: false,
     },
     {
         label: "Log in",
-        link: "/auth/signup",
+        link: "/auth/login",
         divider: true,
     },
     {
@@ -27,4 +28,27 @@ const settings = [
     },
 ];
 
-export { pages, settings };
+const withUserSettings = [
+    {
+        label: "Log out",
+        link: "/",
+        divider: true,
+    },
+    {
+        label: "Host your home",
+        link: "/",
+        divider: false,
+    },
+    {
+        label: "Host an experience",
+        link: "/",
+        divider: false,
+    },
+    {
+        label: "Help",
+        link: "/",
+        divider: false,
+    },
+];
+
+export { pages, noUserSettings, withUserSettings };
