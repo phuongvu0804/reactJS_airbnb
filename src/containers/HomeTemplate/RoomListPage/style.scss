@@ -7,7 +7,7 @@ div.room-list__head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 66px;
+    margin-top: var(--search-height);
     background: var(--white);
 
     &.top {
