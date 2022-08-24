@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import pattern from "./pattern";
-import msg from "./message";
+import msg from "./messages";
 
 // User
 const userSchema = yup.object({});

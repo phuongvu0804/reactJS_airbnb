@@ -13,7 +13,7 @@ import Input from "../components/Input";
 // Form handler
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { signupSchema } from "@/validators/auth";
+import { signupSchema } from "@/validators";
 
 // Redux actions
 import { actSignup } from "@/store/actions/auth";
