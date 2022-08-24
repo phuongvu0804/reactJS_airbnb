@@ -3,26 +3,49 @@ import { useDispatch, useSelector } from "react-redux";
 
 //Material UI
 import TextField from "@mui/material/TextField";
-import { Box, Divider, FormControl, FormLabel, IconButton, Typography } from "@mui/material";
+import {
+    Box,
+    Divider,
+    FormControl,
+    FormLabel,
+    IconButton,
+    Modal,
+    InputAdornment,
+    Typography,
+    Button,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import { Search } from "@mui/icons-material";
 
 //Components
 import SubmitBtn from "@/components/SubmitBtn";
 import SearchModalMobile from "./components/SearchModalMobile";
 import GuestInputField from "./components/GuestInputField";
+import CloseBtn from "@/components/CloseBtn";
 
 //Others
 import "./style.scss";
-import { actGetLocationList } from "@/store/actions/locationList";
+import { actGetLocationList, actGetLocationListSuccess, actGetLocationListFail } from "@/store/actions/locationList";
 import { actGetRoomListFail, actGetRoomListSuccess, actGetRoomList } from "@/store/actions/roomList";
-import { roomApi } from "@/api";
+import { locationApi, roomApi } from "@/api";
 import { callApi } from "@/api/config/request";
 import { useNavigate } from "react-router-dom";
 
 function SearchBar({ searchCategory }) {
+    const style = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 400,
+        bgcolor: "white",
+        border: "2px solid #000",
+        boxShadow: 24,
+        p: 4,
+    };
     const searchTabsMobile = ["Anywhere", "Any week", "Add guests"];
 
     const dispatch = useDispatch();
@@ -32,6 +55,7 @@ function SearchBar({ searchCategory }) {
     const [openModal, setOpenModal] = useState(false);
     const [checkInTime, setCheckInTime] = useState(new Date());
     const [checkOutTime, setCheckOutTime] = useState(new Date());
+    const [value, setValue] = useState(new Date());
     const [searchData, setSearchData] = useState("");
     const [guestNumber, setGuestNumber] = useState({
         Adults: 0,
@@ -65,10 +89,10 @@ function SearchBar({ searchCategory }) {
         return guestTotal;
     };
 
-    const handleRoomList = () => {
+    const handleGetRoomByLocation = (locationList) => {
         //Check if location exists
-        if (searchLocation?.length !== 0) {
-            const locationId = searchLocation[0]._id;
+        if (locationList && locationList?.length !== 0) {
+            const locationId = locationList[0]._id;
 
             callApi(
                 roomApi.getRoomList(locationId),
@@ -86,9 +110,11 @@ function SearchBar({ searchCategory }) {
                                 return dispatch(actGetRoomListFail("Location has no accomodation satisfied"));
                             }
 
-                            return dispatch(actGetRoomListSuccess(filteredResp));
+                            dispatch(actGetRoomListSuccess(filteredResp));
+                            navigate("room-list");
                         } else {
-                            return dispatch(actGetRoomListSuccess(resp));
+                            dispatch(actGetRoomListSuccess(resp));
+                            navigate("room-list");
                         }
                     } else {
                         return dispatch(actGetRoomListFail("Location has no accomodation"));
@@ -99,7 +125,21 @@ function SearchBar({ searchCategory }) {
         } else {
             //Navigate to page with no result
             dispatch(actGetRoomListFail("Location doesn't exist"));
+            navigate("room-list");
         }
+    };
+
+    const handleRoomList = () => {
+        callApi(
+            locationApi.getLocationList(searchData),
+            (resp) => {
+                dispatch(actGetLocationListSuccess(resp));
+                handleGetRoomByLocation(resp);
+            },
+            (err) => {
+                dispatch(actGetLocationListFail(err));
+            },
+        );
     };
 
     const handleSubmit = (e) => {
@@ -107,13 +147,12 @@ function SearchBar({ searchCategory }) {
         if (searchCategory === "Stays") {
             if (searchData === "") {
                 dispatch(actGetRoomList());
+                navigate("room-list");
             } else {
-                dispatch(actGetLocationList(searchData));
                 handleRoomList();
             }
-
-            navigate("room-list");
         }
+        handleCloseModal();
     };
 
     const SearchBarMobile = ({ onClick }) => {
@@ -146,6 +185,7 @@ function SearchBar({ searchCategory }) {
                 className="search-bar-pc-tablet search-bar__form"
                 component="form"
                 sx={{ display: { xs: "none", sm: "flex" } }}
+                onSubmit={handleSubmit}
             >
                 <Box className="search-bar__input-wrapper" sx={{ flex: 1.2 }}>
                     <FormControl className="search-bar__input-control search-bar__input-control--where">
@@ -208,12 +248,7 @@ function SearchBar({ searchCategory }) {
                         guestNumber={guestNumber}
                         setGuestNumber={setGuestNumber}
                     />
-                    <SubmitBtn
-                        className="seacrh-bar__form-btn"
-                        startIcon={<Search />}
-                        variant="contained"
-                        onSubmit={handleSubmit}
-                    ></SubmitBtn>
+                    <SubmitBtn className="seacrh-bar__form-btn" startIcon={<Search />} variant="contained"></SubmitBtn>
                 </Box>
             </Box>
             {/* Search for PC + Tablet ends */}

@@ -6,7 +6,7 @@ const Image = forwardRef(({ src, alt, className, fallback: customFallback = imag
     const handleError = () => {
         setFallback(customFallback);
     };
-    return <img src={fallback || src} ref={ref} alt={alt} className={className} {...props} onError={handleError} />;
+    return <img src={src || fallback} ref={ref} alt={alt} className={className} {...props} onError={handleError} />;
 });
 
 export default Image;

@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import "./style.scss";
 function CloseBtn({ className, onClick, sx, ...others }) {
     return (
-        <IconButton className={`closing-btn ${className}`} onClick={onClick} sx={sx} {...others}>
+        <IconButton type="button" className={`closing-btn ${className}`} onClick={onClick} sx={sx} {...others}>
             <CloseIcon />
         </IconButton>
     );

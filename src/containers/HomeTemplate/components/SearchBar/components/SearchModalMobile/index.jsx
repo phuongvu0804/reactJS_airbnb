@@ -42,7 +42,7 @@ function SearchModalMobile({ onOpen, onClose, guestNumber, setGuestNumber, searc
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box className="search-modal" component="form" sx={style}>
+            <Box className="search-modal" component="form" sx={style} onSubmit={onSubmit}>
                 <CloseBtn className="search-modal__closing-btn" onClick={onClose} />
                 <Typography className="search-modal__title" id="modal-modal-title" variant="h6" component="h2">
                     Where to?
@@ -88,9 +88,7 @@ function SearchModalMobile({ onOpen, onClose, guestNumber, setGuestNumber, searc
                     />
                 </FormControl>
                 <div className="sub-modal__search-btn">
-                    <SubmitBtn startIcon={<SearchIcon />} onSubmit={onSubmit}>
-                        Search
-                    </SubmitBtn>
+                    <SubmitBtn startIcon={<SearchIcon />}>Search</SubmitBtn>
                 </div>
             </Box>
         </Modal>
