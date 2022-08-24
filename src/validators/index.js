@@ -1,2 +1,4 @@
 import filterSchema from "./filterValidator";
-export { filterSchema };
+import { loginSchema, signupSchema } from "./authValidator";
+
+export { filterSchema, loginSchema, signupSchema };
