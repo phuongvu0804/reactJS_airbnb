@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 // Style
 import "./style.scss";
 
-const Home = () => {
+const AdminTemplate = () => {
     return (
         <div className="admin">
             <Sidebar />
@@ -19,4 +19,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default AdminTemplate;
