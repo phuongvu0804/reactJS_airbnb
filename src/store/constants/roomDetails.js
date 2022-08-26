@@ -7,3 +7,6 @@ export const GET_ROOM_REVIEW_FAIL = "@roomDetailsReducer/GET_ROOM_REVIEW_FAIL";
 export const CREATE_BOOKING_REQUEST = "@roomDetailsReducer/CREATE_BOOKING_REQUEST";
 export const CREATE_BOOKING_SUCCESS = "@roomDetailsReducer/CREATE_BOOKING_SUCCESS";
 export const CREATE_BOOKING_FAIL = "@roomDetailsReducer/CREATE_BOOKING_FAIL";
+export const CREATE_SAVE_REQUEST = "@roomDetailsReducer/CREATE_SAVE_REQUEST";
+export const CREATE_SAVE_SUCCESS = "@roomDetailsReducer/CREATE_SAVE_SUCCESS";
+export const CREATE_SAVE_FAIL = "@roomDetailsReducer/CREATE_SAVE_FAIL";
