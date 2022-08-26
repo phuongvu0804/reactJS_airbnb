@@ -5,9 +5,11 @@ const initState = {
     roomDetails: null,
     roomReviews: null,
     roomBooked: null,
+    roomSaved: [],
     errorRoomDetails: null,
     errorRoomReview: null,
     errorBooking: null,
+    errorSave: null,
 };
 
 const roomDetailsReducer = (state = initState, action) => {
@@ -36,8 +38,18 @@ const roomDetailsReducer = (state = initState, action) => {
         case actTypes.CREATE_BOOKING_SUCCESS:
             return { ...state, roomBooked: action.payload };
 
-        case actTypes.CREATE_BOOKING_FAIL:
+        case actTypes.CREATE_SAVE_REQUEST:
             return { ...state, errorBooking: action.payload };
+
+        case actTypes.CREATE_SAVE_REQUEST:
+            return { ...state, loading: true };
+
+        case actTypes.CREATE_SAVE_SUCCESS:
+            return { ...state, roomSaved: [...action.payload] };
+
+        case actTypes.CREATE_SAVE_FAIL:
+            return { ...state, errorSave: action.payload };
+
         default:
             return { ...state };
     }

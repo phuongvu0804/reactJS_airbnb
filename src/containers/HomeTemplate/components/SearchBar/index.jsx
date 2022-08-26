@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 //Material UI
 import TextField from "@mui/material/TextField";
@@ -20,7 +21,6 @@ import { actGetLocationListSuccess, actGetLocationListFail } from "@/store/actio
 import { actGetRoomListFail, actGetRoomListSuccess, actGetRoomList } from "@/store/actions/roomList";
 import { locationApi, roomApi } from "@/api";
 import { callApi } from "@/api/config/request";
-import { useNavigate } from "react-router-dom";
 import { searchTabsMobile } from "./constants";
 
 function SearchBar({ searchCategory }) {
@@ -38,7 +38,6 @@ function SearchBar({ searchCategory }) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const searchLocation = useSelector((state) => state.locationList.data);
 
     const [openModal, setOpenModal] = useState(false);
     const [checkInTime, setCheckInTime] = useState(new Date());

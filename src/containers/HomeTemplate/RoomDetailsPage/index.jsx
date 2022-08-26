@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 //Material UI
 import Image from "@/components/Image";
-import { Button, CircularProgress, Container, Divider } from "@mui/material";
+import { Button, CircularProgress, Container, Divider, Skeleton } from "@mui/material";
 import { Box } from "@mui/system";
 import { ArrowForwardIos, Favorite, FavoriteBorder, IosShare } from "@mui/icons-material";
 
@@ -17,13 +18,16 @@ import Booking from "./components/Booking";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
 //others
 import "./style.scss";
-import { actGetRoomDetails, actGetRoomReview } from "@/store/actions/roomDetails";
+import { actCreateSave, actGetRoomDetails, actGetRoomReview } from "@/store/actions/roomDetails";
 
 function RoomDetailsPage() {
     const roomId = useParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const roomDetails = useSelector((state) => state.roomDetails.roomDetails);
     const roomDetailsData = useSelector((state) => state.roomDetails);
+    let roomsSaved = useSelector((state) => state.roomDetails.roomSaved);
     const loading = useSelector((state) => state.roomDetails.loading);
 
     const [visible, setVisible] = useState(105);
@@ -32,8 +36,32 @@ function RoomDetailsPage() {
     useEffect(() => {
         dispatch(actGetRoomDetails(roomId.id));
         dispatch(actGetRoomReview(roomId.id));
+
+        roomsSaved?.forEach((room) => {
+            if (room === roomId.id) {
+                setFavorite(true);
+            }
+        });
     }, [roomId.id]);
 
+    const handleSave = () => {
+        const user = localStorage.getItem("user");
+        if (user) {
+            setFavorite(!favorite);
+
+            if (favorite) {
+                roomsSaved = [...roomsSaved, roomId.id];
+            } else {
+                roomsSaved = roomsSaved.filter((item) => item !== roomId.id);
+            }
+
+            dispatch(actCreateSave(roomsSaved));
+        } else {
+            navigate("/auth/login");
+        }
+    };
+
+    //rooms errors roomdetails
     return roomDetailsData.loading ? (
         <div id="room-details-page">
             {roomDetails ? (
@@ -47,8 +75,8 @@ function RoomDetailsPage() {
                                 Share
                             </Button>
                             <Button
-                                className={favorite ? "room-details__btn" : "room-details__btn active"}
-                                onClick={() => setFavorite(!favorite)}
+                                className={favorite ? "room-details__btn active" : "room-details__btn"}
+                                onClick={handleSave}
                             >
                                 <FavoriteBorder className="room-details__btn--not-active" />
                                 <Favorite className="room-details__btn-active" />
@@ -90,7 +118,7 @@ function RoomDetailsPage() {
                     <Divider />
                 </Container>
             ) : (
-                roomDetailsData.errorRoomDetails
+                <Skeleton />
             )}
 
             <RoomReviews data={roomDetailsData} />

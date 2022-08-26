@@ -62,6 +62,26 @@ const actCreateBookingFail = (error) => {
     };
 };
 
+const actCreateSaveRequest = () => {
+    return {
+        type: actTypes.CREATE_SAVE_REQUEST,
+    };
+};
+
+const actCreateSaveSuccess = (data) => {
+    return {
+        type: actTypes.CREATE_SAVE_SUCCESS,
+        payload: data,
+    };
+};
+
+const actCreateSaveFail = (error) => {
+    return {
+        type: actTypes.CREATE_SAVE_FAIL,
+        payload: error,
+    };
+};
+
 const actGetRoomDetails = (roomId) => {
     return (dispatch) => {
         dispatch(actGetRoomDetailsRequest());
@@ -98,4 +118,16 @@ const actCreateBooking = (data) => {
     };
 };
 
-export { actGetRoomDetails, actGetRoomReview, actCreateBooking };
+const actCreateSave = (data) => {
+    return (dispatch) => {
+        dispatch(actCreateSaveRequest());
+
+        try {
+            dispatch(actCreateSaveSuccess(data));
+        } catch (error) {
+            dispatch(actCreateSaveFail(error));
+        }
+    };
+};
+
+export { actGetRoomDetails, actGetRoomReview, actCreateBooking, actCreateSave };

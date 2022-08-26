@@ -1,37 +1,62 @@
 import { useState } from "react";
-import Image from "@/components/Image";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+
+//Material UI
+import { Box } from "@mui/system";
 import { Button, Container, Grid, IconButton, Modal } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Favorite } from "@mui/icons-material";
 
-//Material UI
-import { Box } from "@mui/system";
-
-//Others
-import "./style.scss";
-import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+//Components
 import RoomFilterModal from "./components/RoomFilterModal";
 
-function RoomListPage() {
-    const roomList = useSelector((state) => state.roomList.roomList);
+//Others
+import Image from "@/components/Image";
+import "./style.scss";
+import { actCreateSave } from "@/store/actions/roomDetails";
 
+function RoomListPage() {
+    const dispatch = useDispatch();
+    const roomList = useSelector((state) => state.roomList.roomList);
+    let roomsSaved = useSelector((state) => state.roomDetails.roomSaved);
     const error = useSelector((state) => state.roomList.error);
 
-    const [like, setLike] = useState(false);
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const navigate = useNavigate();
 
-    const handleLike = () => {
+    const handleLike = (id) => {
         const user = localStorage.getItem("user");
         if (user) {
-            setLike(true);
+            if (roomsSaved.length !== 0) {
+                const isExisted = roomsSaved.indexOf(id) !== -1;
+                if (isExisted) {
+                    roomsSaved = roomsSaved.filter((item) => item !== id);
+                } else {
+                    roomsSaved = [...roomsSaved, id];
+                }
+
+                dispatch(actCreateSave(roomsSaved));
+            } else {
+                console.log("dispatch");
+                dispatch(actCreateSave([...roomsSaved, id]));
+            }
         } else {
             navigate("/auth/login");
         }
+    };
+
+    const handleLikeClass = (id) => {
+        let className = "room-card__favorite-btn";
+        roomsSaved?.forEach((item) => {
+            if (item === id) {
+                className = `${className} active`;
+            }
+        });
+        return className;
     };
 
     const renderRooms = () => {
@@ -39,10 +64,7 @@ function RoomListPage() {
             <Grid item xs={12} sm={4} md={3} key={index} className="room-list__room-card">
                 <div className="room-card__img">
                     <Image src={room.image} alt="room's image" />
-                    <IconButton
-                        className={like ? "room-card__favorite-btn active" : "room-card__favorite-btn"}
-                        onClick={handleLike}
-                    >
+                    <IconButton className={handleLikeClass(room._id)} onClick={() => handleLike(room._id)}>
                         <Favorite />
                     </IconButton>
                 </div>
