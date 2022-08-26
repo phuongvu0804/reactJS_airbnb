@@ -24,4 +24,7 @@ const settings = [
     },
 ];
 
-export { settings };
+const minGuest = 1;
+const maxGuest = 100;
+
+export { settings, minGuest, maxGuest };

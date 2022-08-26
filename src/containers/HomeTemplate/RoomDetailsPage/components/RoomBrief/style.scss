@@ -1,0 +1,12 @@
+.room-details__summary {
+    display: flex;
+    padding: 24px 0;
+    .room-details__summary-item {
+        &:first-child {
+            list-style-type: none;
+        }
+        font-size: 16px;
+        font-weight: 400;
+        margin-right: 20px;
+    }
+}

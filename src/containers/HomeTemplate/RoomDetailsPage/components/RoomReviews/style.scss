@@ -1,0 +1,60 @@
+.room-review {
+    padding: 48px 0;
+}
+
+.room-review__total-review {
+    font-size: 22px;
+    font-weight: 500;
+    padding-bottom: 24px;
+}
+
+button.room-review__show-btn {
+    text-transform: none;
+    font-size: 16px;
+    padding: 10px 23px;
+    margin-top: 10px;
+    color: var(--black);
+    border-color: var(--black);
+    border-radius: 8px;
+}
+
+.room-review__review-card {
+    padding: 10px;
+}
+
+.review-card__top {
+    display: flex;
+}
+
+.review-card__img {
+    --img-size: 40px;
+    width: var(--img-size);
+    height: var(--img-size);
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.review-card__name {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.review-card__date {
+    font-size: 14px;
+    color: var(--gray);
+}
+
+.review-card__bottom {
+    margin-top: 10px;
+    p {
+        font-size: 16px;
+        font-weight: 300;
+    }
+}
+
+//Responsive for tablet
+@media (min-width: 740px) and (max-width: 1023px) {
+    div.room-review__review-card {
+        margin-bottom: 10px;
+    }
+}

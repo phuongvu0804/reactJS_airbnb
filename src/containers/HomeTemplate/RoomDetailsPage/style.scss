@@ -2,9 +2,6 @@
     margin-top: var(--search-height);
 }
 
-.room-details__title {
-}
-
 .room-details__location {
     font-size: 14px;
     font-weight: 500;
@@ -19,9 +16,28 @@
         text-decoration: underline;
         color: var(--black);
 
+        .room-details__btn--not-active {
+            display: block;
+        }
+
+        .room-details__btn-active {
+            display: none;
+        }
+
         svg {
             font-size: 18px;
             margin-right: 6px;
+        }
+    }
+
+    .room-details__btn.active {
+        .room-details__btn--not-active {
+            display: none;
+        }
+
+        .room-details__btn-active {
+            display: block;
+            color: var(--primary);
         }
     }
 }
@@ -38,45 +54,8 @@
 }
 
 .room-details__content {
-}
-
-.room-details__summary {
-    display: flex;
-    padding: 24px 0;
-    .room-details__summary-item {
-        &:first-child {
-            list-style-type: none;
-        }
-        font-size: 16px;
-        font-weight: 400;
-        margin-right: 20px;
-    }
-}
-
-.room-details__rule-list {
-    padding: 32px 0;
-}
-.room-details__rule-item {
-    display: flex;
-    margin-bottom: 20px;
-    .rule-item__icon {
-        font-size: 34px;
-        margin-right: 14px;
-    }
-    .rule-item__content {
-    }
-    .rule-item__title {
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 20px;
-        margin-bottom: 4px;
-    }
-    .rule-item__text {
-        color: var(--gray);
-        font-weight: 300;
-        font-size: 14px;
-        line-height: 20px;
-    }
+    flex: 2;
+    padding-right: 30px;
 }
 
 .room-details__desc {
@@ -93,208 +72,35 @@
         text-decoration: underline;
         padding-left: 0;
         color: var(--black);
+
+        svg {
+            font-size: 14px;
+            margin-left: 4px;
+        }
     }
 }
 
-.room-details__amenities {
-    padding: 48px 0;
-}
-
-.amenities__title,
-.room-review__total-review {
-    font-size: 22px;
-    font-weight: 500;
-    padding-bottom: 24px;
-}
-
-.amenities__item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-
-    .amenities__icon {
-        font-size: 30px;
-        margin-right: 10px;
-    }
-
-    .amenities__name {
-        font-size: 16px;
+//Responsive for tablet
+@media (min-width: 740px) and (max-width: 1023px) {
+    .room-details__content {
+        margin-right: 20px;
     }
 }
 
-button.amenities__show-btn,
-button.room-review__show-btn {
-    text-transform: none;
-    font-size: 16px;
-    padding: 10px 23px;
-    margin-top: 10px;
-    color: var(--black);
-    border-color: var(--black);
-    border-radius: 8px;
-}
-
-.room-details__booking {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-}
-.room-details__booking-card {
-    margin-top: 48px;
-    border: 1px solid rgb(221, 221, 221);
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
-}
-
-.booking-card__price {
-    margin-bottom: 10px;
-}
-
-.booking-card__price-currency,
-.booking-card__price-number {
-    font-size: 22px;
-    font-weight: 600;
-}
-
-.booking-card__price-number {
-}
-
-.booking-card__price-time {
-    font-size: 16px;
-}
-
-.booking-card__time {
-}
-
-.booking-card__check-in {
-}
-
-.booking-card__check-out {
-}
-
-.booking-card__guests {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    padding: 14px;
-    border: 1px solid #c4c4c4;
-    border-radius: 4px;
-    h4,
-    p {
-        font-size: 12px;
+//Responsive for mobile
+@media (max-width: 739px) {
+    #room-details-page {
+        margin-top: 20px;
     }
-    p {
+
+    .page__main-title {
+        font-size: 26px;
     }
-}
-
-button.booking-card__btn {
-    background: var(--primary);
-    color: var(--white);
-    margin-top: 10px;
-    width: 100%;
-    padding: 12px;
-    border-radius: 6px;
-}
-
-.booking-card__bill {
-    font-size: 16px;
-    font-weight: 300;
-    margin-top: 30px;
-}
-
-.booking-card__bill-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.booking-card__bill-name {
-    text-decoration: underline;
-}
-
-.booking-card__bill-price {
-}
-
-.bill-price__number {
-}
-.bill-price__currency,
-.price__currency {
-    margin-left: 4px;
-}
-
-.booking-card__bill-summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 24px;
-    line-height: 20px;
-    color: var(--black);
-    font-weight: 600;
-}
-
-.bill-summary__name {
-}
-
-.bill-summary__price {
-}
-
-.price__number {
-}
-
-button.room-details__booking-report {
-    font-size: 16px;
-    text-transform: none;
-    text-decoration: underline;
-    margin-top: 10px;
-    color: var(--gray);
-}
-
-.room-review {
-    padding: 48px 0;
-}
-
-.room-review__list {
-}
-
-.room-review__review-card {
-    padding: 10px;
-}
-
-.review-card__top {
-    display: flex;
-}
-
-.review-card__img {
-    --img-size: 40px;
-    width: var(--img-size);
-    height: var(--img-size);
-    margin-right: 10px;
-    border-radius: 50%;
-}
-
-.review-card__info {
-}
-
-.review-card__name {
-    font-size: 16px;
-    font-weight: 500;
-}
-
-.review-card__date {
-    font-size: 14px;
-    color: var(--gray);
-}
-
-.review-card__bottom {
-    margin-top: 10px;
-    p {
-        font-size: 16px;
-        font-weight: 300;
+    .room-details__img {
+        height: 250px;
     }
-}
 
-.room-review__show-btn {
+    .room-details__desc {
+        padding: 32px 0;
+    }
 }
