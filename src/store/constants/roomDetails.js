@@ -1,0 +1,9 @@
+export const GET_ROOM_DETAILS_REQUEST = "@roomDetailsReducer/GET_ROOM_DETAILS_REQUEST";
+export const GET_ROOM_DETAILS_SUCCESS = "@roomDetailsReducer/GET_ROOM_DETAILS_SUCCESS";
+export const GET_ROOM_DETAILS_FAIL = "@roomDetailsReducer/GET_ROOM_DETAILS_FAIL";
+export const GET_ROOM_REVIEW_REQUEST = "@roomDetailsReducer/GET_ROOM_REVIEW_REQUEST";
+export const GET_ROOM_REVIEW_SUCCESS = "@roomDetailsReducer/GET_ROOM_REVIEW_SUCCESS";
+export const GET_ROOM_REVIEW_FAIL = "@roomDetailsReducer/GET_ROOM_REVIEW_FAIL";
+export const CREATE_BOOKING_REQUEST = "@roomDetailsReducer/CREATE_BOOKING_REQUEST";
+export const CREATE_BOOKING_SUCCESS = "@roomDetailsReducer/CREATE_BOOKING_SUCCESS";
+export const CREATE_BOOKING_FAIL = "@roomDetailsReducer/CREATE_BOOKING_FAIL";

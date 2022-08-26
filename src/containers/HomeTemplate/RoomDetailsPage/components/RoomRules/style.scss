@@ -1,0 +1,25 @@
+.room-details__rule-list {
+    padding: 32px 0;
+}
+
+.room-details__rule-item {
+    display: flex;
+    margin-bottom: 20px;
+    .rule-item__icon {
+        font-size: 34px;
+        margin-right: 14px;
+    }
+
+    .rule-item__title {
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 4px;
+    }
+    .rule-item__text {
+        color: var(--gray);
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 20px;
+    }
+}

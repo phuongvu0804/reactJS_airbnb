@@ -9,9 +9,9 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import "./style.scss";
 import AnimalModal from "../AnimalModal";
 import CloseBtn from "@/components/CloseBtn";
-import { settings } from "./constants";
+import { settings, minGuest, maxGuest } from "./constants";
 
-function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNumber }) {
+function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNumber, totalGuest }) {
     const [openAnimalModal, setOpenAnimalModal] = useState(false);
 
     const renderGuestInputField = () => {
@@ -34,18 +34,28 @@ function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNum
                     <div className="group__filter">
                         <IconButton
                             className="group__filter-btn"
-                            onClick={() =>
-                                setGuestNumber({ ...guestNumber, [item.inputName]: guestNumber[item.inputName] - 1 })
-                            }
+                            onClick={() => {
+                                if (totalGuest >= minGuest)
+                                    return setGuestNumber({
+                                        ...guestNumber,
+                                        [item.inputName]: guestNumber[item.inputName] - 1,
+                                    });
+                            }}
                         >
                             <RemoveCircleOutlineIcon />
                         </IconButton>
+
                         <p className="group__filter-number">{guestNumber[item.inputName]}</p>
+
                         <IconButton
                             className="group__filter-btn"
-                            onClick={() =>
-                                setGuestNumber({ ...guestNumber, [item.inputName]: guestNumber[item.inputName] + 1 })
-                            }
+                            onClick={() => {
+                                if (totalGuest <= maxGuest)
+                                    return setGuestNumber({
+                                        ...guestNumber,
+                                        [item.inputName]: guestNumber[item.inputName] + 1,
+                                    });
+                            }}
                         >
                             <AddCircleOutlineIcon />
                         </IconButton>

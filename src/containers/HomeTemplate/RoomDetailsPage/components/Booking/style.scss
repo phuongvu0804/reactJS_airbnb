@@ -1,0 +1,136 @@
+.room-details__booking {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.room-details__booking-card {
+    margin-top: 48px;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+}
+
+.booking-card__price {
+    margin-bottom: 10px;
+}
+
+.booking-card__price-currency,
+.booking-card__price-number {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.booking-card__price-time {
+    font-size: 16px;
+}
+
+.booking-card__guests {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding: 14px;
+    border: 1px solid #c4c4c4;
+    border-radius: 4px;
+    h4,
+    p {
+        font-size: 12px;
+    }
+}
+
+button.booking-card__btn {
+    background: var(--primary);
+    color: var(--white);
+    margin-top: 10px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+
+    &:hover {
+        background: var(--primary-hover);
+    }
+}
+
+.booking-card__bill {
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 30px;
+}
+
+.booking-card__bill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.booking-card__bill-name {
+    text-decoration: underline;
+}
+
+.bill-price__currency,
+.price__currency {
+    margin-left: 4px;
+}
+
+.booking-card__bill-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    line-height: 20px;
+    color: var(--black);
+    font-weight: 600;
+}
+
+button.room-details__booking-report {
+    font-size: 16px;
+    text-transform: none;
+    text-decoration: underline;
+    margin-top: 10px;
+    color: var(--gray);
+}
+
+//Responsive for tablet
+@media (min-width: 740px) and (max-width: 1023px) {
+    .room-details__booking {
+        flex: 1.5;
+    }
+}
+
+//Responsive for mobile
+@media (max-width: 739px) {
+    div.room-details__booking--mobile {
+        --padding: 16px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--white);
+        padding-top: var(--padding);
+        padding-bottom: var(--padding);
+        font-size: 14px;
+        border-top: 1px solid var(--light-gray);
+        z-index: 5;
+
+        .booking-card__price-currency,
+        .booking-card__price-number {
+            font-size: 16px;
+        }
+
+        .booking-card__price-time {
+            font-size: 14px;
+        }
+
+        .booking-card__btn {
+            padding: 14px 24px;
+            width: unset;
+        }
+    }
+}

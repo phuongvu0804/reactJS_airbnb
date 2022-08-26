@@ -14,6 +14,14 @@ const roomApi = {
             return axiosClient.get(resourceName);
         }
     },
+    getRoomDetails: (roomId) => {
+        const url = `${resourceName}/${roomId}`;
+        return axiosClient.get(url);
+    },
+    createBooking: (data) => {
+        const url = `${resourceName}/booking`;
+        return axiosClient.post(url, data);
+    },
 };
 
 export default roomApi;
