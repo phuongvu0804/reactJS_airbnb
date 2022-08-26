@@ -17,8 +17,17 @@ import GuestInputField from "./components/GuestInputField";
 
 //Others
 import "./style.scss";
-import { actGetLocationListSuccess, actGetLocationListFail } from "@/store/actions/locationList";
-import { actGetRoomListFail, actGetRoomListSuccess, actGetRoomList } from "@/store/actions/roomList";
+import {
+    actGetLocationListSuccess,
+    actGetLocationListFail,
+    actGetLocationListRequest,
+} from "@/store/actions/locationList";
+import {
+    actGetRoomListFail,
+    actGetRoomListSuccess,
+    actGetRoomList,
+    actGetRoomListRequest,
+} from "@/store/actions/roomList";
 import { locationApi, roomApi } from "@/api";
 import { callApi } from "@/api/config/request";
 import { searchTabsMobile } from "./constants";
@@ -80,6 +89,7 @@ function SearchBar({ searchCategory }) {
         //Check if location exists
         if (locationList && locationList?.length !== 0) {
             const locationId = locationList[0]._id;
+            dispatch(actGetRoomListRequest());
 
             callApi(
                 roomApi.getRoomList(locationId),
@@ -96,12 +106,11 @@ function SearchBar({ searchCategory }) {
                             if (filteredResp.length === 0) {
                                 return dispatch(actGetRoomListFail("Location has no accomodation satisfied"));
                             }
-
                             dispatch(actGetRoomListSuccess(filteredResp));
-                            navigate("room-list");
+                            navigate(`room-list/${locationId}`);
                         } else {
                             dispatch(actGetRoomListSuccess(resp));
-                            navigate("room-list");
+                            navigate(`room-list/${locationId}`);
                         }
                     } else {
                         return dispatch(actGetRoomListFail("Location has no accomodation"));
@@ -112,11 +121,13 @@ function SearchBar({ searchCategory }) {
         } else {
             //Navigate to page with no result
             dispatch(actGetRoomListFail("Location doesn't exist"));
-            navigate("room-list");
+            navigate("room-list/all-rooms");
         }
     };
 
     const handleRoomList = () => {
+        dispatch(actGetLocationListRequest());
+
         callApi(
             locationApi.getLocationList(searchData),
             (resp) => {
@@ -134,7 +145,7 @@ function SearchBar({ searchCategory }) {
         if (searchCategory === "Stays") {
             if (searchData === "") {
                 dispatch(actGetRoomList());
-                navigate("room-list");
+                navigate("room-list/all-rooms");
             } else {
                 handleRoomList();
             }

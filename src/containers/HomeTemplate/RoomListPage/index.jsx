@@ -1,32 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 //Material UI
 import { Box } from "@mui/system";
 import { Button, Container, Grid, IconButton, Modal } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { Favorite } from "@mui/icons-material";
 
 //Components
 import RoomFilterModal from "./components/RoomFilterModal";
+import RoomCard from "./components/RoomCard";
 
 //Others
 import Image from "@/components/Image";
 import "./style.scss";
 import { actCreateSave } from "@/store/actions/roomDetails";
+import { actGetRoomList } from "@/store/actions/roomList";
+import LoadMoreBtn from "@/components/LoadMoreBtn";
 
 function RoomListPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const locationId = useParams();
+
     const roomList = useSelector((state) => state.roomList.roomList);
     let roomsSaved = useSelector((state) => state.roomDetails.roomSaved);
-    const error = useSelector((state) => state.roomList.error);
+    const roomListLoading = useSelector((state) => state.roomList.loading);
+    const locationLoading = useSelector((state) => state.locationList.loading);
+    const error = useSelector((state) => state.locationList.loading);
 
     const [open, setOpen] = useState(false);
+    const [dataLoading, setDataLoading] = useState(false);
+    const [visible, setVisible] = useState(8);
+
+    useEffect(() => {
+        if (!roomListLoading || !locationLoading) {
+            setDataLoading(false);
+        }
+
+        dispatch(actGetRoomList(locationId.id));
+    }, [locationId.id]);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const navigate = useNavigate();
 
     const handleLike = (id) => {
         const user = localStorage.getItem("user");
@@ -41,7 +57,6 @@ function RoomListPage() {
 
                 dispatch(actCreateSave(roomsSaved));
             } else {
-                console.log("dispatch");
                 dispatch(actCreateSave([...roomsSaved, id]));
             }
         } else {
@@ -59,54 +74,80 @@ function RoomListPage() {
         return className;
     };
 
-    const renderRooms = () => {
-        return roomList?.map((room, index) => (
-            <Grid item xs={12} sm={4} md={3} key={index} className="room-list__room-card">
-                <div className="room-card__img">
-                    <Image src={room.image} alt="room's image" />
-                    <IconButton className={handleLikeClass(room._id)} onClick={() => handleLike(room._id)}>
-                        <Favorite />
-                    </IconButton>
-                </div>
-                <Box className="room-card__content" component={Link} to={`/room-details/${room._id}`}>
-                    <h5>{room.name}</h5>
-                    <div className="room-card__body">
-                        <p className="room-card__body-item">{room.bedRoom} bedroom</p>
-                        <p className="room-card__body-item">{room.bath} bathroom</p>
-                        <p className="room-card__body-item">{room.kitchen ? "Kitchen" : "No kitchen"}</p>
-                    </div>
-                    <div className="room-card__foot">
-                        <span className="room-card__foot-currency">VND</span>
-                        <span className="room-card__foot-price">{room.price}</span>
-                        <span className="room-card__foot-time">/ night</span>
-                    </div>
-                </Box>
-            </Grid>
-        ));
-    };
-
     return (
         <div id="room-list-page">
-            <Container maxWidth="lg" className="room-list__head">
-                <div className="room-list__title-wrapper">
-                    <span className="room-list__room-number">Over 1,000 stays</span>
-                    <h3 className="page__main-title room-list__title">Accomodation in your selected area</h3>
-                </div>
-                <Button
-                    className="room-list__filter-button"
-                    variant="outlined"
-                    startIcon={<FilterAltIcon />}
-                    onClick={handleOpen}
-                >
-                    Filters
-                </Button>
-            </Container>
-            <Container maxWidth="lg" className="room-list__content">
-                {error && <p>{error}</p>}
-                <Grid container spacing={2}>
-                    {renderRooms()}
-                </Grid>
-            </Container>
+            {dataLoading && (
+                <>
+                    <Container maxWidth="lg" className="room-list__head">
+                        <div className="room-list__title-wrapper">
+                            <span className="room-list__room-number">Over 1,000 stays</span>
+                            <h3 className="page__main-title room-list__title">Accomodation in your selected area</h3>
+                        </div>
+                        <Button
+                            className="room-list__filter-button"
+                            variant="outlined"
+                            startIcon={<FilterAltIcon />}
+                            onClick={handleOpen}
+                        >
+                            Filters
+                        </Button>
+                    </Container>
+                    <Container maxWidth="lg" className="room-list__content">
+                        {error && <p>{error}</p>}
+                        <Grid container spacing={2}>
+                            {Array(8)
+                                .fill(0)
+                                .map((item, index) => (
+                                    <RoomCard.Loading key={index} />
+                                ))}
+                        </Grid>
+                    </Container>
+                </>
+            )}
+
+            {!dataLoading && (
+                <>
+                    <Container maxWidth="lg" className="room-list__head">
+                        <div className="room-list__title-wrapper">
+                            <span className="room-list__room-number">Over 1,000 stays</span>
+                            <h3 className="page__main-title room-list__title">Accomodation in your selected area</h3>
+                        </div>
+                        <Button
+                            className="room-list__filter-button"
+                            variant="outlined"
+                            startIcon={<FilterAltIcon />}
+                            onClick={handleOpen}
+                        >
+                            Filters
+                        </Button>
+                    </Container>
+                    <Container maxWidth="lg" className="room-list__content">
+                        {error && <p>{error}</p>}
+                        <Grid container spacing={2}>
+                            {roomList?.slice(0, visible).map((room) => (
+                                <RoomCard
+                                    key={room._id}
+                                    room={room}
+                                    handleLikeClass={handleLikeClass}
+                                    handleLike={handleLike}
+                                />
+                            ))}
+                        </Grid>
+                        <Box sx={{ width: "100%", display: "flex" }}>
+                            <LoadMoreBtn
+                                className="room-list_load-button"
+                                variant="outlined"
+                                sx={{ mt: "30px", mx: "auto" }}
+                                setVisible={setVisible}
+                                loadNumber={8}
+                            >
+                                Load More
+                            </LoadMoreBtn>
+                        </Box>
+                    </Container>
+                </>
+            )}
+
             <RoomFilterModal onOpen={open} onClose={handleClose} />
         </div>
     );

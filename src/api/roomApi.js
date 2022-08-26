@@ -7,7 +7,7 @@ const roomApi = {
         return axiosClient.post(resourceName, data);
     },
     getRoomList: (locationId) => {
-        if (locationId !== "") {
+        if (locationId !== "all-rooms") {
             const url = resourceName + `?locationId=${locationId}`;
             return axiosClient.get(url);
         } else {

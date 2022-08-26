@@ -22,7 +22,7 @@ const actGetRoomListFail = (error) => {
     };
 };
 
-const actGetRoomList = (locationId = "") => {
+const actGetRoomList = (locationId = "all-rooms") => {
     return (dispatch) => {
         dispatch(actGetRoomListRequest());
 
@@ -34,4 +34,4 @@ const actGetRoomList = (locationId = "") => {
     };
 };
 
-export { actGetRoomList, actGetRoomListSuccess, actGetRoomListFail };
+export { actGetRoomList, actGetRoomListRequest, actGetRoomListSuccess, actGetRoomListFail };
