@@ -1,0 +1,32 @@
+.room-details__location div {
+    .room-details__btn {
+        font-size: 14px;
+        text-transform: none;
+        text-decoration: underline;
+        color: var(--black);
+
+        .room-details__btn--not-active {
+            display: block;
+        }
+
+        .room-details__btn-active {
+            display: none;
+        }
+
+        svg {
+            font-size: 18px;
+            margin-right: 6px;
+        }
+    }
+
+    .room-details__btn.active {
+        .room-details__btn--not-active {
+            display: none;
+        }
+
+        .room-details__btn-active {
+            display: block;
+            color: var(--primary);
+        }
+    }
+}

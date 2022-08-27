@@ -18,7 +18,7 @@ const roomDetailsReducer = (state = initState, action) => {
             return { ...state, loading: true };
 
         case actTypes.GET_ROOM_DETAILS_SUCCESS:
-            return { ...state, roomDetails: action.payload };
+            return { ...state, loading: false, roomDetails: action.payload };
 
         case actTypes.GET_ROOM_DETAILS_FAIL:
             return { ...state, errorRoomDetails: action.payload };
@@ -27,7 +27,7 @@ const roomDetailsReducer = (state = initState, action) => {
             return { ...state, loading: true };
 
         case actTypes.GET_ROOM_REVIEW_SUCCESS:
-            return { ...state, roomReviews: action.payload };
+            return { ...state, loading: false, roomReviews: action.payload };
 
         case actTypes.GET_ROOM_REVIEW_FAIL:
             return { ...state, errorRoomReview: action.payload };
@@ -36,7 +36,7 @@ const roomDetailsReducer = (state = initState, action) => {
             return { ...state, loading: true };
 
         case actTypes.CREATE_BOOKING_SUCCESS:
-            return { ...state, roomBooked: action.payload };
+            return { ...state, loading: false, roomBooked: action.payload };
 
         case actTypes.CREATE_SAVE_REQUEST:
             return { ...state, errorBooking: action.payload };
@@ -45,7 +45,7 @@ const roomDetailsReducer = (state = initState, action) => {
             return { ...state, loading: true };
 
         case actTypes.CREATE_SAVE_SUCCESS:
-            return { ...state, roomSaved: [...action.payload] };
+            return { ...state, loading: false, roomSaved: [...action.payload] };
 
         case actTypes.CREATE_SAVE_FAIL:
             return { ...state, errorSave: action.payload };
