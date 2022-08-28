@@ -4,4 +4,13 @@
     .admin-container {
         flex: 6;
     }
+
+    &-footer {
+        margin-top: 20px;
+
+        &-link.MuiLink-root {
+            font-size: 13px;
+            color: var(--gray);
+        }
+    }
 }
