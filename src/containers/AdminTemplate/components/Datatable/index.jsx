@@ -4,6 +4,9 @@ import { useMutation, useQueryClient } from "react-query";
 // Material UI
 import { DataGrid } from "@mui/x-data-grid";
 
+// Components
+import Breadcrumbs from "../Breadcrumbs";
+
 // Style
 import "./style.scss";
 
@@ -39,9 +42,9 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
 
     return (
         <div className="datatable">
-            <div className="datatable-title">
-                Add New User{" "}
-                <Link to="/users/new" className="link">
+            <div className="top">
+                <Breadcrumbs />
+                <Link to="new" className="link">
                     <strong>+</strong> Add New
                 </Link>
             </div>
