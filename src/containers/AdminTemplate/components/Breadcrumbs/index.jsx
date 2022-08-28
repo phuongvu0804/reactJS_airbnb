@@ -8,7 +8,7 @@ const Breadcrumbs = () => {
     const { pathname } = useLocation();
 
     const subpaths = pathname?.split("/").slice(1);
-    const root = "/" + subpaths.shift();
+    const root = "/" + subpaths?.shift();
 
     return (
         <Stack direction="row" spacing={1}>
