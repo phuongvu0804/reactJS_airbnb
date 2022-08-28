@@ -40,12 +40,14 @@ const Sidebar = () => {
             <div className="center">
                 <ul>
                     <p className="title">MAIN</p>
-                    <li>
-                        <Dashboard className="icon" />
-                        <span>Dashboard</span>
-                    </li>
+                    <Link to="dashboard" style={{ textDecoration: "none" }}>
+                        <li>
+                            <Dashboard className="icon" />
+                            <span>Dashboard</span>
+                        </li>
+                    </Link>
                     <p className="title">LISTS</p>
-                    <Link to="/users" style={{ textDecoration: "none" }}>
+                    <Link to="users" style={{ textDecoration: "none" }}>
                         <li>
                             <PersonOutline className="icon" />
                             <span>Users</span>
