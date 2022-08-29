@@ -14,25 +14,8 @@
         width: 100%;
 
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
-
-        .search {
-            display: flex;
-            align-items: center;
-            border: 0.5px solid lightgray;
-            padding: 3px 5px;
-
-            input {
-                border: none;
-                outline: none;
-                background-color: transparent;
-
-                &::placeholder {
-                    font-size: 12px;
-                }
-            }
-        }
 
         .items {
             display: flex;

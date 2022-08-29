@@ -1,6 +1,5 @@
 // Material UI
 import {
-    Search,
     Language,
     DarkModeOutlined,
     FullscreenExit,
@@ -16,10 +15,6 @@ const Navbar = () => {
     return (
         <div className="navbar">
             <div className="wrapper">
-                <div className="search">
-                    <input type="text" placeholder="Search..." />
-                    <Search />
-                </div>
                 <div className="items">
                     <div className="item">
                         <Language className="icon" />
