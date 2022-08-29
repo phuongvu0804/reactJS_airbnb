@@ -12,6 +12,7 @@ import "./style.scss";
 const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
     const queryClient = useQueryClient();
     const { mutate } = useMutation(deleteRow, {
+        mutationKey: "users/delete",
         onSuccess: () => {
             queryClient.invalidateQueries(title);
         },
