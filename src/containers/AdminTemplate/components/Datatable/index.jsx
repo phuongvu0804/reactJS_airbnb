@@ -3,9 +3,8 @@ import { useMutation, useQueryClient } from "react-query";
 
 // Material UI
 import { DataGrid } from "@mui/x-data-grid";
-
-// Components
-import Breadcrumbs from "../Breadcrumbs";
+import { Delete, Edit, Search } from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
 
 // Style
 import "./style.scss";
@@ -29,37 +28,48 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
             flex: 1.7,
             renderCell: (params) => (
                 <div className="cell-actions">
-                    <Link to="/users/test" style={{ textDecoration: "none" }}>
-                        <div className="cell-action btn-view">Edit</div>
-                    </Link>
-                    <div className="cell-action btn-delete" onClick={() => handleDelete(params.row._id)}>
-                        Delete
-                    </div>
+                    <Tooltip title="Edit" placement="top" arrow>
+                        <Link to="/users/test" style={{ textDecoration: "none" }}>
+                            <IconButton className="cell-action btn-edit">
+                                <Edit />
+                            </IconButton>
+                        </Link>
+                    </Tooltip>
+                    <Tooltip title="Delete" placement="top" arrow>
+                        <IconButton className="cell-action btn-delete" onClick={() => handleDelete(params.row._id)}>
+                            <Delete />
+                        </IconButton>
+                    </Tooltip>
                 </div>
             ),
         },
     ];
 
     return (
-        <div className="datatable">
-            <div className="top">
-                <Breadcrumbs />
-                <Link to="new" className="link">
-                    <strong>+</strong> Add New
-                </Link>
+        <div className="datatable-wrapper">
+            <div className="datatable">
+                <div className="top">
+                    <div className="search">
+                        <input type="text" placeholder="Search..." />
+                        <Search />
+                    </div>
+                    <Link to="new" className="link">
+                        <strong>+</strong> Add New
+                    </Link>
+                </div>
+                <DataGrid
+                    className="data-grid"
+                    rows={rows}
+                    columns={columns.concat(actionColumn)}
+                    pageSize={6}
+                    rowsPerPageOptions={[6, 15, 25]}
+                    getRowId={(row) => row._id}
+                    autoHeight
+                    loading={loading}
+                    headerHeight={45}
+                    rowHeight={40}
+                />
             </div>
-            <DataGrid
-                className="data-grid"
-                rows={rows}
-                columns={columns.concat(actionColumn)}
-                pageSize={8}
-                rowsPerPageOptions={[8, 15, 25]}
-                getRowId={(row) => row._id}
-                autoHeight
-                loading={loading}
-                headerHeight={45}
-                rowHeight={40}
-            />
         </div>
     );
 };

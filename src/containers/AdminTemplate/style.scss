@@ -5,8 +5,14 @@
         flex: 6;
     }
 
+    .breadcrumbs-wrapper {
+        padding: 10px;
+        margin: 20px 20px 10px 20px;
+        box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.5);
+    }
+
     &-footer {
-        margin-top: 20px;
+        margin-top: 15px;
 
         &-link.MuiLink-root {
             font-size: 13px;

@@ -6,6 +6,7 @@ import { Stack, Link } from "@mui/material";
 // Components
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
+import Breadcrumbs from "./components/Breadcrumbs";
 
 // Style
 import "./style.scss";
@@ -16,6 +17,9 @@ const AdminTemplate = () => {
             <Sidebar />
             <div className="admin-container">
                 <Navbar />
+                <div className="breadcrumbs-wrapper">
+                    <Breadcrumbs />
+                </div>
                 <Outlet />
                 <Stack component="footer" className="admin-footer" direction="row" spacing={2} justifyContent="center">
                     <Link className="admin-footer-link" href="#" underline="none">
