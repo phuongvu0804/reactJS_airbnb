@@ -3,9 +3,6 @@ import { useState } from "react";
 // Material UI
 import { DriveFolderUploadOutlined } from "@mui/icons-material";
 
-// Components
-import Breadcrumbs from "../../components/Breadcrumbs";
-
 // Style
 import "./style.scss";
 
@@ -58,9 +55,6 @@ const New = () => {
 
     return (
         <div className="new">
-            <div className="top">
-                <Breadcrumbs />
-            </div>
             <div className="bottom">
                 <div className="left">
                     <img
