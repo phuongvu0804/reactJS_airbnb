@@ -49,7 +49,7 @@ const columns = [
 ];
 
 const UserManagementPage = () => {
-    const { data, isLoading } = useQuery("users", userApi.getUsers);
+    const { data, isLoading } = useQuery("users", userApi.getUsers, { refetchOnWindowFocus: false });
     const users = data?.data || [];
 
     return (

@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
+import { useIsFetching, useIsMutating } from "react-query";
 
 // Material UI
-import { Stack, Link } from "@mui/material";
+import { Box, Stack, Link, LinearProgress } from "@mui/material";
 
 // Components
 import Sidebar from "./components/Sidebar";
@@ -12,8 +13,21 @@ import Breadcrumbs from "./components/Breadcrumbs";
 import "./style.scss";
 
 const AdminTemplate = () => {
+    const isFetchingUsers = useIsFetching(["users"]);
+    const isMutatingUsers = useIsMutating(["users/delete"]);
+
+    const isLoading = !!(isFetchingUsers || isMutatingUsers);
+
     return (
         <div className="admin">
+            <Box
+                className="linear-loader-wrapper"
+                sx={{
+                    display: isLoading ? "block" : "none",
+                }}
+            >
+                <LinearProgress color="inherit" />
+            </Box>
             <Sidebar />
             <div className="admin-container">
                 <Navbar />

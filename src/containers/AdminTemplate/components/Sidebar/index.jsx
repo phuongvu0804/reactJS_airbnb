@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks";
 
 // Material UI
 import {
@@ -20,6 +21,9 @@ import {
 import "./style.scss";
 
 const Sidebar = () => {
+    const auth = useAuth();
+    const navigate = useNavigate();
+
     return (
         <div className="sidebar">
             <div className="top">
@@ -96,7 +100,12 @@ const Sidebar = () => {
                         <AccountCircle className="icon" />
                         <span>Profile</span>
                     </li>
-                    <li>
+                    <li
+                        onClick={() => {
+                            auth.logout();
+                            navigate("/auth/login");
+                        }}
+                    >
                         <Logout className="icon" />
                         <span>Logout</span>
                     </li>
