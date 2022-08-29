@@ -50,7 +50,7 @@ const columns = [
 
 const UserManagementPage = () => {
     const { data, isLoading } = useQuery("users", userApi.getUsers);
-    const users = data?.data ? [...data?.data].reverse() : [];
+    const users = data?.data || [];
 
     return (
         <Datatable title={"users"} columns={columns} rows={users} loading={isLoading} deleteRow={userApi.deleteUser} />
