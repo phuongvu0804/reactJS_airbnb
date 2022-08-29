@@ -1,5 +1,11 @@
 .datatable {
     padding: 20px;
+    border: 0.5px solid var(--gray-border);
+    box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.5);
+
+    &-wrapper {
+        padding: 0 20px 20px 20px;
+    }
 
     .top {
         width: 100%;
@@ -9,6 +15,23 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        .search {
+            display: flex;
+            align-items: center;
+            border: 0.5px solid lightgray;
+            padding: 3px 5px;
+
+            input {
+                border: none;
+                outline: none;
+                background-color: transparent;
+
+                &::placeholder {
+                    font-size: 12px;
+                }
+            }
+        }
 
         .link {
             text-decoration: none;
@@ -66,7 +89,7 @@
             border-radius: 5px;
             cursor: pointer;
 
-            &.btn-view {
+            &.btn-edit {
                 color: darkblue;
                 border: 1px solid rgba(0, 0, 139, 0.596);
             }
