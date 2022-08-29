@@ -7,6 +7,9 @@ import Routes from "@/routes";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
+// Loader
+import PageLoader from "@/components/PageLoader";
+
 // React Query
 import { QueryClientProvider, QueryClient } from "react-query";
 
@@ -17,7 +20,7 @@ function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <LocalizationProvider dateAdapter={AdapterMoment}>
-                <Suspense fallback={<div>loading ...</div>}>
+                <Suspense fallback={<PageLoader />}>
                     <Router>
                         <Routes />
                     </Router>
