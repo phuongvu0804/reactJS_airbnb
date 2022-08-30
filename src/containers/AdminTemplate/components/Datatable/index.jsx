@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 
@@ -12,11 +12,14 @@ import "./style.scss";
 
 const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
     const [open, setOpen] = useState(false);
+    const [users, setUsers] = useState([]);
+    const searchKey = useRef("");
     const queryClient = useQueryClient();
     const { mutate, isError } = useMutation(deleteRow, {
         mutationKey: "users/delete",
         onSuccess: () => {
             setOpen(true);
+            handleSearch({ target: { value: searchKey.current } });
             queryClient.invalidateQueries(title);
         },
     });
@@ -27,6 +30,31 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
         }
 
         setOpen(false);
+    };
+
+    const handleSearch = (event) => {
+        if (!event.target) {
+            return;
+        }
+
+        const { value } = event.target;
+        searchKey.current = value;
+
+        const searchedUsers = rows.filter((row) => {
+            if (row.name === undefined) {
+                return undefined;
+            }
+
+            const found = row.name.toLowerCase().includes(value.toLowerCase());
+
+            if (found) {
+                return row;
+            }
+
+            return undefined;
+        });
+
+        setUsers(searchedUsers);
     };
 
     const handleDelete = (id) => {
@@ -63,7 +91,7 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
                 <div className="datatable">
                     <div className="top">
                         <div className="search">
-                            <input type="text" placeholder="Search..." />
+                            <input type="text" placeholder="Enter name ..." onChange={handleSearch} />
                             <Search />
                         </div>
                         <Link to="new" className="link">
@@ -72,7 +100,7 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
                     </div>
                     <DataGrid
                         className="data-grid"
-                        rows={rows}
+                        rows={users.length > 0 ? users : rows}
                         columns={columns.concat(actionColumn)}
                         pageSize={6}
                         rowsPerPageOptions={[6, 15, 25]}
