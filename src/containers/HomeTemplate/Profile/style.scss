@@ -1,0 +1,21 @@
+#profile-page {
+    --my: 50px;
+    margin-bottom: var(--my);
+    .profile__user-card {
+        border: 1px solid rgb(221, 221, 221);
+        border-radius: 12px;
+        max-width: 308px;
+        padding: 24px;
+        max-height: 720px;
+    }
+
+    .profile__sub-title {
+        font-size: 22px;
+        line-height: 26px;
+        margin-bottom: 20px;
+    }
+
+    .profile__user-details {
+        padding-left: 50px;
+    }
+}

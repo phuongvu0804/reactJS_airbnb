@@ -19,6 +19,7 @@ import LoadMoreBtn from "@/components/LoadMoreBtn";
 //others
 import "./style.scss";
 import { actCreateSave, actGetRoomDetails, actGetRoomReview } from "@/store/actions/roomDetails";
+import RoomDetailsLoading from "./components/RoomDetailsLoading";
 
 function RoomDetailsPage() {
     const roomId = useParams();
@@ -60,71 +61,66 @@ function RoomDetailsPage() {
             navigate("/auth/login");
         }
     };
-
     //rooms errors roomdetails
-    return roomDetailsData.loading ? (
+    return !roomDetailsData || !roomDetails || loading ? (
+        <RoomDetailsLoading />
+    ) : (
         <div id="room-details-page">
-            {roomDetails ? (
-                <Container maxWidth="lg">
-                    <h3 className="page__main-title room-details__title">{roomDetails?.name}</h3>
-                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <p className="room-details__location">{roomDetails?.locationId.name}</p>
-                        <div>
-                            <Button className="room-details__btn">
-                                <IosShare />
-                                Share
-                            </Button>
-                            <Button
-                                className={favorite ? "room-details__btn active" : "room-details__btn"}
-                                onClick={handleSave}
-                            >
-                                <FavoriteBorder className="room-details__btn--not-active" />
-                                <Favorite className="room-details__btn-active" />
-                                Save
-                            </Button>
-                        </div>
-                    </Box>
-                    <div className="room-details__img">
-                        <Image src={roomDetails?.image} alt={roomDetails?.name} />
+            <Container maxWidth="lg">
+                <h3 className="page__main-title room-details__title">{roomDetails?.name}</h3>
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <p className="room-details__location">{roomDetails?.locationId.name}</p>
+                    <div>
+                        <Button className="room-details__btn">
+                            <IosShare />
+                            Share
+                        </Button>
+                        <Button
+                            className={favorite ? "room-details__btn active" : "room-details__btn"}
+                            onClick={handleSave}
+                        >
+                            <FavoriteBorder className="room-details__btn--not-active" />
+                            <Favorite className="room-details__btn-active" />
+                            Save
+                        </Button>
                     </div>
-                    <Box sx={{ display: "flex" }}>
-                        <div className="room-details__content">
-                            <RoomBrief data={roomDetails} />
-                            <Divider />
+                </Box>
+                <div className="room-details__img">
+                    <Image src={roomDetails?.image} alt={roomDetails?.name} />
+                </div>
+                <Box sx={{ display: "flex" }}>
+                    <div className="room-details__content">
+                        <RoomBrief data={roomDetails} />
+                        <Divider />
 
-                            <RoomRules />
-                            <Divider />
+                        <RoomRules />
+                        <Divider />
 
-                            <div className="room-details__desc">
-                                <p>{roomDetails?.description.slice(0, visible)}</p>
+                        <div className="room-details__desc">
+                            <p>{roomDetails?.description.slice(0, visible)}</p>
 
-                                <LoadMoreBtn
-                                    className="desc__show-btn"
-                                    variant="text"
-                                    leftIcon={<ArrowForwardIos />}
-                                    setVisible={setVisible}
-                                    loadNumber={105}
-                                >
-                                    Show more
-                                </LoadMoreBtn>
-                            </div>
-                            <Divider />
-
-                            <Amenities data={roomDetails} />
+                            <LoadMoreBtn
+                                className="desc__show-btn"
+                                variant="text"
+                                leftIcon={<ArrowForwardIos />}
+                                setVisible={setVisible}
+                                loadNumber={105}
+                            >
+                                Show more
+                            </LoadMoreBtn>
                         </div>
+                        <Divider />
 
-                        <Booking data={roomDetails} />
-                    </Box>
-                    <Divider />
-                </Container>
-            ) : (
-                <Skeleton />
-            )}
+                        <Amenities data={roomDetails} />
+                    </div>
+
+                    <Booking data={roomDetails} />
+                </Box>
+                <Divider />
+            </Container>
 
             <RoomReviews data={roomDetailsData} />
         </div>
-    ) : (
-        <CircularProgress />
     );
 }
 

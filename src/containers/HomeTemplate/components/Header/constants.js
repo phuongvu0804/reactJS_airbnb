@@ -35,6 +35,11 @@ const withUserSettings = [
         divider: true,
     },
     {
+        label: "Account",
+        link: "/profile",
+        divider: false,
+    },
+    {
         label: "Host your home",
         link: "/",
         divider: false,

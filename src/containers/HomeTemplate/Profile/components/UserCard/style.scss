@@ -1,0 +1,14 @@
+.user-card__verify {
+    list-style-type: none;
+    .user-card__verify-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+}
+
+.user-card__verify-item {
+    svg {
+        margin-right: 10px;
+    }
+}

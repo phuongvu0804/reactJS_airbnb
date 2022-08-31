@@ -8,6 +8,7 @@ import { Container } from "@mui/system";
 //others
 import "./style.scss";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
+import WaveSkeleton from "@/components/WaveSkeleton";
 
 function RoomReviews({ data }) {
     const [visible, setVisible] = useState(6);
@@ -42,5 +43,38 @@ function RoomReviews({ data }) {
         data.errorRoomDetails
     );
 }
+
+function Loading() {
+    return (
+        <Container maxWidth="lg" className="room-review">
+            <WaveSkeleton variant="text" sx={{ fontSize: "27px", width: "150px" }} />
+            <Grid container spacing={2} className="room-review__list" sx={{ mt: "10px" }}>
+                {Array(6)
+                    .fill(0)
+                    .map((item, index) => (
+                        <Grid item key={index} md={6} className="room-review__review-card">
+                            <div className="review-card__top">
+                                <WaveSkeleton variant="circular" sx={{ height: "40px", width: "40px" }} />
+
+                                <div style={{ marginLeft: "10px" }}>
+                                    <WaveSkeleton variant="text" sx={{ fontSize: "16px", width: "150px" }} />
+                                    <WaveSkeleton variant="text" sx={{ fontSize: "14px", width: "100px" }} />
+                                </div>
+                            </div>
+                            <div className="review-card__bottom">
+                                <WaveSkeleton variant="text" sx={{ fontSize: "16px", width: "90%" }} />
+                            </div>
+                        </Grid>
+                    ))}
+            </Grid>
+
+            <LoadMoreBtn className="room-review__show-btn" variant="outlined">
+                Show all reviews
+            </LoadMoreBtn>
+        </Container>
+    );
+}
+
+RoomReviews.Loading = Loading;
 
 export default RoomReviews;

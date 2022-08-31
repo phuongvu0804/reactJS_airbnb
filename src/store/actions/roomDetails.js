@@ -130,4 +130,4 @@ const actCreateSave = (data) => {
     };
 };
 
-export { actGetRoomDetails, actGetRoomReview, actCreateBooking, actCreateSave };
+export { actGetRoomDetails, actGetRoomReview, actCreateBooking, actCreateSave, actCreateSaveFail };

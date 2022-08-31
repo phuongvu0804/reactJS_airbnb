@@ -1,0 +1,22 @@
+.user-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+        width: 128px;
+
+        border-radius: 50%;
+    }
+
+    button {
+        font-size: 14px;
+        color: var(--black);
+        text-transform: none;
+        text-decoration: underline;
+
+        &:hover {
+            background-color: transparent;
+        }
+    }
+}

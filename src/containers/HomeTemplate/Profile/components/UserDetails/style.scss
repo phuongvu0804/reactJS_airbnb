@@ -1,0 +1,16 @@
+.user-details__saved-room-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.user-details__saved-room-item img {
+    --img-size: 56px;
+    height: var(--img-size);
+    width: var(--img-size);
+    border-radius: 50%;
+}
+
+.saved-room-item__content {
+    margin-left: 10px;
+}

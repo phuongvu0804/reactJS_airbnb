@@ -1,0 +1,42 @@
+.user-info__title {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 36px;
+}
+
+.user-info__join-date {
+    font-size: 14px;
+    line-height: 16px;
+    margin: 8px 0;
+    color: var(--gray);
+}
+
+button.user-info__btn {
+    font-size: 14px;
+    color: var(--black);
+    text-transform: none;
+    text-decoration: underline;
+    margin: 8px 0;
+    padding: 0;
+
+    &:hover {
+        background-color: transparent;
+    }
+}
+
+.user-info__basic-info {
+    margin-top: 50px;
+}
+
+.user-info__basic-info-item {
+    --mb: 10px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: var(--mb);
+
+    svg {
+        margin-right: var(--mb);
+    }
+}
