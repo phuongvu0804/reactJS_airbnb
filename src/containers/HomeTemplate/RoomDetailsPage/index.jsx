@@ -61,7 +61,6 @@ function RoomDetailsPage() {
             navigate("/auth/login");
         }
     };
-    console.log(Boolean(roomDetailsData), Boolean(roomDetails), loading);
     //rooms errors roomdetails
     return !roomDetailsData || !roomDetails || loading ? (
         <RoomDetailsLoading />

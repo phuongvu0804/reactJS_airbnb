@@ -1,0 +1,14 @@
+.data-checked {
+    list-style-type: none;
+    .data-checked__item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+}
+
+.data-checked__item {
+    svg {
+        margin-right: 10px;
+    }
+}

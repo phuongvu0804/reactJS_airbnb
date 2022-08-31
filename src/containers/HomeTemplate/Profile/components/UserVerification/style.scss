@@ -1,0 +1,27 @@
+.user-verification {
+    svg {
+        font-size: 24px;
+    }
+
+    .user-verification__action-title {
+        font-style: 18px;
+        line-height: 28px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .user-verification__action-desc {
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 16px;
+    }
+
+    button.user-verification__action-btn {
+        font-size: 16px;
+        text-transform: none;
+        padding: 10px 23px;
+        border-color: var(--black);
+        color: var(--black);
+        border-radius: 8px;
+    }
+}

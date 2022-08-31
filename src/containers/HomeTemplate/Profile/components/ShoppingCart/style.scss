@@ -1,0 +1,27 @@
+.shop-cart__item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    & > div {
+        display: flex;
+    }
+
+    img {
+        --img-size: 56px;
+        height: var(--img-size);
+        width: var(--img-size);
+        border-radius: 50%;
+    }
+
+    .shop-cart-item__content {
+        margin-left: 10px;
+        font-weight: 400;
+        font-size: 14px;
+        max-width: 160px;
+        span {
+            display: block;
+            margin-bottom: 6px;
+        }
+    }
+}
