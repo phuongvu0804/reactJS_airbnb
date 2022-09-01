@@ -1,29 +1,79 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 // Material UI
 import { DataGrid } from "@mui/x-data-grid";
 import { IconButton, Tooltip, Snackbar, Alert } from "@mui/material";
 import { Delete, Edit, Search } from "@mui/icons-material";
 
+// Api
+import { userApi } from "@/api";
+
 // Style
 import "./style.scss";
 
-const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
-    const [open, setOpen] = useState(false);
+const Datatable = ({ rootPage, columns }) => {
+    /*
+     *  Fetch users
+     */
+    const { data, isLoading } = useQuery("users", userApi.getUsers, {
+        refetchOnWindowFocus: false,
+    });
+    let rows = data?.data || [];
+
+    /*
+     *  Handle search users
+     */
     const [users, setUsers] = useState([]);
     const searchKey = useRef("");
+    const handleSearch = (event) => {
+        // If search input is empty
+        //   return all users
+        const { value } = event.target;
+        searchKey.current = value;
+        if (!value) {
+            setUsers(rows);
+            return;
+        }
+
+        const searchedUsers = rows.filter((row) => {
+            if (typeof row.name !== "string") {
+                return false;
+            }
+
+            const found = row.name.toLowerCase().includes(value.toLowerCase());
+
+            return found;
+        });
+
+        setUsers(searchedUsers);
+    };
+
+    /*
+     *  Handle delete user
+     */
     const queryClient = useQueryClient();
-    const { mutate, isError } = useMutation(deleteRow, {
-        mutationKey: "users/delete",
+    const { mutate, isError } = useMutation(userApi.deleteUser, {
+        mutationKey: `${rootPage}/delete`,
         onSuccess: () => {
             setOpen(true);
-            handleSearch({ target: { value: searchKey.current } });
-            queryClient.invalidateQueries(title);
+            (async () => {
+                await queryClient.invalidateQueries(rootPage);
+                rows = queryClient.getQueryData(rootPage).data;
+                handleSearch({ target: { value: searchKey.current } });
+            })();
         },
     });
 
+    const handleDelete = (id) => {
+        mutate(id);
+    };
+
+    /*
+     *  Handle open/close notification popup
+     */
+    const [open, setOpen] = useState(false);
     const handleClose = (_, reason) => {
         if (reason === "clickaway") {
             return;
@@ -32,34 +82,10 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
         setOpen(false);
     };
 
-    const handleSearch = (event) => {
-        if (!event.target) {
-            return;
-        }
-
-        const { value } = event.target;
-        searchKey.current = value;
-
-        const searchedUsers = rows.filter((row) => {
-            if (row.name === undefined) {
-                return undefined;
-            }
-
-            const found = row.name.toLowerCase().includes(value.toLowerCase());
-
-            if (found) {
-                return row;
-            }
-
-            return undefined;
-        });
-
-        setUsers(searchedUsers);
-    };
-
-    const handleDelete = (id) => {
-        mutate(id);
-    };
+    /*
+     *  Handle change page size
+     */
+    const [pageSize, setPageSize] = useState(4);
 
     const actionColumn = [
         {
@@ -102,11 +128,14 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
                         className="data-grid"
                         rows={users.length > 0 ? users : rows}
                         columns={columns.concat(actionColumn)}
-                        pageSize={6}
-                        rowsPerPageOptions={[6, 15, 25]}
+                        pageSize={pageSize}
+                        rowsPerPageOptions={[4, 6, 8]}
+                        onPageSizeChange={(pageSize) => {
+                            setPageSize(pageSize);
+                        }}
                         getRowId={(row) => row._id}
                         autoHeight
-                        loading={loading}
+                        loading={isLoading}
                         headerHeight={45}
                         rowHeight={40}
                     />

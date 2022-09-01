@@ -1,12 +1,7 @@
-import { useQuery } from "react-query";
-
 // Components
 import Datatable from "../components/Datatable";
 
-// Api
-import { userApi } from "@/api";
-
-// Moment
+// Format date
 import moment from "moment";
 
 const columns = [
@@ -49,12 +44,7 @@ const columns = [
 ];
 
 const UserManagementPage = () => {
-    const { data, isLoading } = useQuery("users", userApi.getUsers, { refetchOnWindowFocus: false });
-    const users = data?.data || [];
-
-    return (
-        <Datatable title={"users"} columns={columns} rows={users} loading={isLoading} deleteRow={userApi.deleteUser} />
-    );
+    return <Datatable rootPage="users" columns={columns} />;
 };
 
 export default UserManagementPage;
