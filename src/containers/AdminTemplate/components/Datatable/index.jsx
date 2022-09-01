@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 // Material UI
 import { DataGrid } from "@mui/x-data-grid";
@@ -10,20 +10,67 @@ import { Delete, Edit, Search } from "@mui/icons-material";
 // Style
 import "./style.scss";
 
-const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
-    const [open, setOpen] = useState(false);
-    const [users, setUsers] = useState([]);
+const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
+    /*
+     *  Fetch users
+     */
+    const { data, isLoading } = useQuery(rootPage, getRequest, {
+        refetchOnWindowFocus: false,
+    });
+    let rows = data?.data || [];
+
+    /*
+     *  Handle search users
+     */
+    const [searchedUsers, setSearchedUsers] = useState(null);
     const searchKey = useRef("");
+    const handleSearch = (event) => {
+        // If search input is empty
+        //   return all users
+        const { value } = event.target;
+        searchKey.current = value;
+        if (!value) {
+            setSearchedUsers(rows);
+            return;
+        }
+
+        const searchedUsers = rows.filter((row) => {
+            if (typeof row.name !== "string") {
+                return false;
+            }
+
+            const found = row.name.toLowerCase().includes(value.toLowerCase());
+
+            return found;
+        });
+
+        setSearchedUsers(searchedUsers);
+    };
+
+    /*
+     *  Handle delete user
+     */
     const queryClient = useQueryClient();
-    const { mutate, isError } = useMutation(deleteRow, {
-        mutationKey: "users/delete",
+    const { mutate, isError } = useMutation(deleteRequest, {
+        mutationKey: `${rootPage}/delete`,
         onSuccess: () => {
             setOpen(true);
-            handleSearch({ target: { value: searchKey.current } });
-            queryClient.invalidateQueries(title);
+            (async () => {
+                await queryClient.invalidateQueries(rootPage);
+                rows = queryClient.getQueryData(rootPage).data;
+                handleSearch({ target: { value: searchKey.current } });
+            })();
         },
     });
 
+    const handleDelete = (id) => {
+        mutate(id);
+    };
+
+    /*
+     *  Handle open/close notification popup
+     */
+    const [open, setOpen] = useState(false);
     const handleClose = (_, reason) => {
         if (reason === "clickaway") {
             return;
@@ -32,33 +79,12 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
         setOpen(false);
     };
 
-    const handleSearch = (event) => {
-        if (!event.target) {
-            return;
-        }
-
-        const { value } = event.target;
-        searchKey.current = value;
-
-        const searchedUsers = rows.filter((row) => {
-            if (row.name === undefined) {
-                return undefined;
-            }
-
-            const found = row.name.toLowerCase().includes(value.toLowerCase());
-
-            if (found) {
-                return row;
-            }
-
-            return undefined;
-        });
-
-        setUsers(searchedUsers);
-    };
-
-    const handleDelete = (id) => {
-        mutate(id);
+    /*
+     *  Handle change page size
+     */
+    const [pageSize, setPageSize] = useState(4);
+    const handleChangePageSize = (pageSize) => {
+        setPageSize(pageSize);
     };
 
     const actionColumn = [
@@ -69,7 +95,7 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
             renderCell: (params) => (
                 <div className="cell-actions">
                     <Tooltip title="Edit" placement="top" arrow>
-                        <Link to="/users/test" style={{ textDecoration: "none" }}>
+                        <Link to={`/${rootPage}/edit`} style={{ textDecoration: "none" }}>
                             <IconButton className="cell-action btn-edit">
                                 <Edit />
                             </IconButton>
@@ -100,13 +126,14 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
                     </div>
                     <DataGrid
                         className="data-grid"
-                        rows={users.length > 0 ? users : rows}
+                        rows={searchedUsers || rows}
                         columns={columns.concat(actionColumn)}
-                        pageSize={6}
-                        rowsPerPageOptions={[6, 15, 25]}
+                        pageSize={pageSize}
+                        rowsPerPageOptions={[4, 6, 8]}
+                        onPageSizeChange={handleChangePageSize}
                         getRowId={(row) => row._id}
                         autoHeight
-                        loading={loading}
+                        loading={isLoading}
                         headerHeight={45}
                         rowHeight={40}
                     />
@@ -114,7 +141,7 @@ const Datatable = ({ title, columns, rows, loading, deleteRow }) => {
             </div>
             <Snackbar
                 open={open}
-                autoHideDuration={2000}
+                autoHideDuration={1500}
                 onClose={handleClose}
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             >
