@@ -7,17 +7,14 @@ import { DataGrid } from "@mui/x-data-grid";
 import { IconButton, Tooltip, Snackbar, Alert } from "@mui/material";
 import { Delete, Edit, Search } from "@mui/icons-material";
 
-// Api
-import { userApi } from "@/api";
-
 // Style
 import "./style.scss";
 
-const Datatable = ({ rootPage, columns }) => {
+const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
     /*
      *  Fetch users
      */
-    const { data, isLoading } = useQuery("users", userApi.getUsers, {
+    const { data, isLoading } = useQuery(rootPage, getRequest, {
         refetchOnWindowFocus: false,
     });
     let rows = data?.data || [];
@@ -25,7 +22,7 @@ const Datatable = ({ rootPage, columns }) => {
     /*
      *  Handle search users
      */
-    const [users, setUsers] = useState([]);
+    const [searchedUsers, setSearchedUsers] = useState(null);
     const searchKey = useRef("");
     const handleSearch = (event) => {
         // If search input is empty
@@ -33,7 +30,7 @@ const Datatable = ({ rootPage, columns }) => {
         const { value } = event.target;
         searchKey.current = value;
         if (!value) {
-            setUsers(rows);
+            setSearchedUsers(rows);
             return;
         }
 
@@ -44,17 +41,21 @@ const Datatable = ({ rootPage, columns }) => {
 
             const found = row.name.toLowerCase().includes(value.toLowerCase());
 
+            console.log(found);
+
             return found;
         });
 
-        setUsers(searchedUsers);
+        console.log(searchedUsers);
+
+        setSearchedUsers(searchedUsers);
     };
 
     /*
      *  Handle delete user
      */
     const queryClient = useQueryClient();
-    const { mutate, isError } = useMutation(userApi.deleteUser, {
+    const { mutate, isError } = useMutation(deleteRequest, {
         mutationKey: `${rootPage}/delete`,
         onSuccess: () => {
             setOpen(true);
@@ -86,6 +87,9 @@ const Datatable = ({ rootPage, columns }) => {
      *  Handle change page size
      */
     const [pageSize, setPageSize] = useState(4);
+    const handleChangePageSize = (pageSize) => {
+        setPageSize(pageSize);
+    };
 
     const actionColumn = [
         {
@@ -126,13 +130,11 @@ const Datatable = ({ rootPage, columns }) => {
                     </div>
                     <DataGrid
                         className="data-grid"
-                        rows={users.length > 0 ? users : rows}
+                        rows={searchedUsers || rows}
                         columns={columns.concat(actionColumn)}
                         pageSize={pageSize}
                         rowsPerPageOptions={[4, 6, 8]}
-                        onPageSizeChange={(pageSize) => {
-                            setPageSize(pageSize);
-                        }}
+                        onPageSizeChange={handleChangePageSize}
                         getRowId={(row) => row._id}
                         autoHeight
                         loading={isLoading}
@@ -143,7 +145,7 @@ const Datatable = ({ rootPage, columns }) => {
             </div>
             <Snackbar
                 open={open}
-                autoHideDuration={2000}
+                autoHideDuration={1500}
                 onClose={handleClose}
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             >

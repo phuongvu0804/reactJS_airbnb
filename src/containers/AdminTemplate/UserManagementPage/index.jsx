@@ -4,6 +4,9 @@ import Datatable from "../components/Datatable";
 // Format date
 import moment from "moment";
 
+// Api
+import { userApi } from "@/api";
+
 const columns = [
     {
         field: "name",
@@ -44,7 +47,14 @@ const columns = [
 ];
 
 const UserManagementPage = () => {
-    return <Datatable rootPage="users" columns={columns} />;
+    return (
+        <Datatable
+            rootPage="users"
+            columns={columns}
+            getRequest={userApi.getUsers}
+            deleteRequest={userApi.deleteUser}
+        />
+    );
 };
 
 export default UserManagementPage;
