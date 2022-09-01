@@ -41,12 +41,8 @@ const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
 
             const found = row.name.toLowerCase().includes(value.toLowerCase());
 
-            console.log(found);
-
             return found;
         });
-
-        console.log(searchedUsers);
 
         setSearchedUsers(searchedUsers);
     };
@@ -99,7 +95,7 @@ const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
             renderCell: (params) => (
                 <div className="cell-actions">
                     <Tooltip title="Edit" placement="top" arrow>
-                        <Link to="/users/test" style={{ textDecoration: "none" }}>
+                        <Link to={`/${rootPage}/edit`} style={{ textDecoration: "none" }}>
                             <IconButton className="cell-action btn-edit">
                                 <Edit />
                             </IconButton>
