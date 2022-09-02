@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 // Material UI
 import { DataGrid } from "@mui/x-data-grid";
 import { IconButton, Tooltip, Snackbar, Alert } from "@mui/material";
-import { Delete, Edit, Search } from "@mui/icons-material";
+import { Delete, Edit, Search, Clear } from "@mui/icons-material";
 
 // Style
 import "./style.scss";
@@ -23,6 +23,7 @@ const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
      *  Handle search users
      */
     const [searchedUsers, setSearchedUsers] = useState(null);
+    const [clearSearch, setClearSearch] = useState(false);
     const searchKey = useRef("");
     const handleSearch = (event) => {
         // If search input is empty
@@ -31,8 +32,11 @@ const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
         searchKey.current = value;
         if (!value) {
             setSearchedUsers(rows);
+            setClearSearch(false);
             return;
         }
+
+        setClearSearch(true);
 
         const searchedUsers = rows.filter((row) => {
             if (typeof row.name !== "string") {
@@ -45,6 +49,12 @@ const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
         });
 
         setSearchedUsers(searchedUsers);
+    };
+
+    const handleClearSearch = () => {
+        searchKey.current = "";
+        handleSearch({ target: { value: searchKey.current } });
+        setClearSearch(false);
     };
 
     /*
@@ -117,8 +127,17 @@ const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
                 <div className="datatable">
                     <div className="top">
                         <div className="search">
-                            <input type="text" placeholder="Enter name ..." onChange={handleSearch} />
-                            <Search />
+                            <input
+                                value={searchKey.current}
+                                type="text"
+                                placeholder="Enter name ..."
+                                onChange={handleSearch}
+                            />
+                            {clearSearch ? (
+                                <Clear onClick={handleClearSearch} sx={{ cursor: "pointer" }} />
+                            ) : (
+                                <Search />
+                            )}
                         </div>
                         <Link to="new" className="link">
                             <strong>+</strong> Add New
