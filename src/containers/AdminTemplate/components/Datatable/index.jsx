@@ -10,7 +10,7 @@ import { Delete, Edit, Search, Clear } from "@mui/icons-material";
 // Style
 import "./style.scss";
 
-const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
+const Datatable = ({ rootPage, columns, getRequest, deleteRequest, ...tableControls }) => {
     /*
      *  Fetch users
      */
@@ -92,7 +92,7 @@ const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
     /*
      *  Handle change page size
      */
-    const [pageSize, setPageSize] = useState(4);
+    const [pageSize, setPageSize] = useState(tableControls.rowsPerPageOptions[0]);
     const handleChangePageSize = (pageSize) => {
         setPageSize(pageSize);
     };
@@ -144,17 +144,16 @@ const Datatable = ({ rootPage, columns, getRequest, deleteRequest }) => {
                         </Link>
                     </div>
                     <DataGrid
-                        className="data-grid"
+                        className={`data-grid data-grid-${rootPage}`}
                         rows={searchedUsers || rows}
                         columns={columns.concat(actionColumn)}
                         pageSize={pageSize}
-                        rowsPerPageOptions={[4, 6, 8]}
                         onPageSizeChange={handleChangePageSize}
                         getRowId={(row) => row._id}
                         autoHeight
                         loading={isLoading}
                         headerHeight={45}
-                        rowHeight={40}
+                        {...tableControls}
                     />
                 </div>
             </div>
