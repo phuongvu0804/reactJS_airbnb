@@ -6,7 +6,9 @@ const AdminTemplate = lazy(() => import("@/containers/AdminTemplate"));
 
 // Pages
 const UserManagementPage = lazy(() => import("@/containers/AdminTemplate/UserManagementPage"));
-const New = lazy(() => import("@/containers/AdminTemplate/UserManagementPage/New"));
+const NewUser = lazy(() => import("@/containers/AdminTemplate/UserManagementPage/New"));
+
+const LocationManagementPage = lazy(() => import("@/containers/AdminTemplate/LocationManagementPage"));
 
 const AdminRoutes = {
     path: "admin",
@@ -14,8 +16,12 @@ const AdminRoutes = {
     children: [
         { path: "", element: <Navigate to="dashboard" /> },
         { path: "dashboard", element: <div>Dashboard</div> },
+        // User management pages
         { path: "users", element: <UserManagementPage /> },
-        { path: "users/new", element: <New /> },
+        { path: "users/new", element: <NewUser /> },
+        // Location management pages
+        { path: "locations", element: <LocationManagementPage /> },
+        { path: "locations/new", element: <div></div> },
     ],
 };
 

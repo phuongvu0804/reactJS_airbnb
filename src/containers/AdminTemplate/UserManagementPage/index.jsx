@@ -53,6 +53,8 @@ const UserManagementPage = () => {
             columns={columns}
             getRequest={userApi.getUsers}
             deleteRequest={userApi.deleteUser}
+            rowsPerPageOptions={[4, 6, 8]}
+            rowHeight={40}
         />
     );
 };
