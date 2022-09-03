@@ -1,0 +1,13 @@
+.admin-form-radio-group {
+    &.MuiFormGroup-root {
+        flex-direction: row;
+    }
+
+    .MuiTypography-root {
+        font-size: 13px;
+    }
+
+    .MuiButtonBase-root {
+        padding: 5px 9px;
+    }
+}
