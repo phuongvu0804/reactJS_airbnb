@@ -99,15 +99,17 @@ function RoomDetailsPage() {
                         <div className="room-details__desc">
                             <p>{roomDetails?.description.slice(0, visible)}</p>
 
-                            <LoadMoreBtn
-                                className="desc__show-btn"
-                                variant="text"
-                                leftIcon={<ArrowForwardIos />}
-                                setVisible={setVisible}
-                                loadNumber={105}
-                            >
-                                Show more
-                            </LoadMoreBtn>
+                            {visible < roomDetails && (
+                                <LoadMoreBtn
+                                    className="desc__show-btn"
+                                    variant="text"
+                                    leftIcon={<ArrowForwardIos />}
+                                    setVisible={setVisible}
+                                    loadNumber={105}
+                                >
+                                    Show more
+                                </LoadMoreBtn>
+                            )}
                         </div>
                         <Divider />
 

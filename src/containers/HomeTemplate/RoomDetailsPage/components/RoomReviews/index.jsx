@@ -35,9 +35,16 @@ function RoomReviews({ data }) {
                 ))}
             </Grid>
 
-            <LoadMoreBtn className="room-review__show-btn" variant="outlined" setVisible={setVisible} loadNumber={6}>
-                Show all reviews
-            </LoadMoreBtn>
+            {visible < data.roomReviews && (
+                <LoadMoreBtn
+                    className="room-review__show-btn"
+                    variant="outlined"
+                    setVisible={setVisible}
+                    loadNumber={6}
+                >
+                    Show all reviews
+                </LoadMoreBtn>
+            )}
         </Container>
     ) : (
         data.errorRoomDetails

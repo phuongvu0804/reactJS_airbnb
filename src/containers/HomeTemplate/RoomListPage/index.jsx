@@ -134,15 +134,17 @@ function RoomListPage() {
                             ))}
                         </Grid>
                         <Box sx={{ width: "100%", display: "flex" }}>
-                            <LoadMoreBtn
-                                className="room-list_load-button"
-                                variant="outlined"
-                                sx={{ mt: "30px", mx: "auto" }}
-                                setVisible={setVisible}
-                                loadNumber={8}
-                            >
-                                Load More
-                            </LoadMoreBtn>
+                            {visible < roomList && (
+                                <LoadMoreBtn
+                                    className="room-list_load-button"
+                                    variant="outlined"
+                                    sx={{ mt: "30px", mx: "auto" }}
+                                    setVisible={setVisible}
+                                    loadNumber={8}
+                                >
+                                    Load More
+                                </LoadMoreBtn>
+                            )}
                         </Box>
                     </Container>
                 </>
