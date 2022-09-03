@@ -1,28 +1,31 @@
+import { useCallback, useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+//Material UI
+import WaveSkeleton from "@/components/WaveSkeleton";
+import { Close } from "@mui/icons-material";
+import { Alert, Collapse, Grid, IconButton } from "@mui/material";
+
+//Components
+import ShoppingItem from "./components/ShoppingItem";
+
+//Others
 import { ticketApi } from "@/api";
 import { callApi } from "@/api/config/request";
-import Image from "@/components/Image";
-import WaveSkeleton from "@/components/WaveSkeleton";
-import { Close, Delete, Edit } from "@mui/icons-material";
-import { Alert, AlertTitle, Box, Button, Collapse, Fade, Grid, IconButton, Typography } from "@mui/material";
-import moment from "moment";
-import React, { useEffect } from "react";
-import { useCallback } from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import "./style.scss";
 function ShoppingCart({ data }) {
     const dispatch = useDispatch();
     const [shoppingList, setShoppingList] = useState(null);
-    const [serverError, setServerError] = useState([]);
+    const [toastMsg, setToastMsg] = useState([]);
     const [openMsg, setOpenMsg] = useState(true);
 
     const handleDeleteToastMsg = useCallback(
         (errorKey) => {
-            const deletedArray = serverError.filter((item, index) => index !== errorKey);
-            setServerError(deletedArray);
+            const deletedArray = toastMsg.filter((item, index) => index !== errorKey);
+            setToastMsg(deletedArray);
         },
-        [serverError],
+        [toastMsg],
     );
 
     useEffect(() => {
@@ -34,44 +37,57 @@ function ShoppingCart({ data }) {
         }
 
         const intervalId = setInterval(() => {
-            if (serverError.length > 0) {
-                handleDeleteToastMsg(serverError.length - 1);
+            if (toastMsg.length > 0) {
+                handleDeleteToastMsg(toastMsg.length - 1);
             }
         }, 3000);
 
         return () => {
             clearInterval(intervalId);
         };
-    }, [serverError]);
+    }, [toastMsg]);
 
     const handleDeleteBooking = () => {
         callApi(
             dispatch(ticketApi.deleteTicket),
             (response) => {
                 console.log(response);
+                setToastMsg([
+                    ...toastMsg,
+                    {
+                        type: "success",
+                        content: response,
+                    },
+                ]);
             },
             (error) => {
-                setServerError([...serverError, error]);
+                setToastMsg([
+                    ...toastMsg,
+                    {
+                        type: "error",
+                        content: error,
+                    },
+                ]);
                 setOpenMsg(true);
             },
         );
     };
 
     const renderToastMsg = () => {
-        if (serverError.length > 0) {
-            return serverError.map((item, index) => {
+        if (toastMsg.length > 0) {
+            return toastMsg.map((item, index) => {
                 const errorKey = index;
                 return (
                     <Collapse className="toast-msg" key={errorKey} in={openMsg} sx={{ mb: "6px" }}>
                         <Alert
-                            severity="error"
+                            severity={item.type}
                             action={
                                 <IconButton size="small" color="inherit" onClick={() => handleDeleteToastMsg(errorKey)}>
                                     <Close />
                                 </IconButton>
                             }
                         >
-                            {item}
+                            {item.content}
                         </Alert>
                     </Collapse>
                 );
@@ -79,39 +95,12 @@ function ShoppingCart({ data }) {
         }
     };
 
-    const ShoppingList = ({ data }) => {
-        if (data) {
+    const renderShoppingList = () => {
+        if (shoppingList) {
             return (
                 <Grid container>
-                    {data?.map((item, index) => (
-                        <Grid md={6} item key={index} sx={{ mb: "20px" }} className="shop-cart__item">
-                            <div>
-                                <Image src={item.data.roomId.image} />
-                                <Box>
-                                    <div className="shop-cart-item__content">
-                                        <h4>{item.data.roomId.name}</h4>
-                                        <span>Number of guests: {item.data.roomId.guests}</span>
-
-                                        <p>Check in: {moment(item.checkIn).format("DD.MM.YYYY")}</p>
-                                        <p>Check out: {moment(item.checkOut).format("DD.MM.YYYY")}</p>
-                                    </div>
-                                </Box>
-                            </div>
-                            <Box sx={{ ml: "4px" }}>
-                                <IconButton
-                                    variant="contained"
-                                    size="small"
-                                    color="error"
-                                    sx={{ mr: "4px" }}
-                                    onClick={handleDeleteBooking}
-                                >
-                                    <Delete />
-                                </IconButton>
-                                <IconButton variant="contained" size="small" color="info">
-                                    <Edit />
-                                </IconButton>
-                            </Box>
-                        </Grid>
+                    {shoppingList?.map((item, index) => (
+                        <ShoppingItem data={item} key={index} onDelete={handleDeleteBooking} />
                     ))}
                 </Grid>
             );
@@ -124,7 +113,7 @@ function ShoppingCart({ data }) {
         <ul className="shop-cart-list">
             <h4 className="profile__sub-title">Shopping cart</h4>
             {renderToastMsg()}
-            <ShoppingList data={shoppingList} />
+            {renderShoppingList()}
         </ul>
     );
 }
