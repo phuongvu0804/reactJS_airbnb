@@ -22,7 +22,7 @@ const TextInput = ({ name, label, control, ...others }) => {
                 error={!!error}
                 helperText={error && error.message}
                 hiddenLabel
-                fullWidth
+                fullWidth={others.type !== "date"}
                 variant="standard"
             />
         </>
