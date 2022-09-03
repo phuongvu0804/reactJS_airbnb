@@ -6,6 +6,7 @@ import { Close, Delete, Edit } from "@mui/icons-material";
 import { Alert, AlertTitle, Box, Button, Collapse, Fade, Grid, IconButton, Typography } from "@mui/material";
 import moment from "moment";
 import React, { useEffect } from "react";
+import { useCallback } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -16,6 +17,14 @@ function ShoppingCart({ data }) {
     const [serverError, setServerError] = useState([]);
     const [openMsg, setOpenMsg] = useState(true);
 
+    const handleDeleteToastMsg = useCallback(
+        (errorKey) => {
+            const deletedArray = serverError.filter((item, index) => index !== errorKey);
+            setServerError(deletedArray);
+        },
+        [serverError],
+    );
+
     useEffect(() => {
         if (data) {
             const booking = data.tickets;
@@ -24,20 +33,18 @@ function ShoppingCart({ data }) {
                 .catch((error) => console.log(error));
         }
 
-        const timeId = setTimeout(() => {
-            const renewedErrors = serverError.splice(serverError.length - 1, 1);
-            setServerError(renewedErrors);
-        }, 2000);
+        const intervalId = setInterval(() => {
+            if (serverError.length > 0) {
+                handleDeleteToastMsg(serverError.length - 1);
+            }
+        }, 3000);
 
         return () => {
-            return () => {
-                clearTimeout(timeId);
-            };
+            clearInterval(intervalId);
         };
-    }, []);
+    }, [serverError]);
 
-    console.log("render", serverError);
-    const handleDelete = () => {
+    const handleDeleteBooking = () => {
         callApi(
             dispatch(ticketApi.deleteTicket),
             (response) => {
@@ -50,31 +57,25 @@ function ShoppingCart({ data }) {
         );
     };
 
-    const renderMsg = () => {
+    const renderToastMsg = () => {
         if (serverError.length > 0) {
-            return serverError.map((item, index) => (
-                <Collapse key={index} in={openMsg} sx={{ mb: "6px" }}>
-                    <Alert
-                        severity="error"
-                        action={
-                            <IconButton
-                                size="small"
-                                color="inherit"
-                                onClick={(e) => {
-                                    const newServerErrors = serverError.filter(
-                                        (item, errorIndex) => errorIndex !== index,
-                                    );
-                                    setServerError(newServerErrors);
-                                }}
-                            >
-                                <Close />
-                            </IconButton>
-                        }
-                    >
-                        {item}
-                    </Alert>
-                </Collapse>
-            ));
+            return serverError.map((item, index) => {
+                const errorKey = index;
+                return (
+                    <Collapse className="toast-msg" key={errorKey} in={openMsg} sx={{ mb: "6px" }}>
+                        <Alert
+                            severity="error"
+                            action={
+                                <IconButton size="small" color="inherit" onClick={() => handleDeleteToastMsg(errorKey)}>
+                                    <Close />
+                                </IconButton>
+                            }
+                        >
+                            {item}
+                        </Alert>
+                    </Collapse>
+                );
+            });
         }
     };
 
@@ -102,7 +103,7 @@ function ShoppingCart({ data }) {
                                     size="small"
                                     color="error"
                                     sx={{ mr: "4px" }}
-                                    onClick={handleDelete}
+                                    onClick={handleDeleteBooking}
                                 >
                                     <Delete />
                                 </IconButton>
@@ -118,25 +119,11 @@ function ShoppingCart({ data }) {
             return <p>Your shopping cart is empty</p>;
         }
     };
+
     return (
         <ul className="shop-cart-list">
             <h4 className="profile__sub-title">Shopping cart</h4>
-            {console.log(serverError)}
-            {/* {serverError && (
-                <Collapse in={openMsg}>
-                    <Alert
-                        severity="error"
-                        action={
-                            <IconButton size="small" color="inherit" onClick={() => setOpenMsg(false)}>
-                                <Close />
-                            </IconButton>
-                        }
-                    >
-                        {serverError}
-                    </Alert>
-                </Collapse>
-            )} */}
-            {renderMsg()}
+            {renderToastMsg()}
             <ShoppingList data={shoppingList} />
         </ul>
     );

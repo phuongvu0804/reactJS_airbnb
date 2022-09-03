@@ -43,6 +43,19 @@ body {
     line-height: 3em;
 }
 
+.toast-msg {
+    animation: fadeOut linear 1s 3s forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
 @media (max-width: 740px) {
     .page__main-title {
         font-size: 20px;
