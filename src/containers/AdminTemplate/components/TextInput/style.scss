@@ -1,0 +1,19 @@
+.admin {
+    &-input-label {
+        color: var(--black) !important;
+        font: {
+            size: 13px;
+            weight: 500;
+        }
+    }
+
+    &-input-text {
+        input {
+            font-size: 13px;
+        }
+
+        > .MuiInputBase-root::after {
+            border-color: var(--primary);
+        }
+    }
+}
