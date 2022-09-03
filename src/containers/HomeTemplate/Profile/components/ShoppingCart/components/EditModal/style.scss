@@ -1,0 +1,24 @@
+.edit-modal__close-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.edit-modal__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.edit-modal__input-group {
+    margin: 10px 0;
+}
+
+.edit-modal__submit-btn {
+    background-color: var(--primary);
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--primary-hover);
+    }
+}

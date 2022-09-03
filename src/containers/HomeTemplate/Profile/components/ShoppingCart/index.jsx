@@ -1,20 +1,32 @@
+import { useCallback, useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+//Material UI
+import WaveSkeleton from "@/components/WaveSkeleton";
+import { Close } from "@mui/icons-material";
+import { Alert, Collapse, Grid, IconButton } from "@mui/material";
+
+//Components
+import ShoppingItem from "./components/ShoppingItem";
+
+//Others
 import { ticketApi } from "@/api";
 import { callApi } from "@/api/config/request";
-import Image from "@/components/Image";
-import WaveSkeleton from "@/components/WaveSkeleton";
-import { Close, Delete, Edit } from "@mui/icons-material";
-import { Alert, AlertTitle, Box, Button, Collapse, Fade, Grid, IconButton, Typography } from "@mui/material";
-import moment from "moment";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import "./style.scss";
 function ShoppingCart({ data }) {
     const dispatch = useDispatch();
     const [shoppingList, setShoppingList] = useState(null);
-    const [serverError, setServerError] = useState([]);
+    const [toastMsg, setToastMsg] = useState([]);
     const [openMsg, setOpenMsg] = useState(true);
+
+    const handleDeleteToastMsg = useCallback(
+        (errorKey) => {
+            const deletedArray = toastMsg.filter((item, index) => index !== errorKey);
+            setToastMsg(deletedArray);
+        },
+        [toastMsg],
+    );
 
     useEffect(() => {
         if (data) {
@@ -24,93 +36,71 @@ function ShoppingCart({ data }) {
                 .catch((error) => console.log(error));
         }
 
-        const timeId = setTimeout(() => {
-            const renewedErrors = serverError.splice(serverError.length - 1, 1);
-            setServerError(renewedErrors);
-        }, 2000);
+        const intervalId = setInterval(() => {
+            if (toastMsg.length > 0) {
+                handleDeleteToastMsg(toastMsg.length - 1);
+            }
+        }, 3000);
 
         return () => {
-            return () => {
-                clearTimeout(timeId);
-            };
+            clearInterval(intervalId);
         };
-    }, []);
+    }, [toastMsg]);
 
-    console.log("render", serverError);
-    const handleDelete = () => {
+    const handleDeleteBooking = () => {
         callApi(
             dispatch(ticketApi.deleteTicket),
             (response) => {
                 console.log(response);
+                setToastMsg([
+                    ...toastMsg,
+                    {
+                        type: "success",
+                        content: response,
+                    },
+                ]);
             },
             (error) => {
-                setServerError([...serverError, error]);
+                setToastMsg([
+                    ...toastMsg,
+                    {
+                        type: "error",
+                        content: error,
+                    },
+                ]);
                 setOpenMsg(true);
             },
         );
     };
 
-    const renderMsg = () => {
-        if (serverError.length > 0) {
-            return serverError.map((item, index) => (
-                <Collapse key={index} in={openMsg} sx={{ mb: "6px" }}>
-                    <Alert
-                        severity="error"
-                        action={
-                            <IconButton
-                                size="small"
-                                color="inherit"
-                                onClick={(e) => {
-                                    const newServerErrors = serverError.filter(
-                                        (item, errorIndex) => errorIndex !== index,
-                                    );
-                                    setServerError(newServerErrors);
-                                }}
-                            >
-                                <Close />
-                            </IconButton>
-                        }
-                    >
-                        {item}
-                    </Alert>
-                </Collapse>
-            ));
+    const renderToastMsg = () => {
+        if (toastMsg.length > 0) {
+            return toastMsg.map((item, index) => {
+                const errorKey = index;
+                return (
+                    <Collapse className="toast-msg" key={errorKey} in={openMsg} sx={{ mb: "6px" }}>
+                        <Alert
+                            severity={item.type}
+                            action={
+                                <IconButton size="small" color="inherit" onClick={() => handleDeleteToastMsg(errorKey)}>
+                                    <Close />
+                                </IconButton>
+                            }
+                        >
+                            {item.content}
+                        </Alert>
+                    </Collapse>
+                );
+            });
         }
     };
 
-    const ShoppingList = ({ data }) => {
-        if (data) {
+    const renderShoppingList = () => {
+        if (shoppingList) {
             return (
                 <Grid container>
-                    {data?.map((item, index) => (
-                        <Grid md={6} item key={index} sx={{ mb: "20px" }} className="shop-cart__item">
-                            <div>
-                                <Image src={item.data.roomId.image} />
-                                <Box>
-                                    <div className="shop-cart-item__content">
-                                        <h4>{item.data.roomId.name}</h4>
-                                        <span>Number of guests: {item.data.roomId.guests}</span>
-
-                                        <p>Check in: {moment(item.checkIn).format("DD.MM.YYYY")}</p>
-                                        <p>Check out: {moment(item.checkOut).format("DD.MM.YYYY")}</p>
-                                    </div>
-                                </Box>
-                            </div>
-                            <Box sx={{ ml: "4px" }}>
-                                <IconButton
-                                    variant="contained"
-                                    size="small"
-                                    color="error"
-                                    sx={{ mr: "4px" }}
-                                    onClick={handleDelete}
-                                >
-                                    <Delete />
-                                </IconButton>
-                                <IconButton variant="contained" size="small" color="info">
-                                    <Edit />
-                                </IconButton>
-                            </Box>
-                        </Grid>
+                    {shoppingList?.map((item, index) => (
+                        <ShoppingItem data={item} key={index} onDelete={handleDeleteBooking} />
                     ))}
                 </Grid>
             );
@@ -118,26 +108,12 @@ function ShoppingCart({ data }) {
             return <p>Your shopping cart is empty</p>;
         }
     };
+
     return (
         <ul className="shop-cart-list">
             <h4 className="profile__sub-title">Shopping cart</h4>
-            {console.log(serverError)}
-            {/* {serverError && (
-                <Collapse in={openMsg}>
-                    <Alert
-                        severity="error"
-                        action={
-                            <IconButton size="small" color="inherit" onClick={() => setOpenMsg(false)}>
-                                <Close />
-                            </IconButton>
-                        }
-                    >
-                        {serverError}
-                    </Alert>
-                </Collapse>
-            )} */}
-            {renderMsg()}
-            <ShoppingList data={shoppingList} />
+            {renderToastMsg()}
+            {renderShoppingList()}
         </ul>
     );
 }

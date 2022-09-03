@@ -14,6 +14,10 @@ const ticketApi = {
         const url = `${resourceName}/${ticketId}`;
         return axiosClient.delete(url);
     },
+    editTicket: (ticketId, data) => {
+        const url = `${resourceName}/${ticketId}`;
+        return axiosClient.put(url, data);
+    },
 };
 
 export default ticketApi;

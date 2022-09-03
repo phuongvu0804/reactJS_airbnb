@@ -17,10 +17,12 @@ import "./style.scss";
 import { actCreateBooking } from "@/store/actions/roomDetails";
 
 function Booking({ data }) {
+    const today = new Date();
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [checkIn, setCheckIn] = useState(new Date("2014-08-18T21:11:54"));
-    const [checkOut, setCheckOut] = useState(new Date("2014-08-18T21:11:54"));
+    const [checkIn, setCheckIn] = useState(today);
+    const [checkOut, setCheckOut] = useState(today);
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [guestNumber, setGuestNumber] = useState({
@@ -97,8 +99,8 @@ function Booking({ data }) {
                             <DesktopDatePicker
                                 className="booking-card__check-in"
                                 label="Check in"
-                                inputFormat="MM/dd/yyyy"
                                 value={checkIn}
+                                inputFormat="MM/dd/yyyy"
                                 onChange={handleCheckIn}
                                 renderInput={(params) => <TextField {...params} />}
                             />
@@ -107,8 +109,8 @@ function Booking({ data }) {
                             <DesktopDatePicker
                                 className="booking-card__check-out"
                                 label="Check out"
-                                inputFormat="MM/dd/yyyy"
                                 value={checkOut}
+                                inputFormat="MM/dd/yyyy"
                                 onChange={handleCheckOut}
                                 renderInput={(params) => <TextField {...params} />}
                             />
