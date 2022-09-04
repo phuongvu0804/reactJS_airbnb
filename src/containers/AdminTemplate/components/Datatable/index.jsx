@@ -13,7 +13,7 @@ import "./style.scss";
 
 const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => {
     /*
-     *  Get root page
+     *  Get root page name
      */
     const { pathname } = useLocation();
     const rootPage = pathname.split("/")[2];
