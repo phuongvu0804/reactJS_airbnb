@@ -49,7 +49,6 @@ const columns = [
 const UserManagementPage = () => {
     return (
         <Datatable
-            rootPage="users"
             columns={columns}
             getRequest={userApi.getUsers}
             deleteRequest={userApi.deleteUser}
