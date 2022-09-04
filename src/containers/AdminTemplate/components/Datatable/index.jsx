@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useLocation } from "react-router-dom";
 
 // Material UI
 import { DataGrid } from "@mui/x-data-grid";
@@ -10,7 +11,13 @@ import { Delete, Edit, Search, Clear } from "@mui/icons-material";
 // Style
 import "./style.scss";
 
-const Datatable = ({ rootPage, columns, getRequest, deleteRequest, ...tableControls }) => {
+const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => {
+    /*
+     *  Get root page name
+     */
+    const { pathname } = useLocation();
+    const rootPage = pathname.split("/")[2];
+
     /*
      *  Fetch users
      */
