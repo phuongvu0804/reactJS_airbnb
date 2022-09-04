@@ -16,7 +16,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
      *  Get root page
      */
     const { pathname } = useLocation();
-    const rootPage = pathname.split("/")[1];
+    const rootPage = pathname.split("/")[2];
 
     /*
      *  Fetch users
