@@ -16,6 +16,7 @@ import Amenities from "./components/Amenities";
 import RoomReviews from "./components/RoomReviews";
 import Booking from "./components/Booking";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
+
 //others
 import "./style.scss";
 import { actCreateSave, actGetRoomDetails, actGetRoomReview } from "@/store/actions/roomDetails";
