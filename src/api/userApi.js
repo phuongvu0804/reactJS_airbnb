@@ -25,7 +25,7 @@ const userApi = {
     },
     updateUserPhoto: (id, photo) => {
         const url = `${resourceName}/upload-avatar/${id}`;
-        return axiosClient.delete(url, photo);
+        return axiosClient.post(url, photo);
     },
 };
 
