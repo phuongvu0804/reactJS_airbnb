@@ -3,13 +3,16 @@ import React from "react";
 //Material UI
 import { Button } from "@mui/material";
 
-function LoadMoreBtn({ children, className, leftIcon, rightIcon, setVisible, loadNumber, ...others }) {
+//Others
+import "./style.scss";
+
+function LoadMoreBtn({ children = "Show more", className, leftIcon, rightIcon, setVisible, loadNumber, ...others }) {
     const handleLoadMore = () => {
         setVisible((prev) => prev + loadNumber);
     };
 
     return (
-        <Button className={className} {...others} onClick={handleLoadMore}>
+        <Button className={`show-btn ${className}`} {...others} onClick={handleLoadMore}>
             {rightIcon && rightIcon}
             {children}
             {leftIcon && leftIcon}

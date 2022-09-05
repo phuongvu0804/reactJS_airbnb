@@ -14,7 +14,7 @@ import { roomCategories } from "./constants";
 function RoomList() {
     const renderRoomList = () => {
         return roomCategories.map((item, index) => (
-            <Grid item xs={4} key={index} component={Link} to="/" className="room-card">
+            <Grid item xs={4} key={index} component={Link} to={`/room-list/${item.id}`} className="room-card">
                 <div className="room-card__img">
                     <Image src={item.image} alt={`Illustrations about ${item.alt}`} />
                 </div>

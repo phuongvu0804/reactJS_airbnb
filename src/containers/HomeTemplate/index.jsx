@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Box } from "@mui/material";
+import TabBar from "./components/TabBar";
 
 function HomeTemplate() {
     const style = {
@@ -20,6 +21,7 @@ function HomeTemplate() {
                 <Outlet />
             </div>
             <Footer />
+            <TabBar />
         </Box>
     );
 }

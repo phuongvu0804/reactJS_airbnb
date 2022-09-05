@@ -87,7 +87,7 @@ function Booking({ data }) {
     return (
         <>
             {/* Booking for PC + tablet */}
-            <Box className="room-details__booking" sx={{ display: { xs: "none", sm: "block" } }}>
+            <Box className="room-details__booking">
                 <div className="room-details__booking-card">
                     <div className="booking-card__price">
                         <span className="booking-card__price-currency">VND</span>

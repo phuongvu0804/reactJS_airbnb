@@ -110,7 +110,6 @@ function RoomFilterModal({ onOpen, onClose }) {
         initialValues: initialValues,
         validationSchema: filterSchema,
         onSubmit: (values) => {
-            console.log(values);
             handleGetRoomFiltered(values);
         },
     });
