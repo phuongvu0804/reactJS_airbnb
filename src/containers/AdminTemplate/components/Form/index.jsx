@@ -58,13 +58,13 @@ const Form = ({ functionality = "add", inputs, validator, getRequest, postReques
         setAnchorEl(event.currentTarget);
     };
 
-    const handleUploadPhoto = () => {
+    const handleCloseOptions = () => {
         setAnchorEl(null);
     };
 
     const handleRemovePhoto = () => {
         setValue("photo", null);
-        setAnchorEl(null);
+        handleCloseOptions();
     };
 
     /*
@@ -125,7 +125,7 @@ const Form = ({ functionality = "add", inputs, validator, getRequest, postReques
                                     Upload a photo
                                 </MenuItem>
                                 <input
-                                    {...register("photo", { onChange: handleUploadPhoto })}
+                                    {...register("photo", { onChange: handleCloseOptions })}
                                     id="upload-photo"
                                     type="file"
                                     style={{ display: "none" }}
