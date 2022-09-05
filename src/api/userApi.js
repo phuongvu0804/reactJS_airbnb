@@ -12,6 +12,7 @@ const userApi = {
         return axiosClient.get(url);
     },
     addUser: (user) => {
+        const url = resourceName;
         return axiosClient.post(url, user);
     },
     updateUser: (id, user) => {
