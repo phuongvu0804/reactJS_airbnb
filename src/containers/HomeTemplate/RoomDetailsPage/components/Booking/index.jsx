@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import moment from "moment";
@@ -215,5 +215,4 @@ function Booking({ data }) {
         </>
     );
 }
-
-export default Booking;
+export default memo(Booking);

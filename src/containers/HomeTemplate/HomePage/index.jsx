@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 //Components
 import Carousel from "./components/Carousel";
 import RoomList from "./components/RoomList";

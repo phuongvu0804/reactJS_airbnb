@@ -52,7 +52,6 @@ function EditModal({ onOpen, onClose, data }) {
         callApi(
             ticketApi.editTicket(data.data._id, submitData),
             (response) => {
-                console.log(response);
                 setServerResponse({
                     type: "success",
                     content: response,
@@ -60,7 +59,6 @@ function EditModal({ onOpen, onClose, data }) {
                 onClose();
             },
             (error) => {
-                console.log(error);
                 setServerResponse({
                     type: "error",
                     content: error,
