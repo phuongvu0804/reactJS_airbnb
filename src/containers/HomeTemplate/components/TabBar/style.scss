@@ -1,0 +1,39 @@
+#tab-bar {
+    display: none;
+}
+
+@media (max-width: 739px) {
+    #tab-bar {
+        position: fixed;
+        display: flex;
+        justify-content: center;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px;
+        background-color: var(--white);
+        border-top: 1px solid #ebebeb;
+    }
+
+    #tab-bar .tab-bar__btn {
+        display: flex;
+        flex: 1 0 auto;
+        flex-direction: column;
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--gray);
+        text-transform: unset;
+
+        svg {
+            font-size: 30px;
+        }
+    }
+
+    #tab-bar .tab-bar__btn.active {
+        color: var(--black);
+
+        svg {
+            color: var(--primary);
+        }
+    }
+}
