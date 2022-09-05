@@ -18,7 +18,7 @@ function RoomReviews({ data }) {
             <h4 className="room-review__total-review">17 reviews</h4>
             <Grid container spacing={2} className="room-review__list">
                 {data.roomReviews?.slice(0, visible).map((item, index) => (
-                    <Grid item key={index} md={6} className="room-review__review-card">
+                    <Grid item key={index} xs={12} md={6} className="room-review__review-card">
                         <div className="review-card__top">
                             <Image className="review-card__img" src={item.userId?.avatar} />
                             <div>
@@ -35,9 +35,16 @@ function RoomReviews({ data }) {
                 ))}
             </Grid>
 
-            <LoadMoreBtn className="room-review__show-btn" variant="outlined" setVisible={setVisible} loadNumber={6}>
-                Show all reviews
-            </LoadMoreBtn>
+            {visible < data.roomReviews && (
+                <LoadMoreBtn
+                    className="room-review__show-btn"
+                    variant="outlined"
+                    setVisible={setVisible}
+                    loadNumber={6}
+                >
+                    Show all reviews
+                </LoadMoreBtn>
+            )}
         </Container>
     ) : (
         data.errorRoomDetails
@@ -52,7 +59,7 @@ function Loading() {
                 {Array(6)
                     .fill(0)
                     .map((item, index) => (
-                        <Grid item key={index} md={6} className="room-review__review-card">
+                        <Grid item key={index} xs={12} md={6} className="room-review__review-card">
                             <div className="review-card__top">
                                 <WaveSkeleton variant="circular" sx={{ height: "40px", width: "40px" }} />
 

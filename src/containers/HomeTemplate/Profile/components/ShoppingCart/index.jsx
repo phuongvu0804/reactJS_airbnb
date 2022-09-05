@@ -14,11 +14,13 @@ import { ticketApi } from "@/api";
 import { callApi } from "@/api/config/request";
 
 import "./style.scss";
+import LoadMoreBtn from "@/components/LoadMoreBtn";
 function ShoppingCart({ data }) {
     const dispatch = useDispatch();
     const [shoppingList, setShoppingList] = useState(null);
     const [toastMsg, setToastMsg] = useState([]);
     const [openMsg, setOpenMsg] = useState(true);
+    const [visible, setVisible] = useState(4);
 
     const handleDeleteToastMsg = useCallback(
         (errorKey) => {
@@ -99,7 +101,7 @@ function ShoppingCart({ data }) {
         if (shoppingList) {
             return (
                 <Grid container>
-                    {shoppingList?.map((item, index) => (
+                    {shoppingList?.slice(0, visible).map((item, index) => (
                         <ShoppingItem data={item} key={index} onDelete={handleDeleteBooking} />
                     ))}
                 </Grid>
@@ -114,6 +116,10 @@ function ShoppingCart({ data }) {
             <h4 className="profile__sub-title">Shopping cart</h4>
             {renderToastMsg()}
             {renderShoppingList()}
+            {console.log(visible)}
+            {visible < shoppingList?.length && (
+                <LoadMoreBtn className="__show-btn" variant="outlined" setVisible={setVisible} loadNumber={4} />
+            )}
         </ul>
     );
 }

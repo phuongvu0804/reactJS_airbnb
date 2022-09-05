@@ -24,9 +24,11 @@ function Amenities({ data }) {
                         );
                 })}
             </Grid>
-            <LoadMoreBtn className="amenities__show-btn" variant="outlined" setVisible={setVisible} loadNumber={5}>
-                Show all amenities
-            </LoadMoreBtn>
+            {visible < amenities && (
+                <LoadMoreBtn className="amenities__show-btn" variant="outlined" setVisible={setVisible} loadNumber={5}>
+                    Show all amenities
+                </LoadMoreBtn>
+            )}
         </div>
     );
 }

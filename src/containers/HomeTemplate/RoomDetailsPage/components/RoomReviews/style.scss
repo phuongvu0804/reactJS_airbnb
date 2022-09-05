@@ -1,5 +1,7 @@
 .room-review {
-    padding: 48px 0;
+    --p-y: 48px;
+    padding-top: var(--p-y);
+    padding-bottom: var(--p-y);
 }
 
 .room-review__total-review {
@@ -55,6 +57,13 @@ button.room-review__show-btn {
 //Responsive for tablet
 @media (min-width: 740px) and (max-width: 1023px) {
     div.room-review__review-card {
+        margin-bottom: 10px;
+    }
+}
+
+//Responsive for mobile
+@media (max-width: 740px) {
+    .room-review__review-card {
         margin-bottom: 10px;
     }
 }

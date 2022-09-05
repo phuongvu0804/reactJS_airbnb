@@ -7,11 +7,12 @@ import { Container, Grid } from "@mui/material";
 import "./style.scss";
 import PlaceListMobile from "./components/PlaceListMobile";
 import PlaceListCard from "./components/PlaceListCard";
+import { Link } from "react-router-dom";
 
 function PlaceList({ data }) {
     const renderListCards = () => {
         return data?.map((item, index) => (
-            <Grid key={index} item xs={6} sm={3} className="place-card">
+            <Grid key={index} item xs={6} sm={3}>
                 <PlaceListCard data={item} />
             </Grid>
         ));

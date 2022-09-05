@@ -4,6 +4,7 @@
     flex-direction: column;
     justify-content: flex-start;
 }
+
 .room-details__booking-card {
     margin-top: 48px;
     border: 1px solid rgb(221, 221, 221);
@@ -102,6 +103,10 @@ button.room-details__booking-report {
 
 //Responsive for mobile
 @media (max-width: 739px) {
+    .room-details__booking {
+        display: none;
+    }
+
     div.room-details__booking--mobile {
         --padding: 16px;
         position: fixed;

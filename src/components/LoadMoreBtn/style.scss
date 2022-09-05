@@ -1,0 +1,11 @@
+.show-btn {
+    display: flex;
+    margin: 0 auto;
+    color: var(--gray);
+    border-color: var(--gray);
+
+    &:hover {
+        border-color: var(--gray);
+        background-color: rgb(113, 113, 113, 0.1);
+    }
+}

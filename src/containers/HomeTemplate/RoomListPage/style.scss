@@ -48,6 +48,7 @@ div.room-list__head {
 button.room-list_load-button {
     color: var(--gray);
     border-color: var(--gray);
+    margin: 20px auto 0;
 
     &:hover {
         background-color: var(--light-gray);
