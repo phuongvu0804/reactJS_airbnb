@@ -23,6 +23,10 @@ const userApi = {
         const url = `${resourceName}/${id}`;
         return axiosClient.delete(url);
     },
+    updateUserPhoto: (id, photo) => {
+        const url = `${resourceName}/upload-avatar/${id}`;
+        return axiosClient.post(url, photo);
+    },
 };
 
 export default userApi;
