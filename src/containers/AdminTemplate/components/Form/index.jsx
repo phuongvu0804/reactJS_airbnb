@@ -11,10 +11,12 @@ import { EditOutlined } from "@mui/icons-material";
 // Components
 import FormInputs from "../FormInputs";
 
+import { yupResolver } from "@hookform/resolvers/yup";
+
 // Style
 import "./style.scss";
 
-const Form = ({ functionality = "add", inputs, getRequest, postRequest, putRequest }) => {
+const Form = ({ functionality = "add", inputs, validator, getRequest, postRequest, putRequest }) => {
     /*
      *  Get root page name
      */
@@ -30,8 +32,9 @@ const Form = ({ functionality = "add", inputs, getRequest, postRequest, putReque
     /*
      *  Handle form
      */
-    const { control, handleSubmit } = useForm({
+    const { register, control, handleSubmit, setValue, getValues } = useForm({
         reValidateMode: "onSubmit",
+        resolver: yupResolver(validator),
         defaultValues: {
             name: "",
             email: "",
@@ -41,39 +44,47 @@ const Form = ({ functionality = "add", inputs, getRequest, postRequest, putReque
             gender: true,
             type: "ADMIN",
             address: "",
+            photo: null,
         },
     });
 
     /*
      *  Handle upload / remove photo
      */
-    const [file, setFile] = useState(null);
+    // const [photo, setPhoto] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleUploadPhoto = (event) => {
-        const photo = event.target.files[0];
-        setFile(photo);
+    const handleUploadPhoto = () => {
         setAnchorEl(null);
     };
 
     const handleRemovePhoto = () => {
+        setValue("photo", null);
         setAnchorEl(null);
-        setFile(null);
+    };
+
+    /*
+     *  Handle submit
+     */
+    const handleSubmitData = (value) => {
+        console.log(value);
     };
 
     return (
         <div className="admin-form-container">
             <div className="admin-form-wrapper">
-                <Box className="admin-form" component="form" noValidate onSubmit={handleSubmit(() => {})}>
+                <Box className="admin-form" component="form" noValidate onSubmit={handleSubmit(handleSubmitData)}>
                     <div className="left">
                         <Grid container columns={12} spacing={3} justifyContent="space-evenly">
                             <FormInputs inputs={inputs} control={control} />
                             <Grid item xs={5}>
-                                <LoadingButton className="btn-submit">{functionality}</LoadingButton>
+                                <LoadingButton type="submit" className="btn-submit">
+                                    {functionality}
+                                </LoadingButton>
                             </Grid>
                         </Grid>
                     </div>
@@ -81,8 +92,8 @@ const Form = ({ functionality = "add", inputs, getRequest, postRequest, putReque
                         <div className="img-wrapper">
                             <img
                                 src={
-                                    file
-                                        ? URL.createObjectURL(file)
+                                    getValues("photo")
+                                        ? URL.createObjectURL(getValues("photo")[0])
                                         : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                                 }
                                 alt=""
@@ -114,16 +125,16 @@ const Form = ({ functionality = "add", inputs, getRequest, postRequest, putReque
                                     Upload a photo
                                 </MenuItem>
                                 <input
+                                    {...register("photo", { onChange: handleUploadPhoto })}
                                     id="upload-photo"
                                     type="file"
                                     style={{ display: "none" }}
                                     accept="image/png, image/jpeg"
-                                    onChange={handleUploadPhoto}
                                 />
                                 <MenuItem
                                     className="menu-handle-img__item"
                                     onClick={handleRemovePhoto}
-                                    disabled={!file}
+                                    disabled={!getValues("photo")}
                                 >
                                     Remove photo
                                 </MenuItem>
