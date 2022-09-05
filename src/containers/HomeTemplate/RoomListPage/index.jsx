@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 //Material UI
 import { Box } from "@mui/system";
-import { Button, Container, Grid } from "@mui/material";
+import { Alert, Button, Container, Grid } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 //Components
@@ -14,10 +14,11 @@ import RoomCard from "./components/RoomCard";
 //Others
 import "./style.scss";
 import { actCreateSave } from "@/store/actions/roomDetails";
-import { actGetRoomList } from "@/store/actions/roomList";
+import { actGetRoomList, actGetRoomListRequest, actGetRoomListSuccess } from "@/store/actions/roomList";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
 import { modernCriteria } from "./constants";
-import { useCallback } from "react";
+import { callApi } from "@/api/config/request";
+import { roomApi } from "@/api";
 
 function RoomListPage() {
     const dispatch = useDispatch();
@@ -28,65 +29,85 @@ function RoomListPage() {
     let roomsSaved = useSelector((state) => state.roomDetails.roomSaved);
     const roomListLoading = useSelector((state) => state.roomList.loading);
     const locationLoading = useSelector((state) => state.locationList.loading);
-    const error = useSelector((state) => state.locationList.loading);
+    const error = useSelector((state) => state.locationList.error);
 
     const [open, setOpen] = useState(false);
     const [dataLoading, setDataLoading] = useState(false);
     const [visible, setVisible] = useState(8);
     const [totalRoom, setTotalRoom] = useState(0);
+    const [serverError, setServerError] = useState(null);
 
-    const filterRoomList = useCallback(() => {
+    const handleGetRoomList = () => {
         switch (locationId.id) {
             case "place-entire":
-                const entireList = roomList.filter((room) => room.guests >= 5);
-                // setTotalRoom(entireList.length);
-                return entireList;
+                dispatch(actGetRoomListRequest());
+                callApi(
+                    roomApi.getRoomList("all-rooms"),
+                    (response) => {
+                        const roomList = response.filter((room) => room.guests >= 5);
+                        setTotalRoom(roomList.length);
+                        dispatch(actGetRoomListSuccess(roomList));
+                    },
+                    (error) => {
+                        setServerError(error);
+                    },
+                );
+                break;
 
             case "place-modern":
-                const modernList = roomList.filter((room) => {
-                    for (let key of modernCriteria) {
-                        if (room[key]) {
-                            return room;
-                        }
-                    }
-                });
-                // setTotalRoom(modernList.length);
-                return modernList;
+                dispatch(actGetRoomListRequest());
+                callApi(
+                    roomApi.getRoomList("all-rooms"),
+                    (response) => {
+                        const roomList = response.filter((room) => {
+                            for (let key of modernCriteria) {
+                                if (room[key]) {
+                                    return room;
+                                }
+                            }
+                        });
+                        setTotalRoom(roomList.length);
+                        dispatch(actGetRoomListSuccess(roomList));
+                    },
+                    (error) => {
+                        setServerError(error);
+                    },
+                );
+                break;
 
             case "place-nature":
-                const natureList = roomList.filter((room) => {
-                    for (let key of modernCriteria) {
-                        if (room[key]) {
-                            return false;
-                        }
-                        return room;
-                    }
-                });
-                // setTotalRoom(natureList.length);
-                return natureList;
+                dispatch(actGetRoomListRequest());
+                callApi(
+                    roomApi.getRoomList("all-rooms"),
+                    (response) => {
+                        const roomList = response.filter((room) => {
+                            for (let key of modernCriteria) {
+                                if (room[key]) {
+                                    return false;
+                                }
+                                return room;
+                            }
+                        });
+                        setTotalRoom(roomList.length);
+                        dispatch(actGetRoomListSuccess(roomList));
+                    },
+                    (error) => {
+                        setServerError(error);
+                    },
+                );
+                break;
 
             default:
-                // setTotalRoom(roomList.length);
-
-                return roomList;
+                dispatch(actGetRoomList(locationId.id));
         }
-    }, [locationId.id]);
+    };
 
     useEffect(() => {
         if (!roomListLoading || !locationLoading) {
             setDataLoading(false);
         }
 
-        switch (locationId.id) {
-            case "place-entire":
-            case "place-modern":
-            case "place-nature":
-                dispatch(actGetRoomList());
-                break;
-
-            default:
-                dispatch(actGetRoomList(locationId.id));
-        }
+        handleGetRoomList();
     }, [locationId.id]);
 
     const handleOpen = () => setOpen(true);
@@ -123,8 +144,7 @@ function RoomListPage() {
     };
 
     const renderRoomCardList = () => {
-        const data = filterRoomList();
-        return data
+        return roomList
             ?.slice(0, visible)
             .map((room) => (
                 <RoomCard key={room._id} room={room} handleLikeClass={handleLikeClass} handleLike={handleLike} />
@@ -138,7 +158,7 @@ function RoomListPage() {
                 <>
                     <Container maxWidth="lg" className="room-list__head">
                         <div className="room-list__title-wrapper">
-                            <span className="room-list__room-number">Over 1,000 stays</span>
+                            <span className="room-list__room-number">Over {totalRoom} stays</span>
                             <h3 className="page__main-title room-list__title">Accomodation in your selected area</h3>
                         </div>
                         <Button
@@ -167,7 +187,8 @@ function RoomListPage() {
                 <>
                     <Container maxWidth="lg" className="room-list__head">
                         <div className="room-list__title-wrapper">
-                            <span className="room-list__room-number">Over 1000 stays</span>
+                            {console.log(totalRoom)}
+                            <span className="room-list__room-number">Over {Math.floor(totalRoom / 10) * 10} stays</span>
                             <h3 className="page__main-title room-list__title">Accomodation in your selected area</h3>
                         </div>
                         <Button
@@ -180,7 +201,13 @@ function RoomListPage() {
                         </Button>
                     </Container>
                     <Container maxWidth="lg" className="room-list__content">
-                        {error && <p>{error}</p>}
+                        {serverError && (
+                            <Box sx={{ display: "flex", margin: "0 auto 20px" }}>
+                                <Alert severity="error" sx={{ minWidth: "250px" }}>
+                                    {serverError}
+                                </Alert>
+                            </Box>
+                        )}
                         <Grid container spacing={2}>
                             {renderRoomCardList()}
                         </Grid>
