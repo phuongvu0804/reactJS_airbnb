@@ -15,7 +15,7 @@ const userSchema = yup.object({
     password: yup.string().matches(pattern.password, msg.password),
     phone: yup.string().required(msg.required).matches(pattern.phone, msg.phone),
     address: yup.string().required(msg.required),
-    file: yup.mixed().required(msg.required),
+    photo: yup.mixed(),
 });
 
 /*
