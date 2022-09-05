@@ -79,6 +79,7 @@ function BookingModal({
                     >
                         Your trip
                     </Typography>
+
                     <div className="booking-modal__input-wrapper">
                         <Box className="booking-card__time" sx={{ display: "flex" }}>
                             <FormControl sx={{ mr: "6px", flex: "1" }}>

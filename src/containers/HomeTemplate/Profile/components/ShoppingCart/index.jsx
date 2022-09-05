@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import WaveSkeleton from "@/components/WaveSkeleton";
 import { Close } from "@mui/icons-material";
 import { Alert, Collapse, Grid, IconButton } from "@mui/material";
+import { Box } from "@mui/system";
 
 //Components
 import ShoppingItem from "./components/ShoppingItem";
@@ -12,12 +13,13 @@ import ShoppingItem from "./components/ShoppingItem";
 //Others
 import { ticketApi } from "@/api";
 import { callApi } from "@/api/config/request";
-
 import "./style.scss";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
+
 function ShoppingCart({ data }) {
     const dispatch = useDispatch();
     const [shoppingList, setShoppingList] = useState(null);
+    const [serverError, setServerError] = useState(null);
     const [toastMsg, setToastMsg] = useState([]);
     const [openMsg, setOpenMsg] = useState(true);
     const [visible, setVisible] = useState(4);
@@ -35,14 +37,14 @@ function ShoppingCart({ data }) {
             const booking = data.tickets;
             Promise.all(booking.map((item) => ticketApi.getTicketDetails(item)))
                 .then((response) => setShoppingList(response))
-                .catch((error) => console.log(error));
+                .catch((error) => setServerError(error));
         }
 
         const intervalId = setInterval(() => {
             if (toastMsg.length > 0) {
                 handleDeleteToastMsg(toastMsg.length - 1);
             }
-        }, 3000);
+        }, 6000);
 
         return () => {
             clearInterval(intervalId);
@@ -53,7 +55,6 @@ function ShoppingCart({ data }) {
         callApi(
             dispatch(ticketApi.deleteTicket),
             (response) => {
-                console.log(response);
                 setToastMsg([
                     ...toastMsg,
                     {
@@ -106,17 +107,21 @@ function ShoppingCart({ data }) {
                     ))}
                 </Grid>
             );
-        } else {
-            return <p>Your shopping cart is empty</p>;
         }
     };
 
     return (
         <ul className="shop-cart-list">
             <h4 className="profile__sub-title">Shopping cart</h4>
+            {serverError && (
+                <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
+                    <Alert severity="error" sx={{ minWidth: "200px" }}>
+                        {serverError}
+                    </Alert>
+                </Box>
+            )}
             {renderToastMsg()}
             {renderShoppingList()}
-            {console.log(visible)}
             {visible < shoppingList?.length && (
                 <LoadMoreBtn className="__show-btn" variant="outlined" setVisible={setVisible} loadNumber={4} />
             )}

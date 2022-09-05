@@ -98,6 +98,7 @@ function RoomListPage() {
                 break;
 
             default:
+                setTotalRoom(roomList.length);
                 dispatch(actGetRoomList(locationId.id));
         }
     };
@@ -153,12 +154,11 @@ function RoomListPage() {
 
     return (
         <div id="room-list-page">
-            {console.log("render...")}
-            {dataLoading && (
+            {roomListLoading && (
                 <>
                     <Container maxWidth="lg" className="room-list__head">
                         <div className="room-list__title-wrapper">
-                            <span className="room-list__room-number">Over {totalRoom} stays</span>
+                            <span className="room-list__room-number">Over 1,000 stays</span>
                             <h3 className="page__main-title room-list__title">Accomodation in your selected area</h3>
                         </div>
                         <Button
@@ -187,7 +187,6 @@ function RoomListPage() {
                 <>
                     <Container maxWidth="lg" className="room-list__head">
                         <div className="room-list__title-wrapper">
-                            {console.log(totalRoom)}
                             <span className="room-list__room-number">Over {Math.floor(totalRoom / 10) * 10} stays</span>
                             <h3 className="page__main-title room-list__title">Accomodation in your selected area</h3>
                         </div>

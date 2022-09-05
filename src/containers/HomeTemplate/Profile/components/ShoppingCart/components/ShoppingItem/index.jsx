@@ -3,7 +3,7 @@ import moment from "moment";
 
 //Material UI
 import { Delete, Edit } from "@mui/icons-material";
-import { Box, Button, Grid, IconButton } from "@mui/material";
+import { Box, Grid, IconButton } from "@mui/material";
 
 //Components
 import Image from "@/components/Image";

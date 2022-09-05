@@ -1,13 +1,13 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
+//components
 import Image from "@/components/Image";
 import WaveSkeleton from "@/components/WaveSkeleton";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { callApi } from "@/api/config/request";
-import { roomApi } from "@/api";
-import { useState } from "react";
+
+//Others
 import { actCreateSaveFail } from "@/store/actions/roomDetails";
-import { KeyboardReturnOutlined } from "@mui/icons-material";
+import { roomApi } from "@/api";
 
 function WishList({ data }) {
     const dispatch = useDispatch();
