@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
+import { useDispatch } from "react-redux";
 
 // Material UI
 import { Box, Grid, Button, Menu, MenuItem } from "@mui/material";
@@ -20,6 +21,9 @@ import { FUNCTIONALITY } from "@/constants";
 // Date formatter
 import moment from "moment";
 
+// Redux actions
+import { actOpenModal } from "@/store/actions/admin";
+
 // Style
 import "./style.scss";
 
@@ -27,6 +31,7 @@ const { ADD } = FUNCTIONALITY;
 
 const Form = ({ functionality = ADD, defaultValues, inputs, validator, getRequest, postRequest, putRequest }) => {
     const { id } = useParams();
+    const dispatch = useDispatch();
 
     /*
      *  Get subpaths
@@ -71,23 +76,15 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
         },
         {
             onSuccess: (data) => {
+                dispatch(actOpenModal());
+
                 if (isAddFunctionality) {
                     return;
                 }
 
-                const { _id: id } = data.data;
+                const id = data.data._id;
 
-                let photoKey = "";
-                switch (firstLevelSubpath) {
-                    case "locations":
-                        photoKey = "location";
-                        break;
-                    case "rooms":
-                        photoKey = "room";
-                        break;
-                    default:
-                        break;
-                }
+                const photoKey = firstLevelSubpath.slice(0, -1);
 
                 const photoFormData = new FormData();
                 photoFormData.append(photoKey, getValues("photo"));
