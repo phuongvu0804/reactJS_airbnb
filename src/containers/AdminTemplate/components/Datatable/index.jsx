@@ -13,10 +13,10 @@ import "./style.scss";
 
 const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => {
     /*
-     *  Get root page name
+     *  Get subpaths
      */
     const { pathname } = useLocation();
-    const rootPage = pathname.split("/")[2];
+    const [rootPage] = pathname.split("/").slice(1);
 
     /*
      *  Fetch users
@@ -112,7 +112,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
             renderCell: (params) => (
                 <div className="cell-actions">
                     <Tooltip title="Edit" placement="top" arrow>
-                        <Link to={`/${rootPage}/edit`} style={{ textDecoration: "none" }}>
+                        <Link to={`edit/${params.row._id}`} style={{ textDecoration: "none" }}>
                             <IconButton className="cell-action btn-edit">
                                 <Edit />
                             </IconButton>

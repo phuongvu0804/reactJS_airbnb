@@ -1,0 +1,22 @@
+.data-grid-locations {
+    .rating-wrapper {
+        --star: #fdcc0d;
+        --star-perfect: crimson;
+
+        padding: 10px 15px;
+        border: 1px solid var(--star);
+
+        &.perfect {
+            border: 1px solid var(--star-perfect);
+        }
+
+        .star {
+            font-size: 20px;
+            color: var(--star);
+
+            &.perfect {
+                color: var(--star-perfect);
+            }
+        }
+    }
+}
