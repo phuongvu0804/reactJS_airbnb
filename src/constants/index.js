@@ -3,4 +3,9 @@ const ROLE = {
     CLIENT: "CLIENT",
 };
 
-export { ROLE };
+const FUNCTIONALITY = {
+    ADD: "ADD",
+    EDIT: "EDIT",
+};
+
+export { ROLE, FUNCTIONALITY };
