@@ -2,16 +2,22 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 // Material UI
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton, Tooltip, Snackbar, Alert } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { Delete, Edit, Search, Clear } from "@mui/icons-material";
+
+// Redux actions
+import { actOpenModal } from "@/store/actions/admin";
 
 // Style
 import "./style.scss";
 
 const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => {
+    const dispatch = useDispatch();
+
     /*
      *  Get subpaths
      */
@@ -68,10 +74,10 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
      *  Handle delete user
      */
     const queryClient = useQueryClient();
-    const { mutate, isError } = useMutation(deleteRequest, {
+    const { mutate } = useMutation(deleteRequest, {
         mutationKey: `${rootPage}/delete`,
         onSuccess: () => {
-            setOpen(true);
+            dispatch(actOpenModal());
             (async () => {
                 await queryClient.invalidateQueries(rootPage);
                 rows = queryClient.getQueryData(rootPage).data;
@@ -82,18 +88,6 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
 
     const handleDelete = (id) => {
         mutate(id);
-    };
-
-    /*
-     *  Handle open/close notification popup
-     */
-    const [open, setOpen] = useState(false);
-    const handleClose = (_, reason) => {
-        if (reason === "clickaway") {
-            return;
-        }
-
-        setOpen(false);
     };
 
     /*
@@ -164,16 +158,6 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                     />
                 </div>
             </div>
-            <Snackbar
-                open={open}
-                autoHideDuration={1500}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            >
-                <Alert onClose={handleClose} severity={isError ? "error" : "success"} sx={{ width: "100%" }}>
-                    {isError ? "Cannot delete user!" : "Delete user successfully!"}
-                </Alert>
-            </Snackbar>
         </>
     );
 };
