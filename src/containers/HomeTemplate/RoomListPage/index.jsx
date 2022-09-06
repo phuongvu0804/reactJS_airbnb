@@ -99,7 +99,6 @@ function RoomListPage() {
 
             default:
                 setTotalRoom(roomList.length);
-                dispatch(actGetRoomList(locationId.id));
         }
     };
 
@@ -109,7 +108,7 @@ function RoomListPage() {
         }
 
         handleGetRoomList();
-    }, [locationId.id]);
+    }, [locationId.id, roomList]);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -154,7 +153,7 @@ function RoomListPage() {
 
     return (
         <div id="room-list-page">
-            {roomListLoading && (
+            {roomListLoading ? (
                 <>
                     <Container maxWidth="lg" className="room-list__head">
                         <div className="room-list__title-wrapper">
@@ -181,13 +180,15 @@ function RoomListPage() {
                         </Grid>
                     </Container>
                 </>
-            )}
-
-            {!dataLoading && (
+            ) : (
                 <>
                     <Container maxWidth="lg" className="room-list__head">
                         <div className="room-list__title-wrapper">
-                            <span className="room-list__room-number">Over {Math.floor(totalRoom / 10) * 10} stays</span>
+                            <span className="room-list__room-number">
+                                {Math.floor(totalRoom / 10) * 10 < 10
+                                    ? `${totalRoom} stays`
+                                    : `Over ${Math.floor(totalRoom / 10) * 10} stays`}
+                            </span>
                             <h3 className="page__main-title room-list__title">Accomodation in your selected area</h3>
                         </div>
                         <Button
