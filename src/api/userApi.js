@@ -15,7 +15,7 @@ const userApi = {
         const url = resourceName;
         return axiosClient.post(url, user);
     },
-    updateUser: (user, id) => {
+    updateUser: (id, user) => {
         const url = `${resourceName}/${id}`;
         return axiosClient.put(url, user);
     },
