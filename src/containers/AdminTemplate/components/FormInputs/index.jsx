@@ -1,12 +1,21 @@
+import { useLocation } from "react-router-dom";
+
 // Material UI
 import { Stack, Grid } from "@mui/material";
 
 // Components
-import TextInput from "../../components/TextInput";
-import RadioInput from "../../components/RadioInput";
+import TextInput from "../TextInput";
+import RadioInput from "../RadioInput";
 import WaveSkeleton from "@/components/WaveSkeleton";
 
-const FormInputs = ({ inputs, control, loading }) => {
+const FormInputs = ({ inputs, control, loading = false }) => {
+    /*
+     *  Get subpaths
+     */
+    const { pathname } = useLocation();
+    const [firstLevelSubpath] = pathname.split("/").slice(2);
+    const isUsersPage = firstLevelSubpath === "users";
+
     return inputs.map((input) => {
         const { id, name, label, type, placeholder } = input;
         let inputNode = null;
@@ -34,7 +43,7 @@ const FormInputs = ({ inputs, control, loading }) => {
         }
 
         return (
-            <Grid item xs={5} key={id}>
+            <Grid item xs={isUsersPage ? 4 : 5} key={id}>
                 {inputNode}
             </Grid>
         );
