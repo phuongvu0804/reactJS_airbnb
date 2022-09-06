@@ -41,4 +41,6 @@ const amenities = [
     { name: "Heating", id: "heating", icon: <LocalFireDepartment className="amenities__icon" /> },
 ];
 
-export { rules, amenities };
+const today = new Date();
+
+export { rules, amenities, today };
