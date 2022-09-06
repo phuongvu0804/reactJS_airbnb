@@ -1,22 +1,37 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { useIsFetching, useIsMutating } from "react-query";
 
 // Material UI
-import { Box, Stack, Link, LinearProgress } from "@mui/material";
+import { Box, Stack, Link, LinearProgress, Snackbar, Alert } from "@mui/material";
 
 // Components
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import Breadcrumbs from "./components/Breadcrumbs";
 
+// Redux actions
+import { actCloseModal } from "@/store/actions/admin";
+
 // Style
 import "./style.scss";
 
 const AdminTemplate = () => {
-    const isFetchingUsers = useIsFetching(["users"]);
-    const isMutatingUsers = useIsMutating(["users/delete"]);
+    const dispatch = useDispatch();
+    const { isOpen } = useSelector((store) => store.admin.modal);
 
-    const isLoading = !!(isFetchingUsers || isMutatingUsers);
+    const isFetching = useIsFetching();
+    const isMutating = useIsMutating();
+
+    const isLoading = !!(isFetching || isMutating);
+
+    const handleCloseModal = (_, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        dispatch(actCloseModal());
+    };
 
     return (
         <div className="admin">
@@ -47,6 +62,17 @@ const AdminTemplate = () => {
                     </Link>
                 </Stack>
             </div>
+            <Snackbar
+                open={isOpen}
+                autoHideDuration={1000}
+                onClose={handleCloseModal}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            >
+                <Alert onClose={handleCloseModal} severity="success" sx={{ width: "100%" }}>
+                    {/* {isError ? "Cannot delete user!" : "Delete user successfully!"} */}
+                    Delete user successfully!
+                </Alert>
+            </Snackbar>
         </div>
     );
 };

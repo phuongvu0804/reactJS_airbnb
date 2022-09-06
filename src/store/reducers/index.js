@@ -6,6 +6,7 @@ import roomDetailsReducer from "./roomDetails";
 import authReducer from "./auth";
 import userReducer from "./user";
 import ticketReducer from "./ticket";
+import adminReducer from "./admin";
 
 const rootReducer = combineReducers({
     locationList: locationListReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     ticket: ticketReducer,
     auth: authReducer,
     user: userReducer,
+    admin: adminReducer,
 });
 
 export default rootReducer;
