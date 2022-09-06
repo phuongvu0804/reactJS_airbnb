@@ -21,7 +21,7 @@ const FormInputs = ({ inputs, control, loading }) => {
                 );
                 break;
             case "radio":
-                inputNode = <RadioInput label={label} />;
+                inputNode = <RadioInput name={name} label={label} control={control} />;
                 break;
             // Loading state
             default:

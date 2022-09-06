@@ -7,6 +7,7 @@ const AdminTemplate = lazy(() => import("@/containers/AdminTemplate"));
 // Pages
 const UserManagementPage = lazy(() => import("@/containers/AdminTemplate/UserManagementPage"));
 const NewUser = lazy(() => import("@/containers/AdminTemplate/UserManagementPage/New"));
+const EditUser = lazy(() => import("@/containers/AdminTemplate/UserManagementPage/Edit"));
 
 const LocationManagementPage = lazy(() => import("@/containers/AdminTemplate/LocationManagementPage"));
 
@@ -19,6 +20,7 @@ const AdminRoutes = {
         // User management pages
         { path: "users", element: <UserManagementPage /> },
         { path: "users/new", element: <NewUser /> },
+        { path: "users/edit/:id", element: <EditUser /> },
         // Location management pages
         { path: "locations", element: <LocationManagementPage /> },
         { path: "locations/new", element: <div></div> },

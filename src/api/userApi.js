@@ -23,8 +23,8 @@ const userApi = {
         const url = `${resourceName}/${id}`;
         return axiosClient.delete(url);
     },
-    updateUserPhoto: (id, photo) => {
-        const url = `${resourceName}/upload-avatar/${id}`;
+    updateUserPhoto: (photo) => {
+        const url = `${resourceName}/upload-avatar`;
         return axiosClient.post(url, photo);
     },
 };
