@@ -18,7 +18,7 @@ import "./style.scss";
 
 const AdminTemplate = () => {
     const dispatch = useDispatch();
-    const { isOpen } = useSelector((store) => store.admin.modal);
+    const { isOpen, content } = useSelector((store) => store.admin.modal);
 
     const isFetching = useIsFetching();
     const isMutating = useIsMutating();
@@ -70,7 +70,7 @@ const AdminTemplate = () => {
             >
                 <Alert onClose={handleCloseModal} severity="success" sx={{ width: "100%" }}>
                     {/* {isError ? "Cannot delete user!" : "Delete user successfully!"} */}
-                    Delete user successfully!
+                    {content}
                 </Alert>
             </Snackbar>
         </div>

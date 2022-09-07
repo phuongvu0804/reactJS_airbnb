@@ -22,7 +22,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
      *  Get subpaths
      */
     const { pathname } = useLocation();
-    const [rootPage] = pathname.split("/").slice(1);
+    const [rootPage, firstLevelSubpath] = pathname.split("/").slice(1);
 
     /*
      *  Fetch users
@@ -77,7 +77,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
     const { mutate } = useMutation(deleteRequest, {
         mutationKey: `${rootPage}/delete`,
         onSuccess: () => {
-            dispatch(actOpenModal());
+            dispatch(actOpenModal(`Delete ${firstLevelSubpath.slice(0, -1)} successfully!`));
             (async () => {
                 await queryClient.invalidateQueries(rootPage);
                 rows = queryClient.getQueryData(rootPage).data;

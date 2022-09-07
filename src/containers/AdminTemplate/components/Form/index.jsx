@@ -76,7 +76,7 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
         },
         {
             onSuccess: (data) => {
-                dispatch(actOpenModal());
+                dispatch(actOpenModal(`${functionality} ${firstLevelSubpath.slice(0, -1)} successfully!`));
 
                 if (isAddFunctionality) {
                     return;
