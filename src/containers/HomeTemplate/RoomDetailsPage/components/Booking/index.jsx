@@ -5,7 +5,7 @@ import moment from "moment";
 
 //Material UI
 import { EmojiFlagsOutlined, KeyboardArrowDown } from "@mui/icons-material";
-import { Box, Button, Container, Divider, FormControl, TextField } from "@mui/material";
+import { Alert, Box, Button, Container, Divider, FormControl, TextField } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 
 //components
@@ -15,15 +15,13 @@ import BookingModal from "../BookingModal";
 //Others
 import "./style.scss";
 import { actCreateBooking } from "@/store/actions/roomDetails";
+import { today } from "../../constants";
 
 function Booking({ data }) {
-    const today = new Date();
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [checkIn, setCheckIn] = useState(today);
     const [checkOut, setCheckOut] = useState(today);
-
     const [anchorEl, setAnchorEl] = useState(null);
     const [guestNumber, setGuestNumber] = useState({
         Adults: 0,
@@ -32,16 +30,53 @@ function Booking({ data }) {
         Pets: 0,
     });
     const [openModal, setOpenModal] = useState(false);
-
+    const [formErrors, setFormErrors] = useState(null);
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
 
+    const checkValidDate = (date) => {
+        return date.setHours(0, 0, 0, 0) >= today.setHours(0, 0, 0, 0);
+    };
+
+    const checkValidCheckOut = (checkIn, checkOut) => {
+        return checkIn._d.setHours(0, 0, 0, 0) <= checkOut._d.setHours(0, 0, 0, 0);
+    };
+
     const handleCheckIn = (newValue) => {
+        const isValidDate = checkValidDate(newValue._d);
+        if (isValidDate) {
+            setFormErrors(null);
+        } else {
+            setFormErrors({
+                type: "Invalid date",
+                content: "Check in date must start from today",
+            });
+        }
+
         setCheckIn(newValue);
     };
 
     const handleCheckOut = (newValue) => {
         setCheckOut(newValue);
+
+        const isValidDate = checkValidDate(newValue._d);
+        if (isValidDate) {
+            const isValidCheckOut = checkValidCheckOut(checkIn, newValue);
+
+            if (isValidCheckOut) {
+                setFormErrors(null);
+            } else {
+                setFormErrors({
+                    type: "Invalid check out",
+                    content: "Check in date must be the same or later than today",
+                });
+            }
+        } else {
+            setFormErrors({
+                type: "Invalid date",
+                content: "Check out date must start from today",
+            });
+        }
     };
 
     const handleClick = (event) => {
@@ -67,17 +102,20 @@ function Booking({ data }) {
 
     const handleBooking = () => {
         const user = localStorage.getItem("user");
-        const bookingData = {
-            roomId: data._id,
-            checkIn: moment(checkIn).format(),
-            checkOut: moment(checkOut).format(),
-        };
 
-        if (user) {
-            dispatch(actCreateBooking(bookingData));
-            navigate("/profile");
-        } else {
-            navigate("/auth/login");
+        if (!formErrors) {
+            const bookingData = {
+                roomId: data._id,
+                checkIn: moment(checkIn).format(),
+                checkOut: moment(checkOut).format(),
+            };
+
+            if (user) {
+                dispatch(actCreateBooking(bookingData));
+                navigate("/profile");
+            } else {
+                navigate("/auth/login");
+            }
         }
     };
 
@@ -94,13 +132,18 @@ function Booking({ data }) {
                         <span className="booking-card__price-number"> {roomPrice}</span>
                         <span className="booking-card__price-time"> /day</span>
                     </div>
+                    {formErrors && (
+                        <Alert severity="error" sx={{ mb: "20px" }}>
+                            {formErrors.content}
+                        </Alert>
+                    )}
                     <Box className="booking-card__time" sx={{ display: "flex" }}>
                         <FormControl sx={{ mr: "6px", flex: "1" }}>
                             <DesktopDatePicker
                                 className="booking-card__check-in"
                                 label="Check in"
                                 value={checkIn}
-                                inputFormat="MM/dd/yyyy"
+                                // inputFormat="MM/dd/yyyy"
                                 onChange={handleCheckIn}
                                 renderInput={(params) => <TextField {...params} />}
                             />
@@ -110,7 +153,7 @@ function Booking({ data }) {
                                 className="booking-card__check-out"
                                 label="Check out"
                                 value={checkOut}
-                                inputFormat="MM/dd/yyyy"
+                                // inputFormat="MM/dd/yyyy"
                                 onChange={handleCheckOut}
                                 renderInput={(params) => <TextField {...params} />}
                             />
