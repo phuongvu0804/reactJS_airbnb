@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 // Material UI
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton, Tooltip } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { Delete, Edit, Search, Clear } from "@mui/icons-material";
 
 // Redux actions
@@ -105,18 +105,14 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
             flex: 1.7,
             renderCell: (params) => (
                 <div className="cell-actions">
-                    <Tooltip title="Edit" placement="top" arrow>
-                        <Link to={`edit/${params.row._id}`} style={{ textDecoration: "none" }}>
-                            <IconButton className="cell-action btn-edit">
-                                <Edit />
-                            </IconButton>
-                        </Link>
-                    </Tooltip>
-                    <Tooltip title="Delete" placement="top" arrow>
-                        <IconButton className="cell-action btn-delete" onClick={() => handleDelete(params.row._id)}>
-                            <Delete />
+                    <Link to={`edit/${params.row._id}`} style={{ textDecoration: "none" }}>
+                        <IconButton className="cell-action btn-edit">
+                            <Edit />
                         </IconButton>
-                    </Tooltip>
+                    </Link>
+                    <IconButton className="cell-action btn-delete" onClick={() => handleDelete(params.row._id)}>
+                        <Delete />
+                    </IconButton>
                 </div>
             ),
         },
