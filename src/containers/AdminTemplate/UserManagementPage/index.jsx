@@ -11,12 +11,12 @@ const columns = [
     {
         field: "name",
         headerName: "Full name",
-        flex: 2.5,
+        flex: 2.8,
     },
     {
         field: "email",
         headerName: "Email",
-        flex: 2.8,
+        flex: 2.5,
     },
     {
         field: "gender",
