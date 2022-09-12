@@ -30,7 +30,12 @@ const userSchema = {
 /*
  *  Location
  */
-const locationSchema = yup.object({});
+const locationSchema = yup.object({
+    name: yup.string().required(msg.required),
+    province: yup.string().required(msg.required),
+    country: yup.string().required(msg.required),
+    valueate: yup.number(),
+});
 
 /*
  *  Room
