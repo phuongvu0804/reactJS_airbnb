@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 
 // Material UI
-import { Box, Grid, Button, Menu, MenuItem } from "@mui/material";
+import { Box, Grid, Button, Menu, MenuItem, Stack } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { EditOutlined } from "@mui/icons-material";
 
@@ -203,12 +203,12 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
                     <div className="left">
                         <Grid container columns={12} spacing={4}>
                             <FormInputs loading={isLoading} columns={columns} control={control} />
-                            <Grid item xs={5}>
-                                <LoadingButton type="submit" className="btn-submit">
-                                    {functionality}
-                                </LoadingButton>
-                            </Grid>
                         </Grid>
+                        <Stack direction="row" justifyContent="center">
+                            <LoadingButton type="submit" className="btn-submit">
+                                {functionality}
+                            </LoadingButton>
+                        </Stack>
                     </div>
                     {!isUsersPage && uploadPhotoColumn}
                 </Box>
