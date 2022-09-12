@@ -10,56 +10,10 @@ import { FUNCTIONALITY } from "@/constants";
 // Apis
 import { userApi } from "@/api";
 
-const { ADD } = FUNCTIONALITY;
+// Columns
+import { columns } from "./columns";
 
-const inputs = [
-    {
-        id: 1,
-        name: "name",
-        label: "Full Name",
-        type: "text",
-        placeholder: "Le Nguyen Anh Tu",
-    },
-    {
-        id: 2,
-        name: "email",
-        label: "Email",
-        type: "email",
-        placeholder: "tu.lna07@gmail.com",
-    },
-    {
-        id: 3,
-        name: "gender",
-        label: "Gender",
-        type: "radio",
-    },
-    {
-        id: 4,
-        name: "password",
-        label: "Password",
-        type: "password",
-    },
-    {
-        id: 5,
-        name: "phone",
-        label: "Phone",
-        type: "text",
-        placeholder: "0946688199",
-    },
-    {
-        id: 6,
-        name: "birthday",
-        label: "Birthday",
-        type: "date",
-    },
-    {
-        id: 7,
-        name: "address",
-        label: "Address",
-        type: "text",
-        placeholder: "170 St. Esdan, Wakanda, Earth",
-    },
-];
+const { ADD } = FUNCTIONALITY;
 
 const defaultValues = {
     name: "",
@@ -77,7 +31,7 @@ const New = () => {
         <Form
             functionality={ADD}
             defaultValues={defaultValues}
-            inputs={inputs}
+            columns={columns}
             validator={userSchema.add}
             postRequest={{ mutateDetails: userApi.addUser }}
         />

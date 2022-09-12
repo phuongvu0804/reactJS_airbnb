@@ -27,9 +27,9 @@ import { actOpenModal } from "@/store/actions/admin";
 // Style
 import "./style.scss";
 
-const { ADD } = FUNCTIONALITY;
+const { ADD, EDIT } = FUNCTIONALITY;
 
-const Form = ({ functionality = ADD, defaultValues, inputs, validator, getRequest, postRequest, putRequest }) => {
+const Form = ({ functionality = ADD, defaultValues, columns, validator, getRequest, postRequest, putRequest }) => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
@@ -39,7 +39,6 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
     const { pathname } = useLocation();
     const [rootPage, firstLevelSubpath] = pathname.split("/").slice(1);
     const isUsersPage = firstLevelSubpath === "users";
-    const isAddFunctionality = functionality === ADD;
 
     /*
      *  Handle form
@@ -51,10 +50,10 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
     });
 
     /*
-     *  if editing user, get user details beforehand
+     *  If editing details, get details beforehand
      */
     const { isLoading } = useQuery([`${rootPage}/${functionality.toLowerCase()}`, id], () => getRequest(id), {
-        enabled: !isAddFunctionality,
+        enabled: functionality === EDIT,
         refetchOnWindowFocus: false,
         onSuccess: (data) => {
             const user = data.data;
@@ -69,16 +68,19 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
         },
     });
     const mutatePhoto = postRequest?.mutatePhoto || (() => {});
-    const mutationPhoto = useMutation(mutatePhoto);
+    const mutationPhoto = useMutation(mutatePhoto, {
+        onSuccess: () => {
+            dispatch(actOpenModal(`${functionality} ${firstLevelSubpath.slice(0, -1)} successfully!`));
+        },
+    });
     const mutationDetails = useMutation(
         ({ id, details }) => {
-            return isAddFunctionality ? postRequest.mutateDetails(details) : putRequest(id, details);
+            return functionality === ADD ? postRequest.mutateDetails(details) : putRequest(id, details);
         },
         {
             onSuccess: (data) => {
-                dispatch(actOpenModal(`${functionality} ${firstLevelSubpath.slice(0, -1)} successfully!`));
-
-                if (isAddFunctionality) {
+                if (isUsersPage) {
+                    dispatch(actOpenModal(`${functionality} ${firstLevelSubpath.slice(0, -1)} successfully!`));
                     return;
                 }
 
@@ -187,7 +189,7 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
                 <Box className="admin-form" component="form" noValidate onSubmit={handleSubmit(handleSubmitData)}>
                     <div className="left">
                         <Grid container columns={12} spacing={4}>
-                            <FormInputs loading={isLoading} inputs={inputs} control={control} />
+                            <FormInputs loading={isLoading} columns={columns} control={control} />
                             <Grid item xs={5}>
                                 <LoadingButton type="submit" className="btn-submit">
                                     {functionality}

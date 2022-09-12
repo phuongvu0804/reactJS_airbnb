@@ -8,7 +8,7 @@ import TextInput from "../TextInput";
 import RadioInput from "../RadioInput";
 import WaveSkeleton from "@/components/WaveSkeleton";
 
-const FormInputs = ({ inputs, control, loading = false }) => {
+const FormInputs = ({ columns, control, loading = false }) => {
     /*
      *  Get subpaths
      */
@@ -16,7 +16,7 @@ const FormInputs = ({ inputs, control, loading = false }) => {
     const [firstLevelSubpath] = pathname.split("/").slice(2);
     const isUsersPage = firstLevelSubpath === "users";
 
-    return inputs.map((input) => {
+    return columns.map((input) => {
         const { id, name, label, type, placeholder } = input;
         let inputNode = null;
 

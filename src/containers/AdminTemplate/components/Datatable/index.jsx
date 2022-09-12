@@ -65,9 +65,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
     };
 
     const handleClearSearch = () => {
-        searchKey.current = "";
-        handleSearch({ target: { value: searchKey.current } });
-        setClearSearch(false);
+        handleSearch({ target: { value: "" } });
     };
 
     /*
