@@ -35,6 +35,7 @@ const locationSchema = yup.object({
     province: yup.string().required(msg.required),
     country: yup.string().required(msg.required),
     valueate: yup.number(),
+    photo: yup.mixed(),
 });
 
 /*
