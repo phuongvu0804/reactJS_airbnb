@@ -139,7 +139,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                         </Link>
                     </div>
                     <DataGrid
-                        className={`data-grid data-grid-${rootPage}`}
+                        className={`data-grid data-grid-${firstLevelSubpath}`}
                         rows={searchedUsers || rows}
                         columns={columns.concat(actionColumn)}
                         pageSize={pageSize}
