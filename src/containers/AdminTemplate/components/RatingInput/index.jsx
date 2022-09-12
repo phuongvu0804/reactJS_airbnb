@@ -9,7 +9,7 @@ const RatingInput = ({ name, label, control }) => {
     return (
         <Stack spacing={1}>
             <FormLabel className="admin-input-label">{label}</FormLabel>
-            <Rating {...field} max={10} precision={0.5} />
+            <Rating {...field} value={+field.value} max={10} precision={0.5} />
         </Stack>
     );
 };
