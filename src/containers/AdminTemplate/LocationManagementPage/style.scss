@@ -3,7 +3,8 @@
         --star: #fdcc0d;
         --star-perfect: crimson;
 
-        padding: 10px 15px;
+        padding: 8px 0;
+        width: 70px;
         border: 1px solid var(--star);
 
         &.perfect {
