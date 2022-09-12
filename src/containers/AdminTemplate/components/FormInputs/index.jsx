@@ -6,6 +6,7 @@ import { Stack, Grid } from "@mui/material";
 // Components
 import TextInput from "../TextInput";
 import RadioInput from "../RadioInput";
+import RatingInput from "../RatingInput";
 import WaveSkeleton from "@/components/WaveSkeleton";
 
 const FormInputs = ({ columns, control, loading = false }) => {
@@ -32,6 +33,9 @@ const FormInputs = ({ columns, control, loading = false }) => {
             case "radio":
                 inputNode = <RadioInput name={name} label={label} control={control} />;
                 break;
+            case "rating":
+                inputNode = <RatingInput name={name} label={label} control={control} />;
+                break;
             // Loading state
             default:
                 inputNode = (
@@ -43,7 +47,7 @@ const FormInputs = ({ columns, control, loading = false }) => {
         }
 
         return (
-            <Grid item xs={isUsersPage ? 4 : 5} key={id}>
+            <Grid item xs={isUsersPage ? 4 : 6} key={id}>
                 {inputNode}
             </Grid>
         );
