@@ -27,9 +27,9 @@ import { actOpenModal } from "@/store/actions/admin";
 // Style
 import "./style.scss";
 
-const { ADD } = FUNCTIONALITY;
+const { ADD, EDIT } = FUNCTIONALITY;
 
-const Form = ({ functionality = ADD, defaultValues, inputs, validator, getRequest, postRequest, putRequest }) => {
+const Form = ({ functionality = ADD, defaultValues, columns, validator, getRequest, postRequest, putRequest }) => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
@@ -39,7 +39,6 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
     const { pathname } = useLocation();
     const [rootPage, firstLevelSubpath] = pathname.split("/").slice(1);
     const isUsersPage = firstLevelSubpath === "users";
-    const isAddFunctionality = functionality === ADD;
 
     /*
      *  Handle form
@@ -51,34 +50,45 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
     });
 
     /*
-     *  if editing user, get user details beforehand
+     *  If editing details, get details beforehand
      */
     const { isLoading } = useQuery([`${rootPage}/${functionality.toLowerCase()}`, id], () => getRequest(id), {
-        enabled: !isAddFunctionality,
+        enabled: functionality === EDIT,
         refetchOnWindowFocus: false,
         onSuccess: (data) => {
-            const user = data.data;
+            const details = data.data;
 
             for (let key in defaultValues) {
                 if (key === "birthday") {
-                    user[key] = moment(user[key]).format("YYYY-MM-DD");
+                    details[key] = moment(details[key]).format("YYYY-MM-DD");
                 }
 
-                setValue(key, user[key]);
+                setValue(key, details[key]);
             }
         },
     });
-    const mutatePhoto = postRequest?.mutatePhoto || (() => {});
-    const mutationPhoto = useMutation(mutatePhoto);
+    const mutationPhoto = useMutation(
+        ({ id, photoFormData }) => {
+            if (!postRequest?.mutatePhoto) {
+                return () => {};
+            }
+
+            postRequest.mutatePhoto(id, photoFormData);
+        },
+        {
+            onSuccess: () => {
+                dispatch(actOpenModal(`${functionality} ${firstLevelSubpath.slice(0, -1)} successfully!`));
+            },
+        },
+    );
     const mutationDetails = useMutation(
         ({ id, details }) => {
-            return isAddFunctionality ? postRequest.mutateDetails(details) : putRequest(id, details);
+            return functionality === ADD ? postRequest.mutateDetails(details) : putRequest(id, details);
         },
         {
             onSuccess: (data) => {
-                dispatch(actOpenModal(`${functionality} ${firstLevelSubpath.slice(0, -1)} successfully!`));
-
-                if (isAddFunctionality) {
+                if (!getValues("image") || typeof getValues("image") === "string") {
+                    dispatch(actOpenModal(`${functionality} ${firstLevelSubpath.slice(0, -1)} successfully!`));
                     return;
                 }
 
@@ -87,8 +97,8 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
                 const photoKey = firstLevelSubpath.slice(0, -1);
 
                 const photoFormData = new FormData();
-                photoFormData.append(photoKey, getValues("photo"));
-                mutationPhoto.mutate(id, photoFormData);
+                photoFormData.append(photoKey, getValues("image"));
+                mutationPhoto.mutate({ id, photoFormData });
             },
         },
     );
@@ -103,13 +113,25 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
     };
 
     const handleUpdatePhoto = (event) => {
-        const photo = event.target.files[0];
-        setValue("photo", photo);
+        const image = event.target.files[0];
+        setValue("image", image);
         setAnchorEl(null);
     };
 
+    const handleDisplayPhoto = () => {
+        if (!getValues("image")) {
+            return "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
+        }
+
+        if (typeof getValues("image") === "string") {
+            return getValues("image");
+        }
+
+        return URL.createObjectURL(getValues("image"));
+    };
+
     const handleRemovePhoto = () => {
-        setValue("photo", null);
+        setValue("image", null);
         setAnchorEl(null);
     };
 
@@ -117,24 +139,17 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
      *  Handle submit
      */
     const handleSubmitData = (value) => {
-        const { photo, ...details } = value;
+        const { image, ...details } = value;
         mutationDetails.mutate({ id, details });
     };
 
     /*
-     *  Render upload photo column
+     *  Render upload image column
      */
     const uploadPhotoColumn = (
         <div className="right">
             <div className="img-wrapper">
-                <img
-                    src={
-                        getValues("photo")
-                            ? URL.createObjectURL(getValues("photo"))
-                            : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                    }
-                    alt=""
-                />
+                <img src={handleDisplayPhoto()} alt="image" />
                 <Button
                     id="basic-button"
                     variant="outlined"
@@ -162,7 +177,7 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
                         Upload a photo
                     </MenuItem>
                     <input
-                        {...register("photo")}
+                        {...register("image")}
                         id="upload-photo"
                         type="file"
                         style={{ display: "none" }}
@@ -172,7 +187,7 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
                     <MenuItem
                         className="menu-handle-img__item"
                         onClick={handleRemovePhoto}
-                        disabled={!getValues("photo")}
+                        disabled={!getValues("image")}
                     >
                         Remove photo
                     </MenuItem>
@@ -187,7 +202,7 @@ const Form = ({ functionality = ADD, defaultValues, inputs, validator, getReques
                 <Box className="admin-form" component="form" noValidate onSubmit={handleSubmit(handleSubmitData)}>
                     <div className="left">
                         <Grid container columns={12} spacing={4}>
-                            <FormInputs loading={isLoading} inputs={inputs} control={control} />
+                            <FormInputs loading={isLoading} columns={columns} control={control} />
                             <Grid item xs={5}>
                                 <LoadingButton type="submit" className="btn-submit">
                                     {functionality}
