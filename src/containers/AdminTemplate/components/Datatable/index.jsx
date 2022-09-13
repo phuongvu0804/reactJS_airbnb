@@ -23,11 +23,12 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
      */
     const { pathname } = useLocation();
     const [rootPage, firstLevelSubpath] = pathname.split("/").slice(1);
+    const queryKey = `${rootPage}/${firstLevelSubpath}`;
 
     /*
      *  Fetch users
      */
-    const { data, isLoading } = useQuery(rootPage, getRequest, {
+    const { data, isLoading } = useQuery(queryKey, getRequest, {
         refetchOnWindowFocus: false,
     });
     let rows = data?.data || [];
@@ -77,8 +78,8 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
         onSuccess: () => {
             dispatch(actOpenModal(`Delete ${firstLevelSubpath.slice(0, -1)} successfully!`));
             (async () => {
-                await queryClient.invalidateQueries(rootPage);
-                rows = queryClient.getQueryData(rootPage).data;
+                await queryClient.invalidateQueries(queryKey);
+                rows = queryClient.getQueryData(queryKey).data;
                 handleSearch({ target: { value: searchKey.current } });
             })();
         },
