@@ -27,7 +27,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
     /*
      *  Fetch users
      */
-    const { data, isLoading } = useQuery(rootPage, getRequest, {
+    const { data, isLoading } = useQuery(`${rootPage}/${firstLevelSubpath}`, getRequest, {
         refetchOnWindowFocus: false,
     });
     let rows = data?.data || [];
