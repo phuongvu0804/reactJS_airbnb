@@ -82,12 +82,17 @@
     .cell-actions {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 7px;
 
         .cell-action {
             padding: 2px 5px;
             border-radius: 5px;
             cursor: pointer;
+
+            &.btn-view-rooms {
+                color: green;
+                border: 1px solid rgba(0, 128, 0, 0.489);
+            }
 
             &.btn-edit {
                 color: darkblue;

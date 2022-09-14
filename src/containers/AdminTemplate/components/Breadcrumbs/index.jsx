@@ -1,11 +1,12 @@
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
 
 // Material UI
 import { Stack, Typography, Breadcrumbs as MuiBreadcrumbs } from "@mui/material";
 import { HomeOutlined } from "@mui/icons-material";
 
 const Breadcrumbs = () => {
-    const { pathname } = useLocation();
+    const [searchParams, _] = useSearchParams();
+    const { pathname, state } = useLocation();
     const { id } = useParams();
 
     const subpaths = pathname.split("/").slice(1);
@@ -13,7 +14,10 @@ const Breadcrumbs = () => {
     if (id === subpaths.at(-1)) {
         subpaths.pop();
     }
-    const root = "/" + subpaths.shift();
+    let root = "/" + subpaths.shift();
+    if (state?.prevPath && searchParams.has(state.prevPath.slice(0, -1))) {
+        subpaths.unshift(state.prevPath);
+    }
 
     return (
         <Stack direction="row" spacing={1}>

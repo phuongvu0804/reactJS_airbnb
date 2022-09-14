@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 // Material UI
 import { DataGrid } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
-import { Delete, Edit, Search, Clear } from "@mui/icons-material";
+import { Delete, Edit, Search, Clear, MeetingRoomOutlined } from "@mui/icons-material";
 
 // Redux actions
 import { actOpenModal } from "@/store/actions/admin";
@@ -74,7 +74,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
      */
     const queryClient = useQueryClient();
     const { mutate } = useMutation(deleteRequest, {
-        mutationKey: `${rootPage}/delete`,
+        mutationKey: `${rootPage}/${firstLevelSubpath}/delete`,
         onSuccess: () => {
             dispatch(actOpenModal(`Delete ${firstLevelSubpath.slice(0, -1)} successfully!`));
             (async () => {
@@ -101,9 +101,20 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
         {
             field: "actions",
             headerName: "Actions",
-            flex: 1.7,
+            flex: 1.5,
             renderCell: (params) => (
                 <div className="cell-actions">
+                    {firstLevelSubpath === "locations" && (
+                        <Link
+                            to={`/${rootPage}/rooms?location=${params.row._id}`}
+                            state={{ prevPath: "locations" }}
+                            style={{ textDecoration: "none" }}
+                        >
+                            <IconButton className="cell-action btn-view-rooms">
+                                <MeetingRoomOutlined />
+                            </IconButton>
+                        </Link>
+                    )}
                     <Link to={`edit/${params.row._id}`} style={{ textDecoration: "none" }}>
                         <IconButton className="cell-action btn-edit">
                             <Edit />
