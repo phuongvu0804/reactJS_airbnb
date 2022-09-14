@@ -102,6 +102,8 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
             field: "actions",
             headerName: "Actions",
             flex: 1.5,
+            align: "center",
+            headerAlign: "center",
             renderCell: (params) => (
                 <div className="cell-actions">
                     {firstLevelSubpath === "locations" && (
