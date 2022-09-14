@@ -74,7 +74,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
      */
     const queryClient = useQueryClient();
     const { mutate } = useMutation(deleteRequest, {
-        mutationKey: `${rootPage}/delete`,
+        mutationKey: `${rootPage}/${firstLevelSubpath}/delete`,
         onSuccess: () => {
             dispatch(actOpenModal(`Delete ${firstLevelSubpath.slice(0, -1)} successfully!`));
             (async () => {
