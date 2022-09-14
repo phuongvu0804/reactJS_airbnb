@@ -28,6 +28,16 @@ export const columns = [
         flex: 1,
         align: "center",
         headerAlign: "center",
+        renderCell: (params) => {
+            const formattedCurrency = params.row.price
+                .toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                })
+                .slice(0, -3);
+
+            return <span>{formattedCurrency}</span>;
+        },
     },
     {
         field: "guests",
