@@ -15,7 +15,7 @@ const Breadcrumbs = () => {
         subpaths.pop();
     }
     let root = "/" + subpaths.shift();
-    if (state?.prevPath && searchParams.get(state.prevPath.slice(0, -1))) {
+    if (state?.prevPath && searchParams.has(state.prevPath.slice(0, -1))) {
         subpaths.unshift(state.prevPath);
     }
 
