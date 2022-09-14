@@ -13,6 +13,10 @@ const LocationManagementPage = lazy(() => import("@/containers/AdminTemplate/Loc
 const NewLocation = lazy(() => import("@/containers/AdminTemplate/LocationManagementPage/New"));
 const EditLocation = lazy(() => import("@/containers/AdminTemplate/LocationManagementPage/Edit"));
 
+const RoomManagementPage = lazy(() => import("@/containers/AdminTemplate/RoomManagementPage"));
+const NewRoom = lazy(() => import("@/containers/AdminTemplate/RoomManagementPage/New"));
+const EditRoom = lazy(() => import("@/containers/AdminTemplate/RoomManagementPage/Edit"));
+
 const AdminRoutes = {
     path: "admin",
     element: <AdminTemplate />,
@@ -27,6 +31,10 @@ const AdminRoutes = {
         { path: "locations", element: <LocationManagementPage /> },
         { path: "locations/new", element: <NewLocation /> },
         { path: "locations/edit/:id", element: <EditLocation /> },
+        // Room management pages
+        { path: "rooms", element: <RoomManagementPage /> },
+        { path: "rooms/new", element: <NewRoom /> },
+        { path: "rooms/edit/:id", element: <EditRoom /> },
     ],
 };
 
