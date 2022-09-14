@@ -1,10 +1,11 @@
-import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams, useSearchParams } from "react-router-dom";
 
 // Material UI
-import { Stack, Typography, Breadcrumbs as MuiBreadcrumbs } from "@mui/material";
+import { Stack, Typography, Breadcrumbs as MuiBreadcrumbs, Link } from "@mui/material";
 import { HomeOutlined } from "@mui/icons-material";
 
 const Breadcrumbs = () => {
+    const navigate = useNavigate();
     const [searchParams, _] = useSearchParams();
     const { pathname, state } = useLocation();
     const { id } = useParams();
@@ -32,13 +33,12 @@ const Breadcrumbs = () => {
                         );
                     }
 
-                    let path = root;
-                    for (let i = 0; i < idx + 1; ++i) {
-                        path += "/" + subpaths[i];
-                    }
-
                     return (
-                        <Link key={idx} to={path} style={{ textDecoration: "none", color: "var(--lightgray)" }}>
+                        <Link
+                            key={idx}
+                            onClick={() => navigate(1 - idx - subpaths.length)}
+                            style={{ textDecoration: "none", cursor: "pointer", color: "var(--lightgray)" }}
+                        >
                             {subpath}
                         </Link>
                     );
