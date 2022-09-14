@@ -14,6 +14,7 @@ export const columns = [
         headerName: "Image",
         flex: 2,
         align: "center",
+        headerAlign: "center",
         renderCell: (params) => {
             return (
                 <img
@@ -31,6 +32,7 @@ export const columns = [
         headerName: "Rating",
         flex: 1,
         align: "center",
+        headerAlign: "center",
         renderCell: (params) => {
             const perfectRating = params.row.valueate === 10;
             const perfectRatingClass = perfectRating ? "perfect" : "";
@@ -51,11 +53,14 @@ export const columns = [
     {
         field: "country",
         headerName: "Country",
-        flex: 1.2,
+        flex: 1.8,
+        align: "center",
+        headerAlign: "center",
     },
     {
         field: "province",
         headerName: "Province",
         flex: 2,
+        headerAlign: "center",
     },
 ];

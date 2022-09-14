@@ -1,7 +1,3 @@
-// Material UI
-import { Stack } from "@mui/material";
-import { Star } from "@mui/icons-material";
-
 export const columns = [
     {
         field: "name",
@@ -13,6 +9,7 @@ export const columns = [
         headerName: "Image",
         flex: 2,
         align: "center",
+        headerAlign: "center",
         renderCell: (params) => {
             return (
                 <img
@@ -29,20 +26,34 @@ export const columns = [
         field: "price",
         headerName: "Price",
         flex: 1,
+        align: "center",
+        headerAlign: "center",
     },
     {
         field: "guests",
         headerName: "Guest",
-        flex: 1,
+        flex: 0.8,
+        align: "center",
+        headerAlign: "center",
     },
     {
         field: "bedRoom",
         headerName: "Bedroom",
         flex: 1,
+        align: "center",
+        headerAlign: "center",
     },
     {
         field: "bath",
         headerName: "Bath",
-        flex: 1,
+        flex: 0.8,
+        align: "center",
+        headerAlign: "center",
+    },
+    {
+        field: "description",
+        headerName: "Description",
+        flex: 3.5,
+        headerAlign: "center",
     },
 ];
