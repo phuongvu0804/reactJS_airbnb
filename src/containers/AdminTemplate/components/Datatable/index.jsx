@@ -118,10 +118,6 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
     const currentSubpath = subpath[firstLevelSubpath];
 
     const renderAdditionalInfo = () => {
-        if (rows.length < 1) {
-            return;
-        }
-
         switch (currentSubpath.prevLevel) {
             case "locations":
                 return (
