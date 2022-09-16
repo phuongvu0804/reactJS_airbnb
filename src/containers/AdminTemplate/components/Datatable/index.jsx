@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 // Material UI
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { Delete, Edit, Search, Clear, MeetingRoomOutlined } from "@mui/icons-material";
 
 // Redux actions
@@ -14,6 +14,24 @@ import { actOpenModal } from "@/store/actions/admin";
 
 // Style
 import "./style.scss";
+
+const subpath = {
+    users: {
+        title: "user",
+        prevLevel: "",
+        nextLevel: "",
+    },
+    locations: {
+        title: "location",
+        prevLevel: "",
+        nextLevel: "rooms",
+    },
+    rooms: {
+        title: "room",
+        prevLevel: "locations",
+        nextLevel: "",
+    },
+};
 
 const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => {
     const dispatch = useDispatch();
@@ -97,6 +115,23 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
         setPageSize(pageSize);
     };
 
+    const currentSubpath = subpath[firstLevelSubpath];
+
+    const renderAdditionalInfo = () => {
+        switch (currentSubpath.prevLevel) {
+            case "locations":
+                return (
+                    <Typography component="h4" variant="h6" sx={{ mb: 1, fontSize: "17px", color: "var(--gray)" }}>
+                        {rows[0].locationId.name}, {rows[0].locationId.province}, {rows[0].locationId.country}
+                    </Typography>
+                );
+            case "service":
+                return;
+            default:
+                return;
+        }
+    };
+
     const actionColumn = [
         {
             field: "actions",
@@ -106,10 +141,10 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
             headerAlign: "center",
             renderCell: (params) => (
                 <div className="cell-actions">
-                    {firstLevelSubpath === "locations" && (
+                    {currentSubpath?.nextLevel && (
                         <Link
-                            to={`/${rootPage}/rooms?location=${params.row._id}`}
-                            state={{ prevPath: "locations" }}
+                            to={`/${rootPage}/${currentSubpath.nextLevel}?${currentSubpath.title}=${params.row._id}`}
+                            state={{ prevPath: firstLevelSubpath }}
                             style={{ textDecoration: "none" }}
                         >
                             <IconButton className="cell-action btn-view-rooms">
@@ -152,6 +187,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                             <strong>+</strong> Add New
                         </Link>
                     </div>
+                    {currentSubpath?.prevLevel && rows.length > 0 && renderAdditionalInfo()}
                     <DataGrid
                         className={`data-grid data-grid-${firstLevelSubpath}`}
                         rows={searchedUsers || rows}

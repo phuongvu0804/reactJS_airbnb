@@ -7,6 +7,7 @@ import { Stack, Grid } from "@mui/material";
 import TextInput from "../TextInput";
 import RadioInput from "../RadioInput";
 import RatingInput from "../RatingInput";
+import MultiAutocompleteInput from "../MultiAutocompleteInput";
 import WaveSkeleton from "@/components/WaveSkeleton";
 
 const FormInputs = ({ columns, control, loading = false }) => {
@@ -17,8 +18,8 @@ const FormInputs = ({ columns, control, loading = false }) => {
     const [firstLevelSubpath] = pathname.split("/").slice(2);
     const isUsersPage = firstLevelSubpath === "users";
 
-    return columns.map((input) => {
-        const { id, name, label, type, placeholder } = input;
+    return columns.map((column) => {
+        const { id, name, label, type, placeholder, options } = column;
         let inputNode = null;
 
         switch (loading || type) {
@@ -26,6 +27,7 @@ const FormInputs = ({ columns, control, loading = false }) => {
             case "email":
             case "password":
             case "date":
+            case "number":
                 inputNode = (
                     <TextInput name={name} type={type} label={label} placeholder={placeholder} control={control} />
                 );
@@ -35,6 +37,17 @@ const FormInputs = ({ columns, control, loading = false }) => {
                 break;
             case "rating":
                 inputNode = <RatingInput name={name} label={label} control={control} />;
+                break;
+            case "multi-autocomplete":
+                inputNode = (
+                    <MultiAutocompleteInput
+                        name={name}
+                        label={label}
+                        control={control}
+                        options={options}
+                        placeholder={placeholder}
+                    />
+                );
                 break;
             // Loading state
             default:
