@@ -187,7 +187,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                             <strong>+</strong> Add New
                         </Link>
                     </div>
-                    {currentSubpath?.prevLevel && renderAdditionalInfo()}
+                    {currentSubpath?.prevLevel && rows.length > 0 && renderAdditionalInfo()}
                     <DataGrid
                         className={`data-grid data-grid-${firstLevelSubpath}`}
                         rows={searchedUsers || rows}

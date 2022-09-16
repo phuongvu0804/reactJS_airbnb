@@ -16,11 +16,14 @@ import { columns } from "./columns";
 const { ADD } = FUNCTIONALITY;
 
 const defaultValues = {
-    name: "",
-    province: "",
-    country: "",
-    valueate: 0,
-    image: null,
+    name: "Phòng Siêu Vip Pro",
+    guests: 2,
+    bedRoom: 2,
+    bath: 3,
+    description: "Khách Sạn này thật tuyệt vời",
+    price: 100000,
+    facilities: [],
+    locationId: "617af2e4da03f39db76165fe",
 };
 
 const New = () => {
