@@ -108,7 +108,7 @@ function RoomListPage() {
         }
 
         handleGetRoomList();
-    }, [locationId.id, roomList]);
+    }, [locationId.id]);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
