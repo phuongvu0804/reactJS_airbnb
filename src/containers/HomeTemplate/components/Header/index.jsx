@@ -54,12 +54,13 @@ const Header = () => {
     };
 
     const handleSetting = (setting) => {
+        handleCloseUserMenu();
+
         if (setting.label === "Log out") {
             localStorage.removeItem("user");
         } else {
             navigate(setting.link);
         }
-        handleCloseUserMenu();
     };
 
     const TableTabletNavbar = () => {

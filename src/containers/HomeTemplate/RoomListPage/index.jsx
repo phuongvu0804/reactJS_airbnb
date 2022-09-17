@@ -14,7 +14,7 @@ import RoomCard from "./components/RoomCard";
 //Others
 import "./style.scss";
 import { actCreateSave } from "@/store/actions/roomDetails";
-import { actGetRoomList, actGetRoomListRequest, actGetRoomListSuccess } from "@/store/actions/roomList";
+import { actGetRoomListRequest, actGetRoomListSuccess } from "@/store/actions/roomList";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
 import { modernCriteria } from "./constants";
 import { callApi } from "@/api/config/request";
