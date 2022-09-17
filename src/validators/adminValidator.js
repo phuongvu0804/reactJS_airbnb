@@ -40,6 +40,15 @@ const locationSchema = yup.object({
 /*
  *  Room
  */
-const roomSchema = yup.object({});
+const roomSchema = yup.object({
+    name: yup.string().required(msg.required),
+    guests: yup.number(),
+    bedRoom: yup.number(),
+    bath: yup.number(),
+    description: yup.string().required(msg.required),
+    price: yup.number(),
+    facilities: yup.mixed(),
+    locationId: yup.string(),
+});
 
 export { userSchema, locationSchema, roomSchema };
