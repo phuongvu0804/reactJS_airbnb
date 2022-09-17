@@ -25,16 +25,14 @@ function RoomListPage() {
     const navigate = useNavigate();
     const locationId = useParams();
 
-    let roomList = useSelector((state) => state.roomList.roomList);
+    let roomList = useSelector((state) => state.roomList.filteredList);
     let roomsSaved = useSelector((state) => state.roomDetails.roomSaved);
     const roomListLoading = useSelector((state) => state.roomList.loading);
     const locationLoading = useSelector((state) => state.locationList.loading);
     const error = useSelector((state) => state.locationList.error);
 
     const [open, setOpen] = useState(false);
-    const [dataLoading, setDataLoading] = useState(false);
     const [visible, setVisible] = useState(8);
-    const [totalRoom, setTotalRoom] = useState(0);
     const [serverError, setServerError] = useState(null);
 
     const handleGetRoomList = () => {
@@ -45,7 +43,6 @@ function RoomListPage() {
                     roomApi.getRoomList("all-rooms"),
                     (response) => {
                         const roomList = response.filter((room) => room.guests >= 5);
-                        setTotalRoom(roomList.length);
                         dispatch(actGetRoomListSuccess(roomList));
                     },
                     (error) => {
@@ -66,7 +63,6 @@ function RoomListPage() {
                                 }
                             }
                         });
-                        setTotalRoom(roomList.length);
                         dispatch(actGetRoomListSuccess(roomList));
                     },
                     (error) => {
@@ -88,7 +84,6 @@ function RoomListPage() {
                                 return room;
                             }
                         });
-                        setTotalRoom(roomList.length);
                         dispatch(actGetRoomListSuccess(roomList));
                     },
                     (error) => {
@@ -98,15 +93,20 @@ function RoomListPage() {
                 break;
 
             default:
-                setTotalRoom(roomList.length);
+                dispatch(actGetRoomListRequest());
+                callApi(
+                    roomApi.getRoomList(locationId.id),
+                    (response) => {
+                        dispatch(actGetRoomListSuccess(response));
+                    },
+                    (error) => {
+                        setServerError(error);
+                    },
+                );
         }
     };
 
     useEffect(() => {
-        if (!roomListLoading || !locationLoading) {
-            setDataLoading(false);
-        }
-
         handleGetRoomList();
     }, [locationId.id]);
 
@@ -185,9 +185,9 @@ function RoomListPage() {
                     <Container maxWidth="lg" className="room-list__head">
                         <div className="room-list__title-wrapper">
                             <span className="room-list__room-number">
-                                {Math.floor(totalRoom / 10) * 10 < 10
-                                    ? `${totalRoom} stays`
-                                    : `Over ${Math.floor(totalRoom / 10) * 10} stays`}
+                                {Math.floor(roomList.length / 10) * 10 < 10
+                                    ? `${roomList.length} stays`
+                                    : `Over ${Math.floor(roomList.length / 10) * 10} stays`}
                             </span>
                             <h3 className="page__main-title room-list__title">Accomodation in your selected area</h3>
                         </div>

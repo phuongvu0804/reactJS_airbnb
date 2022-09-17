@@ -3,6 +3,7 @@ import * as actTypes from "../constants/roomList";
 const initState = {
     loading: false,
     roomList: [],
+    filteredList: [],
     guestNumber: 0,
     error: null,
 };
@@ -10,32 +11,25 @@ const initState = {
 const roomListReducer = (state = initState, action) => {
     switch (action.type) {
         case actTypes.GET_ROOM_LIST_REQUEST:
-            state.loading = true;
-            state.roomList = [];
-            state.guestNumber = 0;
-            state.error = null;
-            return { ...state };
+            return { ...state, loading: true };
 
         case actTypes.GET_ROOM_LIST_SUCCESS:
-            state.loading = false;
-            state.roomList = action.payload;
-            state.guestNumber = 0;
-            state.error = null;
-            return { ...state };
+            return { ...state, loading: false, roomList: action.payload, filteredList: action.payload };
 
         case actTypes.GET_ROOM_LIST_FAIL:
-            state.loading = false;
-            state.roomList = [];
-            state.guestNumber = 0;
-            state.error = action.payload;
-            return { ...state };
+            return { ...state, loading: false, error: action.payload };
+
+        case actTypes.GET_FILTERED_LIST_REQUEST:
+            return { ...state, loading: true };
+
+        case actTypes.GET_FILTERED_LIST_SUCCESS:
+            return { ...state, loading: false, filteredList: action.payload };
+
+        case actTypes.GET_ROOM_LIST_FAIL:
+            return { ...state, loading: false, error: action.payload };
 
         case actTypes.GET_GUEST_NUMBER:
-            state.loading = false;
-            state.roomList = [];
-            state.guestNumber = action.payload;
-            state.error = null;
-            return { ...state };
+            return { ...state, loading: false, guestNumber: action.payload };
 
         default:
             return { ...state };
