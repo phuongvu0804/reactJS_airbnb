@@ -29,6 +29,7 @@ const New = () => {
         price: 0,
         facilities: [],
         locationId: state?.id,
+        image: null,
     };
 
     return (

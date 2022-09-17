@@ -47,8 +47,8 @@ const roomSchema = yup.object({
     bath: yup.number(),
     description: yup.string().required(msg.required),
     price: yup.number(),
-    facilities: yup.mixed(),
-    locationId: yup.string(),
+    facilities: yup.array(),
+    // locationId: yup.string(),
 });
 
 export { userSchema, locationSchema, roomSchema };

@@ -71,6 +71,10 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
                         details[key] = facilityOptions.filter((option) => details[option.title]);
                     }
 
+                    if (key === "locationId") {
+                        continue;
+                    }
+
                     setValue(key, details[key]);
                 }
             },

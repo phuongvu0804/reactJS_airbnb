@@ -26,8 +26,12 @@ const roomApi = {
         const url = `${resourceName}/booking`;
         return axiosClient.post(url, data);
     },
+    updateRoom: (id, room) => {
+        const url = `${resourceName}/${id}`;
+        return axiosClient.put(url, room);
+    },
     updateRoomPhoto: (id, photo) => {
-        const url = `${resourceName}/upload-images/${id}`;
+        const url = `${resourceName}/upload-image/${id}`;
         return axiosClient.post(url, photo);
     },
 };

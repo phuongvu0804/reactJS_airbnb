@@ -153,7 +153,11 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                             </IconButton>
                         </Link>
                     )}
-                    <Link to={`edit/${params.row._id}`} style={{ textDecoration: "none" }}>
+                    <Link
+                        to={`edit/${params.row._id}`}
+                        state={{ id: searchParams.get(currentSubpath.prevLevel.slice(0, -1)) }}
+                        style={{ textDecoration: "none" }}
+                    >
                         <IconButton className="cell-action btn-edit">
                             <Edit />
                         </IconButton>
