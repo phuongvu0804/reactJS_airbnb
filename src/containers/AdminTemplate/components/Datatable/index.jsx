@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -34,6 +34,7 @@ const subpath = {
 };
 
 const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => {
+    const [searchParams, _] = useSearchParams();
     const dispatch = useDispatch();
 
     /*
@@ -183,7 +184,11 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                                 <Search />
                             )}
                         </div>
-                        <Link to="new" className="link">
+                        <Link
+                            to="new"
+                            state={{ id: searchParams.get(currentSubpath.prevLevel.slice(0, -1)) }}
+                            className="link"
+                        >
                             <strong>+</strong> Add New
                         </Link>
                     </div>

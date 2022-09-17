@@ -1,41 +1,45 @@
+import { useLocation } from "react-router-dom";
+
 // Components
 import Form from "../../components/Form";
 
 // Input validator
-import { locationSchema } from "@/validators";
+import { roomSchema } from "@/validators";
 
 // Constants
 import { FUNCTIONALITY } from "@/constants";
 
 // Apis
-import { locationApi } from "@/api";
+import { roomApi } from "@/api";
 
 // Columns
 import { columns } from "./columns";
 
 const { ADD } = FUNCTIONALITY;
 
-const defaultValues = {
-    name: "Phòng Siêu Vip Pro",
-    guests: 2,
-    bedRoom: 2,
-    bath: 3,
-    description: "Khách Sạn này thật tuyệt vời",
-    price: 100000,
-    facilities: [],
-    locationId: "617af2e4da03f39db76165fe",
-};
-
 const New = () => {
+    const { state } = useLocation();
+
+    const defaultValues = {
+        name: "",
+        guests: 0,
+        bedRoom: 0,
+        bath: 0,
+        description: "",
+        price: 0,
+        facilities: [],
+        locationId: state?.id,
+    };
+
     return (
         <Form
             functionality={ADD}
             defaultValues={defaultValues}
             columns={columns}
-            validator={locationSchema}
+            validator={roomSchema}
             postRequest={{
-                mutateDetails: locationApi.addLocation,
-                mutatePhoto: locationApi.updateLocationPhoto,
+                mutateDetails: roomApi.createRoom,
+                mutatePhoto: roomApi.updateRoomPhoto,
             }}
         />
     );

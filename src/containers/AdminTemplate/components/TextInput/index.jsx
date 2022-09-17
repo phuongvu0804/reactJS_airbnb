@@ -24,6 +24,7 @@ const TextInput = ({ name, label, control, ...others }) => {
                 hiddenLabel
                 fullWidth={others.type !== "date"}
                 variant="standard"
+                InputProps={{ inputProps: { min: 0 } }}
             />
         </>
     );
