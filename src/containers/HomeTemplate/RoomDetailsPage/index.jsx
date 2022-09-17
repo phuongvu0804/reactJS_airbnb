@@ -51,7 +51,7 @@ function RoomDetailsPage() {
         if (user) {
             setFavorite(!favorite);
 
-            if (favorite) {
+            if (!favorite) {
                 roomsSaved = [...roomsSaved, roomId.id];
             } else {
                 roomsSaved = roomsSaved.filter((item) => item !== roomId.id);
