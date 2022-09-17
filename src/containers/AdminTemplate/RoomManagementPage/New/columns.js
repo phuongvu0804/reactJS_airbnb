@@ -1,3 +1,16 @@
+export const facilityOptions = [
+    { title: "elevator" },
+    { title: "hotTub" },
+    { title: "pool" },
+    { title: "indoorFireplace" },
+    { title: "dryer" },
+    { title: "gym" },
+    { title: "kitchen" },
+    { title: "wifi" },
+    { title: "heating" },
+    { title: "cableTV" },
+];
+
 export const columns = [
     {
         id: 1,
@@ -46,18 +59,7 @@ export const columns = [
         name: "facilities",
         label: "Facilities",
         type: "multi-autocomplete",
-        options: [
-            { title: "elevator", value: false },
-            { title: "hotTub", value: false },
-            { title: "pool", value: false },
-            { title: "indoorFireplace", value: false },
-            { title: "dryer", value: false },
-            { title: "gym", value: false },
-            { title: "kitchen", value: false },
-            { title: "wifi", value: false },
-            { title: "heating", value: false },
-            { title: "cableTV", value: false },
-        ],
+        options: facilityOptions,
         placeholder: "Facilities",
     },
 ];

@@ -1,38 +1,46 @@
+import { useLocation } from "react-router-dom";
+
 // Components
 import Form from "../../components/Form";
 
 // Input validator
-import { locationSchema } from "@/validators";
+import { roomSchema } from "@/validators";
 
 // Constants
 import { FUNCTIONALITY } from "@/constants";
 
 // Apis
-import { locationApi } from "@/api";
+import { roomApi } from "@/api";
 
 // Columns
 import { columns } from "./columns";
 
 const { EDIT } = FUNCTIONALITY;
 
-const defaultValues = {
-    name: "",
-    province: "",
-    country: "",
-    valueate: 0,
-    image: null,
-};
-
 const Edit = () => {
+    const { state } = useLocation();
+
+    const defaultValues = {
+        name: "",
+        guests: 0,
+        bedRoom: 0,
+        bath: 0,
+        description: "",
+        price: 0,
+        facilities: [],
+        locationId: state?.id,
+        image: null,
+    };
+
     return (
         <Form
             functionality={EDIT}
             defaultValues={defaultValues}
             columns={columns}
-            validator={locationSchema}
-            getRequest={locationApi.getLocationDetails}
-            postRequest={{ mutatePhoto: locationApi.updateLocationPhoto }}
-            putRequest={locationApi.updateLocation}
+            validator={roomSchema}
+            getRequest={roomApi.getRoomDetails}
+            postRequest={{ mutatePhoto: roomApi.updateRoomPhoto }}
+            putRequest={roomApi.updateRoom}
         />
     );
 };

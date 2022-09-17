@@ -17,6 +17,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 // Constants
 import { FUNCTIONALITY } from "@/constants";
+import { facilityOptions } from "../../RoomManagementPage/New/columns";
 
 // Date formatter
 import moment from "moment";
@@ -52,21 +53,33 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
     /*
      *  If editing details, get details beforehand
      */
-    const { isLoading } = useQuery([`${rootPage}/${functionality.toLowerCase()}`, id], () => getRequest(id), {
-        enabled: functionality === EDIT,
-        refetchOnWindowFocus: false,
-        onSuccess: (data) => {
-            const details = data.data;
+    const { isLoading } = useQuery(
+        [`${rootPage}/${firstLevelSubpath}/${functionality.toLowerCase()}`, id],
+        () => getRequest(id),
+        {
+            enabled: functionality === EDIT,
+            refetchOnWindowFocus: false,
+            onSuccess: (data) => {
+                const details = data.data;
 
-            for (let key in defaultValues) {
-                if (key === "birthday") {
-                    details[key] = moment(details[key]).format("YYYY-MM-DD");
+                for (const key in defaultValues) {
+                    if (key === "birthday") {
+                        details[key] = moment(details[key]).format("YYYY-MM-DD");
+                    }
+
+                    if (key === "facilities") {
+                        details[key] = facilityOptions.filter((option) => details[option.title]);
+                    }
+
+                    if (key === "locationId") {
+                        continue;
+                    }
+
+                    setValue(key, details[key]);
                 }
-
-                setValue(key, details[key]);
-            }
+            },
         },
-    });
+    );
     const mutationPhoto = useMutation(
         ({ id, photoFormData }) => {
             if (!postRequest?.mutatePhoto) {
@@ -139,7 +152,17 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
      *  Handle submit
      */
     const handleSubmitData = (value) => {
-        const { image, ...details } = value;
+        let { image, facilities, ...details } = value;
+
+        // Convert facilities array to object
+        if (facilities) {
+            const facilityObj = {};
+            for (const facility of facilities) {
+                facilityObj[facility.title] = true;
+            }
+            details = { ...details, ...facilityObj };
+        }
+
         mutationDetails.mutate({ id, details });
     };
 
@@ -149,7 +172,7 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
     const uploadPhotoColumn = (
         <div className="right">
             <div className="img-wrapper">
-                <img src={handleDisplayPhoto()} alt="image" />
+                <img src={handleDisplayPhoto()} alt="" />
                 <Button
                     id="basic-button"
                     variant="outlined"

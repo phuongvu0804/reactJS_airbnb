@@ -16,6 +16,7 @@ const MultiAutocompleteInput = ({ name, label, control, options, placeholder }) 
                 onChange={(_, value) => field.onChange(value)}
                 options={options}
                 getOptionLabel={(option) => option.title}
+                isOptionEqualToValue={(option, value) => option.title === value.title}
                 filterSelectedOptions
                 renderInput={(params) => {
                     return (
