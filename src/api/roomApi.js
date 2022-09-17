@@ -3,8 +3,8 @@ import axiosClient from "./config/axiosClient";
 const resourceName = "rooms";
 
 const roomApi = {
-    createRoom: (data) => {
-        return axiosClient.post(resourceName, data);
+    createRoom: (room) => {
+        return axiosClient.post(resourceName, room);
     },
     getRoomList: (locationId) => {
         if (locationId !== "all-rooms") {
@@ -25,6 +25,10 @@ const roomApi = {
     createBooking: (data) => {
         const url = `${resourceName}/booking`;
         return axiosClient.post(url, data);
+    },
+    updateRoomPhoto: (id, photo) => {
+        const url = `${resourceName}/upload-images/${id}`;
+        return axiosClient.post(url, photo);
     },
 };
 
