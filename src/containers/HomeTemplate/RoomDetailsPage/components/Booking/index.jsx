@@ -35,17 +35,28 @@ function Booking({ data }) {
     const handleCloseModal = () => setOpenModal(false);
 
     const checkValidDate = (date) => {
-        return date.setHours(0, 0, 0, 0) >= today.setHours(0, 0, 0, 0);
+        return date.setHours(0, 0, 0, 0) >= today._d.setHours(0, 0, 0, 0);
     };
 
-    const checkValidCheckOut = (checkIn, checkOut) => {
-        return checkIn._d.setHours(0, 0, 0, 0) <= checkOut._d.setHours(0, 0, 0, 0);
+    const checkValidStayTime = (checkInTime, checkOutTime) => {
+        return checkInTime._d.setHours(0, 0, 0, 0) <= checkOutTime._d.setHours(0, 0, 0, 0);
     };
 
     const handleCheckIn = (newValue) => {
         const isValidDate = checkValidDate(newValue._d);
         if (isValidDate) {
-            setFormErrors(null);
+            if (checkOut) {
+                const isValidCheckIn = checkValidStayTime(newValue, checkOut);
+
+                if (isValidCheckIn) {
+                    setFormErrors(null);
+                } else {
+                    setFormErrors({
+                        type: "Invalid check in",
+                        content: "Check in date must be the same or ealier than check out time",
+                    });
+                }
+            }
         } else {
             setFormErrors({
                 type: "Invalid date",
@@ -61,15 +72,17 @@ function Booking({ data }) {
 
         const isValidDate = checkValidDate(newValue._d);
         if (isValidDate) {
-            const isValidCheckOut = checkValidCheckOut(checkIn, newValue);
+            if (checkIn) {
+                const isValidCheckOut = checkValidStayTime(checkIn, newValue);
 
-            if (isValidCheckOut) {
-                setFormErrors(null);
-            } else {
-                setFormErrors({
-                    type: "Invalid check out",
-                    content: "Check in date must be the same or later than today",
-                });
+                if (isValidCheckOut) {
+                    setFormErrors(null);
+                } else {
+                    setFormErrors({
+                        type: "Invalid check out",
+                        content: "Check in date must be the same or later than today",
+                    });
+                }
             }
         } else {
             setFormErrors({
@@ -94,7 +107,7 @@ function Booking({ data }) {
     const roomPrice = data.price.toLocaleString("en-US");
     const startDate = moment(checkIn, "YYYY-MM-DD");
     const endDate = moment(checkOut, "YYYY-MM-DD");
-    const totalDaysStay = moment.duration(endDate.diff(startDate)).asDays();
+    const totalDaysStay = moment.duration(endDate.diff(startDate)).asDays() + 1; //Adjust day calculation to match with Airbnb rule
     const serviceFee = 100000;
     const priceByTotalDays = totalDaysStay * data.price;
     const totalPrice = priceByTotalDays + serviceFee;
@@ -143,7 +156,6 @@ function Booking({ data }) {
                                 className="booking-card__check-in"
                                 label="Check in"
                                 value={checkIn}
-                                // inputFormat="MM/dd/yyyy"
                                 onChange={handleCheckIn}
                                 renderInput={(params) => <TextField {...params} />}
                             />
@@ -153,7 +165,6 @@ function Booking({ data }) {
                                 className="booking-card__check-out"
                                 label="Check out"
                                 value={checkOut}
-                                // inputFormat="MM/dd/yyyy"
                                 onChange={handleCheckOut}
                                 renderInput={(params) => <TextField {...params} />}
                             />

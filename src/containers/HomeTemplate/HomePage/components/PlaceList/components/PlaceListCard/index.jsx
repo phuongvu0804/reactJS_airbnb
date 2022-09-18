@@ -1,13 +1,24 @@
-import { Link } from "react-router-dom";
-import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 //components
 import Image from "@/components/Image";
 import "./style.scss";
 
+//Others
+import { actGetRoomList } from "@/store/actions/roomList";
+
 function PlaceListCard({ data }) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleGetRoomList = (locationId) => {
+        dispatch(actGetRoomList(locationId));
+        navigate(`/room-list/${data._id}`);
+    };
+
     return (
-        <Link to={`/room-list/${data._id}`} className="place-card">
+        <div onClick={() => handleGetRoomList(data._id)} className="place-card">
             <div className="place-card__img">
                 <Image src={data?.image} alt="Scence illustration" />
             </div>
@@ -15,7 +26,7 @@ function PlaceListCard({ data }) {
                 <p className="place-card__title">{data?.name}</p>
                 <p className="place-card__text">Evaluation: {data?.valueate}</p>
             </div>
-        </Link>
+        </div>
     );
 }
 

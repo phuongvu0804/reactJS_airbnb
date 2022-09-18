@@ -22,6 +22,26 @@ const actGetRoomListFail = (error) => {
     };
 };
 
+const actGetFilteredListRequest = () => {
+    return {
+        type: actTypes.GET_FILTERED_LIST_REQUEST,
+    };
+};
+
+const actGetFilteredListSuccess = (data) => {
+    return {
+        type: actTypes.GET_FILTERED_LIST_SUCCESS,
+        payload: data,
+    };
+};
+
+const actGetFilteredListFail = (error) => {
+    return {
+        type: actTypes.GET_FILTERED_LIST_FAIL,
+        payload: error,
+    };
+};
+
 const actGetRoomList = (locationId = "all-rooms") => {
     return (dispatch) => {
         dispatch(actGetRoomListRequest());
@@ -34,4 +54,12 @@ const actGetRoomList = (locationId = "all-rooms") => {
     };
 };
 
-export { actGetRoomList, actGetRoomListRequest, actGetRoomListSuccess, actGetRoomListFail };
+export {
+    actGetRoomList,
+    actGetRoomListRequest,
+    actGetRoomListSuccess,
+    actGetRoomListFail,
+    actGetFilteredListRequest,
+    actGetFilteredListSuccess,
+    actGetFilteredListFail,
+};
