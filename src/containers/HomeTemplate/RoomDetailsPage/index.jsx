@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 //Material UI
 import Image from "@/components/Image";
-import { Button, CircularProgress, Container, Divider, Skeleton } from "@mui/material";
+import { Button, Container, Divider } from "@mui/material";
 import { Box } from "@mui/system";
 import { ArrowForwardIos, Favorite, FavoriteBorder, IosShare } from "@mui/icons-material";
 
@@ -70,7 +70,7 @@ function RoomDetailsPage() {
             <Container maxWidth="lg">
                 <h3 className="page__main-title room-details__title">{roomDetails?.name}</h3>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <p className="room-details__location">{roomDetails?.locationId.name}</p>
+                    <p className="room-details__location">{roomDetails?.locationId?.name}</p>
                     <div>
                         <Button className="room-details__btn">
                             <IosShare />
