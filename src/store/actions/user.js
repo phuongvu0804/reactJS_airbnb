@@ -22,6 +22,26 @@ const actGetUserDataFail = (error) => {
     };
 };
 
+const actEditUserRequest = () => {
+    return {
+        type: actTypes.EDIT_USER_REQUEST,
+    };
+};
+
+const actEditUserSuccess = (data) => {
+    return {
+        type: actTypes.EDIT_USER_SUCCESS,
+        payload: data,
+    };
+};
+
+const actEditUserFail = (data) => {
+    return {
+        type: actTypes.EDIT_USER_FAIL,
+        payload: data,
+    };
+};
+
 const actGetUserData = (userId) => {
     return (dispatch) => {
         dispatch(actGetUserDataRequest());
@@ -34,4 +54,17 @@ const actGetUserData = (userId) => {
     };
 };
 
-export { actGetUserData };
+//Xoá redux
+const actEditUser = (userId, data) => {
+    return (dispatch) => {
+        dispatch(actEditUserRequest());
+
+        callApi(
+            userApi.editUser(userId, data),
+            (response) => dispatch(actEditUserSuccess(response)),
+            (error) => dispatch(actEditUserFail(error)),
+        );
+    };
+};
+
+export { actGetUserData, actGetUserDataSuccess, actEditUser };

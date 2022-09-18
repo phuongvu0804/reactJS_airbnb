@@ -27,7 +27,6 @@ import { filterSchema } from "@/validators";
 import { initialValues, style, radioOptions, checkBoxOptions_essentials, checkBoxOptions_features } from "./constants";
 import { actGetFilteredListRequest, actGetFilteredListSuccess } from "@/store/actions/roomList";
 import "./style.scss";
-import { useState } from "react";
 
 function RoomFilterModal({ onOpen, onClose }) {
     const dispatch = useDispatch();
