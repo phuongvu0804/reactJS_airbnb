@@ -7,7 +7,6 @@ import { Container, Grid } from "@mui/material";
 import "./style.scss";
 import PlaceListMobile from "./components/PlaceListMobile";
 import PlaceListCard from "./components/PlaceListCard";
-import { Link } from "react-router-dom";
 
 function PlaceList({ data }) {
     const renderListCards = () => {

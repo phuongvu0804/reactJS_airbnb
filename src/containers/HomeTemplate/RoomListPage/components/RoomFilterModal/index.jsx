@@ -25,14 +25,13 @@ import SubmitBtn from "@/components/SubmitBtn";
 //others
 import { filterSchema } from "@/validators";
 import { initialValues, style, radioOptions, checkBoxOptions_essentials, checkBoxOptions_features } from "./constants";
-import { actGetRoomListFail, actGetRoomListSuccess } from "@/store/actions/roomList";
-import { roomApi } from "@/api";
-import { callApi } from "@/api/config/request";
+import { actGetFilteredListRequest, actGetFilteredListSuccess } from "@/store/actions/roomList";
 import "./style.scss";
+import { useState } from "react";
 
 function RoomFilterModal({ onOpen, onClose }) {
     const dispatch = useDispatch();
-    const searchLocation = useSelector((state) => state.locationList.data);
+    const roomList = useSelector((state) => state.roomList.roomList);
 
     const handleRadioOptions = (roomList, roomFilter) => {
         return roomList.filter((room) => {
@@ -73,36 +72,20 @@ function RoomFilterModal({ onOpen, onClose }) {
     };
 
     const handleRoomListFilter = (roomList, roomFilter) => {
-        let filteredList = [];
-        filteredList = handleRadioOptions(roomList, roomFilter);
-        filteredList = handleCheckBox(filteredList, roomFilter);
-        dispatch(actGetRoomListSuccess(filteredList));
+        let filteredRooms = [];
+        filteredRooms = handleRadioOptions(roomList, roomFilter);
+        filteredRooms = handleCheckBox(filteredRooms, roomFilter);
 
-        return filteredList;
+        return filteredRooms;
     };
 
     const handleGetRoomFiltered = (roomFilter) => {
-        //Check if location exists
-        if (searchLocation && searchLocation?.length !== 0) {
-            const locationId = searchLocation[0]._id;
+        //Get room list from redux store
+        if (roomList) {
+            const filteredList = handleRoomListFilter(roomList, roomFilter);
 
-            callApi(
-                roomApi.getRoomList(locationId),
-                (resp) => {
-                    //Check if location has any room
-                    if (resp.length !== 0) {
-                        //Filter rooms and dispatch to Redux store
-                        const filteredList = handleRoomListFilter(resp, roomFilter);
-                        dispatch(actGetRoomListSuccess(filteredList));
-                    } else {
-                        return dispatch(actGetRoomListFail("Location has no accomodation"));
-                    }
-                },
-                (resp) => dispatch(actGetRoomListFail(resp)),
-            );
-        } else {
-            //Navigate to page with no result
-            dispatch(actGetRoomListFail("Location doesn't exist"));
+            //Push filtered list to redux store
+            dispatch(actGetFilteredListSuccess(filteredList));
         }
     };
 
@@ -110,7 +93,9 @@ function RoomFilterModal({ onOpen, onClose }) {
         initialValues: initialValues,
         validationSchema: filterSchema,
         onSubmit: (values) => {
+            dispatch(actGetFilteredListRequest());
             handleGetRoomFiltered(values);
+            onClose();
         },
     });
 

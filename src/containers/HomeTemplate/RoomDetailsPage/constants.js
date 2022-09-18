@@ -11,6 +11,7 @@ import {
     SportsGymnastics,
     Wifi,
 } from "@mui/icons-material";
+import moment from "moment";
 
 const rules = [
     {
@@ -41,6 +42,6 @@ const amenities = [
     { name: "Heating", id: "heating", icon: <LocalFireDepartment className="amenities__icon" /> },
 ];
 
-const today = new Date();
+const today = moment();
 
 export { rules, amenities, today };
