@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -36,6 +36,7 @@ const subpath = {
 const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => {
     const [searchParams, _] = useSearchParams();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     /*
      *  Get subpaths
@@ -106,6 +107,13 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
 
     const handleDelete = (id) => {
         mutate(id);
+    };
+
+    /*
+     *  Handle view details
+     */
+    const handleViewDetails = (params) => {
+        navigate(`details/${params.row._id}`);
     };
 
     /*
@@ -203,6 +211,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                         columns={columns.concat(actionColumn)}
                         pageSize={pageSize}
                         onPageSizeChange={handleChangePageSize}
+                        onRowDoubleClick={handleViewDetails}
                         getRowId={(row) => row._id}
                         autoHeight
                         loading={isLoading}

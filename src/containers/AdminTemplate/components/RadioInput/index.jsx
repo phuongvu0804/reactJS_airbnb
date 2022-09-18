@@ -6,7 +6,7 @@ import { FormControl, RadioGroup, Radio, FormControlLabel, FormLabel } from "@mu
 // Style
 import "./style.scss";
 
-const RadioInput = ({ name, label, control }) => {
+const RadioInput = ({ name, label, control, disabled = false }) => {
     const { field } = useController({ name, control });
 
     return (
@@ -30,6 +30,7 @@ const RadioInput = ({ name, label, control }) => {
                         />
                     }
                     label="Male"
+                    disabled={disabled}
                 />
                 <FormControlLabel
                     value={false}
@@ -44,6 +45,7 @@ const RadioInput = ({ name, label, control }) => {
                         />
                     }
                     label="Female"
+                    disabled={disabled}
                 />
             </RadioGroup>
         </FormControl>

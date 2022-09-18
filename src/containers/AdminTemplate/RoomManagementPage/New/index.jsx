@@ -13,7 +13,7 @@ import { FUNCTIONALITY } from "@/constants";
 import { roomApi } from "@/api";
 
 // Columns
-import { columns } from "./columns";
+import { formColumns } from "../formColumns";
 
 const { ADD } = FUNCTIONALITY;
 
@@ -36,7 +36,7 @@ const New = () => {
         <Form
             functionality={ADD}
             defaultValues={defaultValues}
-            columns={columns}
+            columns={formColumns}
             validator={roomSchema}
             postRequest={{
                 mutateDetails: roomApi.createRoom,

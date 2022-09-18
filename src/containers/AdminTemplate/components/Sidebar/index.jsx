@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks";
 
 // Material UI
@@ -11,10 +11,8 @@ import {
     NotificationsNone,
     MedicalInformation,
     Settings,
-    Psychology,
     AccountCircle,
     Logout,
-    CreditCard,
 } from "@mui/icons-material";
 
 // Style
@@ -23,6 +21,8 @@ import "./style.scss";
 const Sidebar = () => {
     const auth = useAuth();
     const navigate = useNavigate();
+
+    const NavLinkStyle = ({ isActive }) => (isActive ? "active" : undefined);
 
     return (
         <div className="sidebar">
@@ -44,31 +44,25 @@ const Sidebar = () => {
             <div className="center">
                 <ul>
                     <p className="title">MAIN</p>
-                    <Link to="dashboard" style={{ textDecoration: "none" }}>
+                    <NavLink to="dashboard" className={NavLinkStyle}>
                         <li>
                             <Dashboard className="icon" />
                             <span>Dashboard</span>
                         </li>
-                    </Link>
+                    </NavLink>
                     <p className="title">LISTS</p>
-                    <Link to="users" style={{ textDecoration: "none" }}>
+                    <NavLink to="users" className={NavLinkStyle}>
                         <li>
                             <PersonOutline className="icon" />
                             <span>Users</span>
                         </li>
-                    </Link>
-                    <Link to="locations" style={{ textDecoration: "none" }}>
+                    </NavLink>
+                    <NavLink to="locations" className={NavLinkStyle}>
                         <li>
                             <MapOutlined className="icon" />
                             <span>Locations</span>
                         </li>
-                    </Link>
-                    <Link to="rooms" style={{ textDecoration: "none" }}>
-                        <li>
-                            <CreditCard className="icon" />
-                            <span>Rooms</span>
-                        </li>
-                    </Link>
+                    </NavLink>
                     <li>
                         <LocalShipping className="icon" />
                         <span>Delivery</span>
@@ -86,10 +80,6 @@ const Sidebar = () => {
                     <li>
                         <MedicalInformation className="icon" />
                         <span>System Health</span>
-                    </li>
-                    <li>
-                        <Psychology className="icon" />
-                        <span>Logs</span>
                     </li>
                     <li>
                         <Settings className="icon" />

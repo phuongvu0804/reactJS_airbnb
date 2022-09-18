@@ -2,7 +2,7 @@
 import { Stack } from "@mui/material";
 import { Star } from "@mui/icons-material";
 
-export const columns = [
+export const tableColumns = [
     {
         field: "name",
         headerName: "Location",

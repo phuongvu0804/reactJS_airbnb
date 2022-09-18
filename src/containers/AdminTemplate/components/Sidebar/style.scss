@@ -24,6 +24,9 @@
         padding-left: 10px;
 
         ul {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
             list-style: none;
 
             .title {
@@ -36,6 +39,14 @@
                     weight: 900;
                 }
                 color: #999;
+            }
+
+            a {
+                text-decoration: none;
+
+                &.active > li {
+                    background-color: #ffeff3;
+                }
             }
 
             li {

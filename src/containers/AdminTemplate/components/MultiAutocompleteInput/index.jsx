@@ -3,7 +3,10 @@ import { useController } from "react-hook-form";
 // Material UI
 import { InputLabel, TextField, Autocomplete } from "@mui/material";
 
-const MultiAutocompleteInput = ({ name, label, control, options, placeholder }) => {
+// Style
+import "./style.scss";
+
+const MultiAutocompleteInput = ({ name, label, control, options, placeholder, disabled = false }) => {
     const { field } = useController({ name, control });
 
     return (
@@ -29,6 +32,7 @@ const MultiAutocompleteInput = ({ name, label, control, options, placeholder }) 
                         />
                     );
                 }}
+                disabled={disabled}
             />
         </>
     );
