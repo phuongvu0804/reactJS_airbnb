@@ -1,6 +1,12 @@
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 
+// Route Guard
+import RequireAuth from "@/guard";
+
+// Constants
+import { ROLE } from "@/constants";
+
 // Template
 const AdminTemplate = lazy(() => import("@/containers/AdminTemplate"));
 
@@ -22,7 +28,11 @@ const RoomDetails = lazy(() => import("@/containers/AdminTemplate/RoomManagement
 
 const AdminRoutes = {
     path: "admin",
-    element: <AdminTemplate />,
+    element: (
+        <RequireAuth roles={[ROLE.ADMIN]}>
+            <AdminTemplate />
+        </RequireAuth>
+    ),
     children: [
         { path: "", element: <Navigate to="dashboard" /> },
         { path: "dashboard", element: <div>Dashboard</div> },

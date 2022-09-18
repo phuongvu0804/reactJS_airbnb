@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Navigate } from "react-router-dom";
-import { useAuth } from "@/hooks";
+import { useNavigate } from "react-router-dom";
 
 // Material UI
 import { Stack, InputLabel, FormControl, FormControlLabel, FormLabel, Grid, RadioGroup, Radio } from "@mui/material";
@@ -21,7 +20,6 @@ import { actSignup } from "@/store/actions/auth";
 const SignupPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const auth = useAuth();
     const [radioValue, setRadioValue] = useState(true);
     const { control, handleSubmit, setValue } = useForm({
         reValidateMode: "onSubmit",
@@ -37,10 +35,6 @@ const SignupPage = () => {
         },
     });
     const { signup } = useSelector((state) => state.auth);
-
-    if (auth.user) {
-        return <Navigate to="/" />;
-    }
 
     const handleChangeRadio = (event) => {
         const booleanValue = event.target.value === "true";

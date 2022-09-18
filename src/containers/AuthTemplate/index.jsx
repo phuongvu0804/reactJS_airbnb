@@ -1,4 +1,5 @@
-import { Outlet, useLocation, Link as RouterLink } from "react-router-dom";
+import { Outlet, useLocation, Link as RouterLink, Navigate } from "react-router-dom";
+import { useAuth } from "@/hooks";
 
 // Material UI
 import { Container, Box, Grid, Stack, Link, Typography, Paper } from "@mui/material";
@@ -8,6 +9,11 @@ import "./style.scss";
 
 const AuthTemplate = () => {
     const { pathname } = useLocation();
+    const auth = useAuth();
+
+    if (auth.user) {
+        return <Navigate replace to="/" />;
+    }
 
     const breakpoints = {};
     const direction = { path: "/auth/login" };
