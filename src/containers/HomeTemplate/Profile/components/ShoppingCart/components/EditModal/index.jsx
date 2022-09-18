@@ -19,7 +19,7 @@ import "./style.scss";
 
 function EditModal({ onOpen, onClose, data }) {
     const [checkIn, setCheckIn] = useState(null);
-    const [checkOut, setCheckOut] = useState();
+    const [checkOut, setCheckOut] = useState(null);
     const [serverResponse, setServerResponse] = useState(null);
 
     const handleCloseModal = () => {

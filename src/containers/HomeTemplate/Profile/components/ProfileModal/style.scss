@@ -1,0 +1,10 @@
+.profile-modal__input-group {
+    label.Mui-focused,
+    &.Mui-focused fieldset,
+    &:hover fieldset,
+    & .Mui-checked,
+    fieldset.MuiOutlinedInput-notchedOutline {
+        border-color: var(--black) !important;
+        color: var(--black) !important;
+    }
+}

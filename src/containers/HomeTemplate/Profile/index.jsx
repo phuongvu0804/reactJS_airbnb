@@ -4,13 +4,13 @@ import { useEffect } from "react";
 import { Container } from "@mui/system";
 
 //components
+import ProfilePC from "./components/ProfilePC";
+import ProfileTabletMobile from "./components/ProfileTabletMobile";
 
 //others
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetUserData } from "@/store/actions/user";
-import ProfilePC from "./components/ProfilePC";
-import ProfileTabletMobile from "./components/ProfileTabletMobile";
 
 function Profile() {
     const dispatch = useDispatch();
