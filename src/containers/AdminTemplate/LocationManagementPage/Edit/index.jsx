@@ -11,7 +11,7 @@ import { FUNCTIONALITY } from "@/constants";
 import { locationApi } from "@/api";
 
 // Columns
-import { columns } from "./columns";
+import { formColumns } from "../formColumns";
 
 const { EDIT } = FUNCTIONALITY;
 
@@ -28,7 +28,7 @@ const Edit = () => {
         <Form
             functionality={EDIT}
             defaultValues={defaultValues}
-            columns={columns}
+            columns={formColumns}
             validator={locationSchema}
             getRequest={locationApi.getLocationDetails}
             postRequest={{ mutatePhoto: locationApi.updateLocationPhoto }}

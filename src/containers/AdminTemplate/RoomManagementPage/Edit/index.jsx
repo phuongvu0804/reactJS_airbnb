@@ -13,7 +13,7 @@ import { FUNCTIONALITY } from "@/constants";
 import { roomApi } from "@/api";
 
 // Columns
-import { columns } from "./columns";
+import { formColumns } from "../formColumns";
 
 const { EDIT } = FUNCTIONALITY;
 
@@ -36,7 +36,7 @@ const Edit = () => {
         <Form
             functionality={EDIT}
             defaultValues={defaultValues}
-            columns={columns}
+            columns={formColumns}
             validator={roomSchema}
             getRequest={roomApi.getRoomDetails}
             postRequest={{ mutatePhoto: roomApi.updateRoomPhoto }}

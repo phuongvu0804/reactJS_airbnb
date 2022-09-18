@@ -1,4 +1,4 @@
-export const columns = [
+export const tableColumns = [
     {
         field: "name",
         headerName: "Room",

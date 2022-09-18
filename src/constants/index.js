@@ -6,6 +6,7 @@ const ROLE = {
 const FUNCTIONALITY = {
     ADD: "Add",
     EDIT: "Edit",
+    DETAILS: "Details",
 };
 
 export { ROLE, FUNCTIONALITY };

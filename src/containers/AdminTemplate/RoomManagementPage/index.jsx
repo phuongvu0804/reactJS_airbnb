@@ -10,7 +10,7 @@ import { roomApi } from "@/api";
 import "./style.scss";
 
 // Columns
-import { columns } from "./columns";
+import { tableColumns } from "./tableColumns";
 
 const RoomManagementPage = () => {
     const [searchParams, _] = useSearchParams();
@@ -18,7 +18,7 @@ const RoomManagementPage = () => {
 
     return (
         <Datatable
-            columns={columns}
+            columns={tableColumns}
             getRequest={() => roomApi.getRoomList(locationId)}
             deleteRequest={roomApi.deleteRoom}
             rowsPerPageOptions={[3, 4, 5]}

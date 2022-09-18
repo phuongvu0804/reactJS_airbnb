@@ -5,12 +5,12 @@ import Datatable from "../components/Datatable";
 import { userApi } from "@/api";
 
 // Columns
-import { columns } from "./columns";
+import { tableColumns } from "./tableColumns";
 
 const UserManagementPage = () => {
     return (
         <Datatable
-            columns={columns}
+            columns={tableColumns}
             getRequest={userApi.getUsers}
             deleteRequest={userApi.deleteUser}
             rowsPerPageOptions={[4, 6, 8]}

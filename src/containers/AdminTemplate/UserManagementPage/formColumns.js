@@ -1,4 +1,4 @@
-export const columns = [
+export const formColumns = [
     {
         id: 1,
         name: "name",
@@ -28,15 +28,23 @@ export const columns = [
     },
     {
         id: 5,
-        name: "address",
-        label: "Address",
-        type: "text",
-        placeholder: "170 St. Esdan, Wakanda, Earth",
-    },
-    {
-        id: 6,
         name: "birthday",
         label: "Birthday",
         type: "date",
     },
+    {
+        id: 7,
+        name: "address",
+        label: "Address",
+        type: "text",
+        multiline: true,
+        placeholder: "170 St. Esdan, Wakanda, Earth",
+    },
 ];
+
+export const passwordColumn = {
+    id: 6,
+    name: "password",
+    label: "Password",
+    type: "password",
+};

@@ -17,7 +17,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 // Constants
 import { FUNCTIONALITY } from "@/constants";
-import { facilityOptions } from "../../RoomManagementPage/New/columns";
+import { facilityOptions } from "../../RoomManagementPage/formColumns";
 
 // Date formatter
 import moment from "moment";
@@ -28,9 +28,20 @@ import { actOpenModal } from "@/store/actions/admin";
 // Style
 import "./style.scss";
 
-const { ADD, EDIT } = FUNCTIONALITY;
+const { ADD, EDIT, DETAILS } = FUNCTIONALITY;
 
-const Form = ({ functionality = ADD, defaultValues, columns, validator, getRequest, postRequest, putRequest }) => {
+const Form = ({
+    functionality = ADD,
+    defaultValues,
+    columns,
+    validator,
+    getRequest = () => {},
+    postRequest = () => {},
+    putRequest = {
+        mutateDetails: () => {},
+        mutatePhoto: () => {},
+    },
+}) => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
@@ -46,7 +57,7 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
      */
     const { register, control, handleSubmit, setValue, getValues } = useForm({
         reValidateMode: "onSubmit",
-        resolver: yupResolver(validator),
+        resolver: validator && yupResolver(validator),
         defaultValues,
     });
 
@@ -57,7 +68,7 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
         [`${rootPage}/${firstLevelSubpath}/${functionality.toLowerCase()}`, id],
         () => getRequest(id),
         {
-            enabled: functionality === EDIT,
+            enabled: functionality !== ADD,
             refetchOnWindowFocus: false,
             onSuccess: (data) => {
                 const details = data.data;
@@ -80,13 +91,10 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
             },
         },
     );
+
     const mutationPhoto = useMutation(
         ({ id, photoFormData }) => {
-            if (!postRequest?.mutatePhoto) {
-                return () => {};
-            }
-
-            postRequest.mutatePhoto(id, photoFormData);
+            return postRequest.mutatePhoto(id, photoFormData);
         },
         {
             onSuccess: () => {
@@ -94,6 +102,7 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
             },
         },
     );
+
     const mutationDetails = useMutation(
         ({ id, details }) => {
             return functionality === ADD ? postRequest.mutateDetails(details) : putRequest(id, details);
@@ -172,49 +181,53 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
     const uploadPhotoColumn = (
         <div className="right">
             <div className="img-wrapper">
-                <img src={handleDisplayPhoto()} alt="" />
-                <Button
-                    id="basic-button"
-                    variant="outlined"
-                    startIcon={<EditOutlined />}
-                    size="small"
-                    className="btn-handle-img"
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={handleClick}
-                >
-                    Edit
-                </Button>
-                <Menu
-                    id="basic-menu"
-                    className="menu-handle-img"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={() => setAnchorEl(null)}
-                    MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                    }}
-                >
-                    <MenuItem component="label" htmlFor="upload-photo" className="menu-handle-img__item">
-                        Upload a photo
-                    </MenuItem>
-                    <input
-                        {...register("image")}
-                        id="upload-photo"
-                        type="file"
-                        style={{ display: "none" }}
-                        accept="image/png, image/jpeg"
-                        onChange={handleUpdatePhoto}
-                    />
-                    <MenuItem
-                        className="menu-handle-img__item"
-                        onClick={handleRemovePhoto}
-                        disabled={!getValues("image")}
-                    >
-                        Remove photo
-                    </MenuItem>
-                </Menu>
+                <img src={handleDisplayPhoto()} className={functionality === DETAILS ? "details" : undefined} alt="" />
+                {functionality !== DETAILS && (
+                    <>
+                        <Button
+                            id="basic-button"
+                            variant="outlined"
+                            startIcon={<EditOutlined />}
+                            size="small"
+                            className="btn-handle-img"
+                            aria-controls={open ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            onClick={handleClick}
+                        >
+                            Edit
+                        </Button>
+                        <Menu
+                            id="basic-menu"
+                            className="menu-handle-img"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={() => setAnchorEl(null)}
+                            MenuListProps={{
+                                "aria-labelledby": "basic-button",
+                            }}
+                        >
+                            <MenuItem component="label" htmlFor="upload-photo" className="menu-handle-img__item">
+                                Upload a photo
+                            </MenuItem>
+                            <input
+                                {...register("image")}
+                                id="upload-photo"
+                                type="file"
+                                style={{ display: "none" }}
+                                accept="image/png, image/jpeg"
+                                onChange={handleUpdatePhoto}
+                            />
+                            <MenuItem
+                                className="menu-handle-img__item"
+                                onClick={handleRemovePhoto}
+                                disabled={!getValues("image")}
+                            >
+                                Remove photo
+                            </MenuItem>
+                        </Menu>{" "}
+                    </>
+                )}
             </div>
         </div>
     );
@@ -225,13 +238,20 @@ const Form = ({ functionality = ADD, defaultValues, columns, validator, getReque
                 <Box className="admin-form" component="form" noValidate onSubmit={handleSubmit(handleSubmitData)}>
                     <div className="left">
                         <Grid container columns={12} spacing={4}>
-                            <FormInputs loading={isLoading} columns={columns} control={control} />
+                            <FormInputs
+                                loading={isLoading}
+                                disabled={functionality === DETAILS}
+                                columns={columns}
+                                control={control}
+                            />
                         </Grid>
-                        <Stack direction="row" justifyContent="center">
-                            <LoadingButton type="submit" className="btn-submit">
-                                {functionality}
-                            </LoadingButton>
-                        </Stack>
+                        {functionality !== DETAILS && (
+                            <Stack direction="row" justifyContent="center">
+                                <LoadingButton type="submit" className="btn-submit">
+                                    {functionality}
+                                </LoadingButton>
+                            </Stack>
+                        )}
                     </div>
                     {!isUsersPage && uploadPhotoColumn}
                 </Box>

@@ -11,7 +11,7 @@ export const facilityOptions = [
     { title: "cableTV" },
 ];
 
-export const columns = [
+export const formColumns = [
     {
         id: 1,
         name: "name",
@@ -52,6 +52,7 @@ export const columns = [
         name: "description",
         label: "Description",
         type: "text",
+        multiline: true,
         placeholder: "Write some cool description to the room",
     },
     {
