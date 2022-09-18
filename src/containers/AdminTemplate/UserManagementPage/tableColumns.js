@@ -1,7 +1,7 @@
 // Format date
 import moment from "moment";
 
-export const columns = [
+export const tableColumns = [
     {
         field: "name",
         headerName: "Full Name",

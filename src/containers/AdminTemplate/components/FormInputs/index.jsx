@@ -10,7 +10,7 @@ import RatingInput from "../RatingInput";
 import MultiAutocompleteInput from "../MultiAutocompleteInput";
 import WaveSkeleton from "@/components/WaveSkeleton";
 
-const FormInputs = ({ columns, control, loading = false }) => {
+const FormInputs = ({ columns, control, loading = false, disabled = false }) => {
     /*
      *  Get subpaths
      */
@@ -19,7 +19,7 @@ const FormInputs = ({ columns, control, loading = false }) => {
     const isUsersPage = firstLevelSubpath === "users";
 
     return columns.map((column) => {
-        const { id, name, label, type, placeholder, options } = column;
+        const { id, name, label, type, placeholder, options, multiline } = column;
         let inputNode = null;
 
         switch (loading || type) {
@@ -29,14 +29,22 @@ const FormInputs = ({ columns, control, loading = false }) => {
             case "date":
             case "number":
                 inputNode = (
-                    <TextInput name={name} type={type} label={label} placeholder={placeholder} control={control} />
+                    <TextInput
+                        name={name}
+                        type={type}
+                        label={label}
+                        placeholder={placeholder}
+                        control={control}
+                        disabled={disabled}
+                        multiline={multiline}
+                    />
                 );
                 break;
             case "radio":
-                inputNode = <RadioInput name={name} label={label} control={control} />;
+                inputNode = <RadioInput name={name} label={label} control={control} disabled={disabled} />;
                 break;
             case "rating":
-                inputNode = <RatingInput name={name} label={label} control={control} />;
+                inputNode = <RatingInput name={name} label={label} control={control} disabled={disabled} />;
                 break;
             case "multi-autocomplete":
                 inputNode = (
@@ -46,6 +54,7 @@ const FormInputs = ({ columns, control, loading = false }) => {
                         control={control}
                         options={options}
                         placeholder={placeholder}
+                        disabled={disabled}
                     />
                 );
                 break;

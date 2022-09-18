@@ -8,12 +8,12 @@ import { locationApi } from "@/api";
 import "./style.scss";
 
 // Columns
-import { columns } from "./columns";
+import { tableColumns } from "./tableColumns";
 
 const LocationManagementPage = () => {
     return (
         <Datatable
-            columns={columns}
+            columns={tableColumns}
             getRequest={locationApi.getLocationList}
             deleteRequest={locationApi.deleteLocation}
             rowsPerPageOptions={[3, 4, 5]}

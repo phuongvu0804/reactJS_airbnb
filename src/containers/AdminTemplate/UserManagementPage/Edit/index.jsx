@@ -11,7 +11,7 @@ import { FUNCTIONALITY } from "@/constants";
 import { userApi } from "@/api";
 
 // Columns
-import { columns } from "./columns";
+import { formColumns } from "../formColumns";
 
 const { EDIT } = FUNCTIONALITY;
 
@@ -30,7 +30,7 @@ const Edit = () => {
         <Form
             functionality={EDIT}
             defaultValues={defaultValues}
-            columns={columns}
+            columns={formColumns}
             validator={userSchema.edit}
             getRequest={userApi.getUserDetails}
             putRequest={userApi.updateUser}

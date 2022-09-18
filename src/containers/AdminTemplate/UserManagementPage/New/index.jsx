@@ -11,7 +11,7 @@ import { FUNCTIONALITY } from "@/constants";
 import { userApi } from "@/api";
 
 // Columns
-import { columns } from "./columns";
+import { formColumns, passwordColumn } from "../formColumns";
 
 const { ADD } = FUNCTIONALITY;
 
@@ -26,12 +26,15 @@ const defaultValues = {
     address: "",
 };
 
+let formColumnsWithPassword = [...formColumns];
+formColumnsWithPassword.splice(4, 0, passwordColumn);
+
 const New = () => {
     return (
         <Form
             functionality={ADD}
             defaultValues={defaultValues}
-            columns={columns}
+            columns={formColumnsWithPassword}
             validator={userSchema.add}
             postRequest={{ mutateDetails: userApi.addUser }}
         />

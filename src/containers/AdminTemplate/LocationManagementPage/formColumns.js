@@ -1,4 +1,4 @@
-export const columns = [
+export const formColumns = [
     {
         id: 1,
         name: "name",
