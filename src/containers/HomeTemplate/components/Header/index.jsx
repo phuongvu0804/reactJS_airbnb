@@ -1,8 +1,8 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-//Material UI
-import { useState } from "react";
+// Material UI
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -30,8 +30,15 @@ const Header = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [searchCategory, setSearchCategory] = useState("Stays");
+    const [navigateTo, setNavigateTo] = useState("");
 
     let navigate = useNavigate();
+
+    useEffect(() => {
+        if (navigateTo) {
+            navigate(navigateTo);
+        }
+    }, [navigateTo]);
 
     const user = localStorage.getItem("user");
     let settings = user ? withUserSettings : noUserSettings;
@@ -54,13 +61,11 @@ const Header = () => {
     };
 
     const handleSetting = (setting) => {
-        handleCloseUserMenu();
-
         if (setting.label === "Log out") {
             localStorage.removeItem("user");
-        } else {
-            navigate(setting.link);
         }
+        handleCloseUserMenu();
+        setNavigateTo(setting.link);
     };
 
     const TableTabletNavbar = () => {
