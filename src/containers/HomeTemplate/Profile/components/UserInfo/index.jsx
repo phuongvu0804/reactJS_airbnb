@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 
 //Material UI
 import WaveSkeleton from "@/components/WaveSkeleton";
@@ -8,8 +9,14 @@ import { Button } from "@mui/material";
 //others
 import "./style.scss";
 import moment from "moment";
+import ProfileModal from "../ProfileModal";
 
 function UserInfo({ data }) {
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+
     const renderBasicInfo = () => {
         const basicInfo = [
             { name: "address", icon: <Home />, content: "Lives in" },
@@ -42,11 +49,14 @@ function UserInfo({ data }) {
         <>
             <h2 className="user-info__title">Hi, I’m {data?.name}</h2>
             <p className="user-info__join-date">Joined in 2018</p>
-            <Button className="user-info__btn user-details__btn—fix-profile">Edit profile</Button>
+            <Button className="user-info__btn user-details__btn—fix-profile" onClick={handleOpenModal}>
+                Edit profile
+            </Button>
             <ul className="user-info__basic-info">
                 <h4 className="profile__sub-title">About</h4>
                 {data && renderBasicInfo()}
             </ul>
+            <ProfileModal open={openModal} handleClose={handleCloseModal} />
         </>
     );
 }

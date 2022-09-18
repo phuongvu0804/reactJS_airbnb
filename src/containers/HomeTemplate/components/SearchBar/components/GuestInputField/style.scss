@@ -58,20 +58,13 @@ div.sub-modal__group {
     margin-left: 5px;
 }
 
-.group__filter-btn {
-}
-
 .group__filter-number {
     font-size: 16px;
     color: var(--black);
 }
 
-//Responsive for tablet
-@media (min-width: 740px) and (max-width: 1023px) {
-}
-
 //Responsive for mobile
-@media (max-width: 740px) {
+@media (max-width: 739px) {
     form.search-item__sub-modal {
         z-index: 1305;
         right: 12px !important;

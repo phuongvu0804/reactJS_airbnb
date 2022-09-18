@@ -1,0 +1,41 @@
+#profile-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    background-color: var(--white);
+    box-shadow: 24;
+    padding: 32px;
+}
+
+.profile-modal__input-group {
+    label.Mui-focused,
+    &.Mui-focused fieldset,
+    &:hover fieldset,
+    & .Mui-checked,
+    fieldset.MuiOutlinedInput-notchedOutline {
+        border-color: var(--black) !important;
+        color: var(--black) !important;
+    }
+}
+
+//Responsive for tablet
+@media (min-width: 740px) and (max-width: 1023px) {
+    #profile-modal {
+    }
+}
+
+//Responsive for mobile
+@media (max-width: 739px) {
+    #profile-modal {
+        --modal-gap: 20px;
+        top: var(--modal-gap);
+        bottom: var(--modal-gap);
+        left: var(--modal-gap);
+        right: var(--modal-gap);
+        transform: unset;
+        width: 90%;
+        overflow-y: auto;
+    }
+}
