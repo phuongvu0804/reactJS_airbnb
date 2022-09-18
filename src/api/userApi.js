@@ -15,7 +15,7 @@ const userApi = {
         const url = resourceName;
         return axiosClient.post(url, user);
     },
-    updateUser: (id, user) => {
+    editUser: (id, user) => {
         const url = `${resourceName}/${id}`;
         return axiosClient.put(url, user);
     },
@@ -23,7 +23,7 @@ const userApi = {
         const url = `${resourceName}/${id}`;
         return axiosClient.delete(url);
     },
-    updateUserPhoto: (photo) => {
+    editUserPhoto: (photo) => {
         const url = `${resourceName}/upload-avatar`;
         return axiosClient.post(url, photo);
     },

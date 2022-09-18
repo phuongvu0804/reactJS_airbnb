@@ -23,6 +23,7 @@ function UserInfo({ data }) {
             { name: "phone", icon: <Phone />, content: null },
             { name: "birthday", icon: <Cake />, content: null },
         ];
+
         return basicInfo?.map((item, index) => {
             if (data[item.name]) {
                 const isDate = moment(data[item.name]).isValid();
@@ -56,7 +57,7 @@ function UserInfo({ data }) {
                 <h4 className="profile__sub-title">About</h4>
                 {data && renderBasicInfo()}
             </ul>
-            <ProfileModal open={openModal} handleClose={handleCloseModal} />
+            <ProfileModal open={openModal} handleClose={handleCloseModal} userData={data} />
         </>
     );
 }
