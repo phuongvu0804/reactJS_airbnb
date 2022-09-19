@@ -1,10 +1,9 @@
-import React from "react";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 //Material UI
 import WaveSkeleton from "@/components/WaveSkeleton";
-import { Cake, Home, Phone } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Cake, Close, Home, Phone } from "@mui/icons-material";
+import { Alert, Button, Collapse, IconButton } from "@mui/material";
 
 //others
 import "./style.scss";
@@ -13,9 +12,24 @@ import ProfileModal from "../ProfileModal";
 
 function UserInfo({ data }) {
     const [openModal, setOpenModal] = useState(false);
+    const [serverResponse, setServerResponse] = useState(null);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setServerResponse(null);
+        }, 6000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [serverResponse]);
 
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
+
+    const handleDeleteToastMsg = () => {
+        setServerResponse(null);
+    };
 
     const renderBasicInfo = () => {
         const basicInfo = [
@@ -53,11 +67,31 @@ function UserInfo({ data }) {
             <Button className="user-info__btn user-details__btn—fix-profile" onClick={handleOpenModal}>
                 Edit profile
             </Button>
+
+            {serverResponse && (
+                <Alert
+                    severity={serverResponse.type}
+                    action={
+                        <IconButton size="small" color="inherit" onClick={handleDeleteToastMsg}>
+                            <Close />
+                        </IconButton>
+                    }
+                >
+                    {serverResponse.content}
+                </Alert>
+            )}
+
             <ul className="user-info__basic-info">
                 <h4 className="profile__sub-title">About</h4>
                 {data && renderBasicInfo()}
             </ul>
-            <ProfileModal open={openModal} handleClose={handleCloseModal} userData={data} />
+            <ProfileModal
+                open={openModal}
+                handleClose={handleCloseModal}
+                userData={data}
+                serverResponse={serverResponse}
+                setServerResponse={setServerResponse}
+            />
         </>
     );
 }

@@ -4,7 +4,8 @@ const initState = {
     loading: false,
     data: null,
     editedUser: null,
-    error: null,
+    errorUser: null,
+    deletedShoppingCart: null,
 };
 
 const userReducer = (state = initState, action) => {
@@ -13,40 +14,41 @@ const userReducer = (state = initState, action) => {
             state.loading = true;
             state.data = null;
             state.editedUser = null;
-            state.error = null;
+            state.errorUser = null;
             return { ...state };
 
         case actTypes.GET_USER_DATA_SUCCESS:
             state.loading = false;
             state.data = action.payload;
             state.editedUser = null;
-            state.error = null;
+            state.errorUser = null;
             return { ...state };
 
         case actTypes.GET_USER_DATA_FAIL:
             state.loading = false;
             state.data = null;
             state.editedUser = null;
-            state.error = action.payload;
+            state.errorUser = action.payload;
             return { ...state };
 
         case actTypes.EDIT_USER_REQUEST:
             state.loading = true;
             state.data = null;
             state.editedUser = null;
-            state.error = null;
+            state.errorUser = null;
             return { ...state };
 
         case actTypes.EDIT_USER_SUCCESS:
             state.loading = false;
             state.editedUser = action.payload;
-            state.error = null;
+            state.errorUser = null;
             return { ...state };
 
         case actTypes.EDIT_USER_FAIL:
             state.loading = false;
-            state.error = action.payload;
+            state.errorUser = action.payload;
             return { ...state };
+
         default:
             return { ...state };
     }

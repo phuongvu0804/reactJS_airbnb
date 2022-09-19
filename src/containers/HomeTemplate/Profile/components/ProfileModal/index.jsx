@@ -1,5 +1,7 @@
-import React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import moment from "moment";
+import { useFormik } from "formik";
 
 //Material UI
 import {
@@ -10,10 +12,7 @@ import {
     FormHelperText,
     FormLabel,
     Grid,
-    Input,
-    InputLabel,
     Modal,
-    OutlinedInput,
     Radio,
     RadioGroup,
     TextField,
@@ -27,19 +26,12 @@ import SubmitBtn from "@/components/SubmitBtn";
 //Others
 import "./style.scss";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
-import { useFormik } from "formik";
 import { signupSchema } from "@/validators";
-import { useDispatch, useSelector } from "react-redux";
-import { actEditUser, actGetUserDataSuccess } from "@/store/actions/user";
+import { actGetUserDataSuccess } from "@/store/actions/user";
 import { userApi } from "@/api";
 import { callApi } from "@/api/config/request";
-import { LoadingButton } from "@mui/lab";
-import moment from "moment";
 
-function ProfileModal({ open, handleClose, userData }) {
-    const error = useSelector((store) => store.user.error);
-    const [serverResponse, setServerResponse] = useState(null);
-    const [birthday, setBirthday] = useState(userData.birthday);
+function ProfileModal({ open, handleClose, userData, serverResponse, setServerResponse }) {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const initialValues = {
@@ -52,7 +44,7 @@ function ProfileModal({ open, handleClose, userData }) {
         type: userData.type,
     };
 
-    const { handleSubmit, values, errors, setFieldValue, handleChange, resetForm } = useFormik({
+    const { handleSubmit, values, errors, setFieldValue, handleChange } = useFormik({
         initialValues: initialValues,
         validationSchema: signupSchema,
         onSubmit: (values) => {
@@ -68,10 +60,7 @@ function ProfileModal({ open, handleClose, userData }) {
                         content: "Your profile has been edited",
                     });
 
-                    setTimeout(() => {
-                        handleClose();
-                        setServerResponse(null);
-                    }, 1000);
+                    handleClose();
                 },
                 (error) => {
                     setServerResponse({
@@ -79,10 +68,7 @@ function ProfileModal({ open, handleClose, userData }) {
                         content: error,
                     });
 
-                    setTimeout(() => {
-                        handleClose();
-                        setServerResponse(null);
-                    }, 1000);
+                    handleClose();
                 },
             );
         },
@@ -111,11 +97,6 @@ function ProfileModal({ open, handleClose, userData }) {
                 <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ my: "14px" }}>
                     Edit profile
                 </Typography>
-                {serverResponse && (
-                    <Alert severity={serverResponse.type} sx={{ mb: "10px" }}>
-                        {serverResponse.content}
-                    </Alert>
-                )}
                 <Grid container spacing={2} component="form" onSubmit={handleSubmit}>
                     <Grid item xs={12} md={12} lg={6}>
                         <FormControl fullWidth className="profile-modal__input-group">
@@ -193,14 +174,14 @@ function ProfileModal({ open, handleClose, userData }) {
                         </FormControl>
                     </Grid>
                     <Grid item md={12} sx={{ display: "flex", justifyContent: "right" }}>
-                        <LoadingButton
+                        <SubmitBtn
                             loading={loading}
                             type="submit"
                             className="edit-modal__submit-btn"
                             sx={{ width: "25%" }}
                         >
                             Save
-                        </LoadingButton>
+                        </SubmitBtn>
                     </Grid>
                 </Grid>
             </Box>

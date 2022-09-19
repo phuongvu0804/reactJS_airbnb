@@ -23,7 +23,7 @@ function UserAvatar() {
             if (serverResponse) {
                 setServerResponse(null);
             }
-        }, 1000);
+        }, 6000);
 
         return () => {
             clearInterval(intervalId);
