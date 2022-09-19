@@ -17,18 +17,19 @@ import { callApi } from "@/api/config/request";
 import { modalStyle } from "./constants";
 import "./style.scss";
 
-function EditModal({ onOpen, onClose, data }) {
-    const [checkIn, setCheckIn] = useState(null);
-    const [checkOut, setCheckOut] = useState(null);
+function EditModal({ onOpen, onClose, data, toastMsg, setToastMsg }) {
+    const [checkIn, setCheckIn] = useState(data?.data.checkIn);
+    const [checkOut, setCheckOut] = useState(data?.data.checkOut);
     const [serverResponse, setServerResponse] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleCloseModal = () => {
         if (serverResponse) {
             setServerResponse(null);
         }
 
-        setCheckIn(data.data.checkIn);
-        setCheckOut(data.data.checkOut);
+        setCheckIn(data?.data.checkIn);
+        setCheckOut(data?.data.checkOut);
         onClose();
     };
 
@@ -42,27 +43,39 @@ function EditModal({ onOpen, onClose, data }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        setLoading(true);
+
         const submitData = {
             checkIn: moment(checkIn).format(),
             checkOut: moment(checkOut).format(),
-            userId: data.data.userId._id,
-            roomId: data.data.roomId._id,
+            userId: data?.data.userId._id,
+            roomId: data?.data.roomId._id,
         };
 
         callApi(
             ticketApi.editTicket(data.data._id, submitData),
             (response) => {
-                setServerResponse({
-                    type: "success",
-                    content: response,
-                });
-                onClose();
+                setToastMsg([
+                    ...toastMsg,
+                    {
+                        type: "success",
+                        content: "Your have updated successfully!",
+                    },
+                ]);
+
+                setLoading(false);
+
+                handleCloseModal();
             },
             (error) => {
-                setServerResponse({
-                    type: "error",
-                    content: error,
-                });
+                setToastMsg([
+                    ...toastMsg,
+                    {
+                        type: "error",
+                        content: error || "Sorry, there was an error from the serve",
+                    },
+                ]);
             },
         );
     };
@@ -84,7 +97,7 @@ function EditModal({ onOpen, onClose, data }) {
                         <DesktopDatePicker
                             className="booking-card__check-in"
                             label="Check in"
-                            value={checkIn || data.data.checkIn}
+                            value={checkIn || data?.data.checkIn}
                             onChange={handleCheckIn}
                             renderInput={(params) => <TextField {...params} />}
                         />
@@ -93,12 +106,17 @@ function EditModal({ onOpen, onClose, data }) {
                         <DesktopDatePicker
                             className="booking-card__check-out"
                             label="Check out"
-                            value={checkOut || data.data.checkOut}
+                            value={checkOut || data?.data.checkOut}
                             onChange={handleCheckOut}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </FormControl>
-                    <SubmitBtn className="edit-modal__submit-btn" onSubmit={handleSubmit}>
+                    <SubmitBtn
+                        type="submit"
+                        className="edit-modal__submit-btn"
+                        onClick={handleSubmit}
+                        loading={loading}
+                    >
                         Save
                     </SubmitBtn>
                 </Box>

@@ -1,10 +1,9 @@
 import { useCallback, useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 //Material UI
 import WaveSkeleton from "@/components/WaveSkeleton";
 import { Close } from "@mui/icons-material";
-import { Alert, Collapse, Grid, IconButton } from "@mui/material";
+import { Alert, Button, Collapse, Grid, IconButton, Modal, Popover, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
 //Components
@@ -17,12 +16,23 @@ import "./style.scss";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
 
 function ShoppingCart({ data }) {
-    const dispatch = useDispatch();
-    const [shoppingList, setShoppingList] = useState(null);
-    const [serverError, setServerError] = useState(null);
+    const [shoppingList, setShoppingList] = useState([]);
     const [toastMsg, setToastMsg] = useState([]);
     const [openMsg, setOpenMsg] = useState(true);
     const [visible, setVisible] = useState(4);
+    const [trashBin, setTrashBin] = useState([]);
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? "simple-popover" : undefined;
 
     const handleDeleteToastMsg = useCallback(
         (errorKey) => {
@@ -35,9 +45,16 @@ function ShoppingCart({ data }) {
     useEffect(() => {
         if (data) {
             const booking = data.tickets;
-            Promise.all(booking.map((item) => ticketApi.getTicketDetails(item)))
-                .then((response) => setShoppingList(response))
-                .catch((error) => setServerError(error));
+            booking.forEach((item) => {
+                ticketApi
+                    .getTicketDetails(item)
+                    .then((response) => {
+                        setShoppingList([...shoppingList, response]);
+                    })
+                    .catch((error) => {
+                        setTrashBin((prev) => [...prev, item]);
+                    });
+            });
         }
 
         const intervalId = setInterval(() => {
@@ -49,17 +66,17 @@ function ShoppingCart({ data }) {
         return () => {
             clearInterval(intervalId);
         };
-    }, [toastMsg]);
+    }, [toastMsg, data]);
 
-    const handleDeleteBooking = () => {
+    const handleDeleteBooking = (ticketId) => {
         callApi(
-            dispatch(ticketApi.deleteTicket),
+            ticketApi.deleteTicket(ticketId),
             (response) => {
                 setToastMsg([
                     ...toastMsg,
                     {
                         type: "success",
-                        content: response,
+                        content: "Your have deleted successfully!",
                     },
                 ]);
             },
@@ -68,7 +85,7 @@ function ShoppingCart({ data }) {
                     ...toastMsg,
                     {
                         type: "error",
-                        content: error,
+                        content: error || "Sorry, there was an error from the serve",
                     },
                 ]);
                 setOpenMsg(true);
@@ -78,7 +95,7 @@ function ShoppingCart({ data }) {
 
     const renderToastMsg = () => {
         if (toastMsg.length > 0) {
-            return toastMsg.map((item, index) => {
+            return toastMsg?.map((item, index) => {
                 const errorKey = index;
                 return (
                     <Collapse className="toast-msg" key={errorKey} in={openMsg} sx={{ mb: "6px" }}>
@@ -99,29 +116,64 @@ function ShoppingCart({ data }) {
     };
 
     const renderShoppingList = () => {
-        if (shoppingList) {
+        if (shoppingList.length) {
             return (
                 <Grid container>
                     {shoppingList?.slice(0, visible).map((item, index) => (
-                        <ShoppingItem data={item} key={index} onDelete={handleDeleteBooking} />
+                        <ShoppingItem
+                            data={item}
+                            key={index}
+                            onDelete={() => handleDeleteBooking(item.data._id)}
+                            toastMsg={toastMsg}
+                            setToastMsg={setToastMsg}
+                        />
                     ))}
                 </Grid>
             );
+        } else {
+            return <p>Your shopping cart is empty.</p>;
         }
     };
 
     return (
         <ul className="shop-cart-list">
-            <h4 className="profile__sub-title">Shopping cart</h4>
-            {serverError && (
-                <Box sx={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-                    <Alert severity="error" sx={{ minWidth: "200px" }}>
-                        {serverError}
-                    </Alert>
-                </Box>
-            )}
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <h4 className="profile__sub-title">Shopping cart</h4>
+                {trashBin && (
+                    <Button
+                        aria-describedby={id}
+                        variant="text"
+                        onClick={handleClick}
+                        sx={{ color: "var(--black)", textDecoration: "underline", textTransform: "none", mb: "20px" }}
+                    >
+                        Deleted tickets
+                    </Button>
+                )}
+            </Box>
+
             {renderToastMsg()}
             {renderShoppingList()}
+
+            {/* /Render deleted shopping cart */}
+            <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                }}
+            >
+                <Box sx={{ p: 1 }}>
+                    {trashBin.map((item, index) => (
+                        <Typography key={index} sx={{ p: 1 }}>
+                            Ticket id: {item}
+                        </Typography>
+                    ))}
+                </Box>
+            </Popover>
+
             {visible < shoppingList?.length && (
                 <LoadMoreBtn className="__show-btn" variant="outlined" setVisible={setVisible} loadNumber={4} />
             )}

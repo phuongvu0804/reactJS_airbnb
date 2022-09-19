@@ -13,7 +13,7 @@ import "./style.scss";
 import { useState } from "react";
 import EditModal from "../EditModal";
 
-function ShoppingItem({ data, onDelete }) {
+function ShoppingItem({ data, onDelete, toastMsg, setToastMsg }) {
     const [openModal, setOpenModal] = useState(false);
     const handleCloseModal = () => {
         setOpenModal(false);
@@ -23,14 +23,14 @@ function ShoppingItem({ data, onDelete }) {
         <>
             <Grid sm={6} md={6} item sx={{ mb: "20px" }} className="shop-cart__item">
                 <div>
-                    <Image src={data.data.roomId.image} />
+                    <Image src={data?.data.roomId.image} />
                     <Box>
                         <div className="shop-cart-item__content">
-                            <h4>{data.data.roomId.name}</h4>
-                            <span>Number of guests: {data.data.roomId.guests}</span>
+                            <h4>{data?.data.roomId.name}</h4>
+                            <span>Number of guests: {data?.data.roomId.guests}</span>
 
-                            <p>Check in: {moment(data.data.checkIn).format("DD.MM.YYYY")}</p>
-                            <p>Check out: {moment(data.data.checkOut).format("DD.MM.YYYY")}</p>
+                            <p>Check in: {moment(data?.data.checkIn).format("DD.MM.YYYY")}</p>
+                            <p>Check out: {moment(data?.data.checkOut).format("DD.MM.YYYY")}</p>
                         </div>
                     </Box>
                 </div>
@@ -43,7 +43,13 @@ function ShoppingItem({ data, onDelete }) {
                     </IconButton>
                 </Box>
             </Grid>
-            <EditModal onOpen={openModal} onClose={handleCloseModal} data={data} />
+            <EditModal
+                onOpen={openModal}
+                onClose={handleCloseModal}
+                data={data}
+                toastMsg={toastMsg}
+                setToastMsg={setToastMsg}
+            />
         </>
     );
 }
