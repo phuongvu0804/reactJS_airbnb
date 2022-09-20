@@ -1,27 +1,28 @@
 # Airbnb Clone App
 
 An Airbnb clone built with ReactJS, Redux, and Material UI. <br/>
-With this app, user can search for accomodation and make a reservation.
+With this app, users can search for accommodation, create filters, and make a reservation.
+Visit the live demo: [airbnb]: https://airbnb-five-sandy.vercel.app/
 
-Visit the live demo: airbnb-five-sandy.vercel.app/
+![](src/assets/images/demo.jpg)
 
 ## Features:
 
--   For user:
+For user:
 
-*   Display list of accomodation according to locations and accomodation types
-*   Search accomodation according to location
-*   Filter accomodation according to specific preferences
-*   Make, delete, edit reservation
-*   Create wishlist
-*   Sign in, sign out
-*   Edit user profile, user's avatar
+-   Display lists of accommodation according to locations and accommodation types
+-   Search accommodation according to location
+-   Filter accommodation according to specific preferences
+-   Make, delete, and edit reservation
+-   Create the wish list
+-   Sign in, sign out
+-   Edit user profile, user's avatar
 
--   For administration:
+For administration:
 
-*   Display list of admins, users and accomodation
-*   Add, delete, edit admin and user
-*   Add, delete, edit accomodation
+-   Display lists of admins, users and accommodation
+-   Add, delete, and edit admins and users
+-   Add, delete, and edit accommodation
 
 ## Installation and execution
 
