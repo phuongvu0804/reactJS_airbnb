@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# Airbnb Clone App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An Airbnb clone built with ReactJS, Redux, and Material UI. <br/>
+With this app, user can search for accomodation and make a reservation.
 
-## Available Scripts
+Visit the live demo: airbnb-five-sandy.vercel.app/
 
-In the project directory, you can run:
+## Features:
 
-### `npm start`
+-   For user:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+*   Display list of accomodation according to locations and accomodation types
+*   Search accomodation according to location
+*   Filter accomodation according to specific preferences
+*   Make, delete, edit reservation
+*   Create wishlist
+*   Sign in, sign out
+*   Edit user profile, user's avatar
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+-   For administration:
 
-### `npm test`
+*   Display list of admins, users and accomodation
+*   Add, delete, edit admin and user
+*   Add, delete, edit accomodation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation and execution
 
-### `npm run build`
+To install the project, run the following commands:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+-   git clone https://github.com/phuongvu0804/reactJS_airbnb.git
+-   cd meditation-app
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To run the project, run the following command:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-   npm start
 
-### `npm run eject`
+To experience more the project, try to sign in with this account:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+-   username: phuongvu@airbnb.io
+-   password: 123456Phuong@
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Contributors
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This project has been done thanks to these awesome contributors:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<table>
+  <tr>
+    <!-- Phuong Vu -->
+    <td align="center"><a href="https://github.com/phuongvu0804"><img src="https://avatars.githubusercontent.com/u/99994868?v=4" width="85px;" alt=""/><br /><sub><b>Phuong Vu (Chloe)</b></sub></a><br /><a href="https://github.com/scoobytux/movielab/commits?author=phuongvu0804" title="Code">💻</a><a href="https://github.com/scoobytux/movielab/commits?author=phuongvu0804" title="Documentation">📖</a></td>
+    <!-- Tu Le -->
+    <td align="center"><a href="https://github.com/scoobytux"><img src="https://avatars.githubusercontent.com/u/72339711?v=4" width="85px;" alt=""/><br /><sub><b>Tu Le (Liam)</b></sub></a><br /><a href="https://github.com/scoobytux/movielab/commits?author=scoobytux" title="Code">💻</a><a href="https://github.com/scoobytux/movielab/commits?author=scoobytux" title="Documentation">📖</a></td>
+  </tr>
+</table>
 
-## Learn More
+## Attribution
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The following sources have been used for reference purposes.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+-   Airbnb: as the UX/UI inspiration
+    -   https://www.airbnb.com/
+-   CyberSoft: as the API provider
