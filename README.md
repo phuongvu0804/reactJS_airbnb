@@ -13,7 +13,7 @@ For user:
 -   Display lists of accommodation according to locations and accommodation types
 -   Search accommodation according to location
 -   Filter accommodation according to specific preferences
--   Make, delete, and edit reservation
+-   Make, delete, edit reservation
 -   Create the wish list
 -   Sign in, sign out
 -   Edit user profile, user's avatar
@@ -21,8 +21,8 @@ For user:
 For administration:
 
 -   Display lists of admins, users and accommodation
--   Add, delete, and edit admins and users
--   Add, delete, and edit accommodation
+-   Add, delete, edit admins and users
+-   Add, delete, edit accommodation
 
 ## Installation and execution
 
