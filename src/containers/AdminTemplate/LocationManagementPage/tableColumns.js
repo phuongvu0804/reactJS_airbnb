@@ -1,3 +1,5 @@
+import Image from "@/components/Image";
+
 // Material UI
 import { Stack } from "@mui/material";
 import { Star } from "@mui/icons-material";
@@ -17,7 +19,7 @@ export const tableColumns = [
         headerAlign: "center",
         renderCell: (params) => {
             return (
-                <img
+                <Image
                     width="120"
                     height="70"
                     style={{ objectFit: "cover" }}
