@@ -1,3 +1,5 @@
+import Image from "@/components/Image";
+
 export const tableColumns = [
     {
         field: "name",
@@ -12,7 +14,7 @@ export const tableColumns = [
         headerAlign: "center",
         renderCell: (params) => {
             return (
-                <img
+                <Image
                     width="120"
                     height="70"
                     style={{ objectFit: "cover" }}
@@ -29,6 +31,10 @@ export const tableColumns = [
         align: "center",
         headerAlign: "center",
         renderCell: (params) => {
+            if (!params.row.price) {
+                return <span>${0}</span>;
+            }
+
             const formattedCurrency = params.row.price
                 .toLocaleString("en-US", {
                     style: "currency",
