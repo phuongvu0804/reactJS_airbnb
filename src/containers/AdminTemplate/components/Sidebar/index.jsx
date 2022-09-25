@@ -63,10 +63,6 @@ const Sidebar = () => {
                             <span>Locations</span>
                         </li>
                     </NavLink>
-                    <li>
-                        <LocalShipping className="icon" />
-                        <span>Delivery</span>
-                    </li>
                     <p className="title">USEFUL</p>
                     <li>
                         <BarChart className="icon" />
@@ -100,10 +96,6 @@ const Sidebar = () => {
                         <span>Logout</span>
                     </li>
                 </ul>
-            </div>
-            <div className="bottom">
-                <div className="color-option color-option--light"></div>
-                <div className="color-option color-option--dark"></div>
             </div>
         </div>
     );
