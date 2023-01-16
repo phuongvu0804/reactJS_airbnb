@@ -21,7 +21,7 @@ const SignupPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [radioValue, setRadioValue] = useState(true);
-    const { control, handleSubmit, setValue } = useForm({
+    const { control, value, handleSubmit, setValue } = useForm({
         reValidateMode: "onSubmit",
         resolver: yupResolver(signupSchema),
         defaultValues: {
@@ -31,7 +31,7 @@ const SignupPage = () => {
             birthday: "",
             password: "",
             phone: "",
-            address: "",
+            role: "",
         },
     });
     const { signup } = useSelector((state) => state.auth);
@@ -43,7 +43,8 @@ const SignupPage = () => {
     };
 
     const handleSignup = (user) => {
-        dispatch(actSignup(user, navigate));
+        console.log("user", user);
+        // dispatch(actSignup(user, navigate));
     };
 
     return (
@@ -108,10 +109,6 @@ const SignupPage = () => {
                 <Grid item xs={12} md={6}>
                     <InputLabel className="auth-form-input-label">Phone</InputLabel>
                     <Input name="phone" className="auth-form-input" control={control} />
-                </Grid>
-                <Grid item xs={12}>
-                    <InputLabel className="auth-form-input-label">Address</InputLabel>
-                    <Input name="address" className="auth-form-input" control={control} />
                 </Grid>
             </Grid>
             <LoadingButton

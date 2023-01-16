@@ -17,22 +17,21 @@ function RoomCard({ room, handleLikeClass, handleLike }) {
     return (
         <Grid item xs={12} sm={4} md={3} className="room-list__room-card">
             <div className="room-card__img">
-                <Image src={room.image} alt="room's image" />
-                <IconButton className={handleLikeClass(room._id)} onClick={() => handleLike(room._id)}>
+                <Image src={room.hinhAnh} alt="room's image" />
+                <IconButton className={handleLikeClass(room.id)} onClick={() => handleLike(room.id)}>
                     <Favorite />
                 </IconButton>
             </div>
-            <Box className="room-card__content" component={Link} to={`/room-details/${room._id}`}>
+            <Box className="room-card__content" component={Link} to={`/room-details/${room.id}`}>
                 <h5>{room.name}</h5>
                 <div className="room-card__body">
-                    <p className="room-card__body-item">{room.bedRoom} bedroom</p>
-                    <p className="room-card__body-item">{room.bath} bathroom</p>
-                    <p className="room-card__body-item">{room.kitchen ? "Kitchen" : "No kitchen"}</p>
+                    <p className="room-card__body-item">{room.phongNgu} bedroom</p>
+                    <p className="room-card__body-item">{room.phongTam} bathroom</p>
+                    <p className="room-card__body-item">{room.bep ? "Kitchen available" : "No kitchen"}</p>
                 </div>
                 <div className="room-card__foot">
-                    <span className="room-card__foot-currency">VND</span>
-                    <span className="room-card__foot-price">{room.price}</span>
-                    <span className="room-card__foot-time">/ night</span>
+                    <span className="room-card__foot-price">{room.khach}</span>
+                    <span className="room-card__foot-time">{room.khach > 1 ? "guests" : "guest"}</span>
                 </div>
             </Box>
         </Grid>

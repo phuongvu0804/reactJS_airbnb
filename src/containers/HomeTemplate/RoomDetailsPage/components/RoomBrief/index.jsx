@@ -6,13 +6,13 @@ function RoomBrief({ data }) {
     return (
         <ul className="room-details__summary">
             <li className="room-details__summary-item">
-                {data?.guests > 1 ? `${data?.guests} guests` : `${data?.guests} guest`}
+                {data?.khach > 1 ? `${data?.khach} guests` : `${data?.khach} guest`}
             </li>
             <li className="room-details__summary-item">
-                {data?.bedRoom > 1 ? `${data?.bedRoom} bedrooms` : `${data?.bedRoom} bedroom`}
+                {data?.phongNgu > 1 ? `${data?.phongNgu} bedrooms` : `${data?.phongNgu} bedroom`}
             </li>
             <li className="room-details__summary-item">
-                {data?.bath > 1 ? `${data?.bath} bathrooms` : `${data?.bath} bathroom`}
+                {data?.phongTam > 1 ? `${data?.phongTam} bathrooms` : `${data?.phongTam} bathroom`}
             </li>
         </ul>
     );

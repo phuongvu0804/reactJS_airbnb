@@ -88,7 +88,7 @@ const actGetRoomDetails = (roomId) => {
 
         callApi(
             roomApi.getRoomDetails(roomId),
-            (response) => dispatch(actGetRoomDetailsSuccess(response)),
+            (response) => dispatch(actGetRoomDetailsSuccess(response.content)),
             (error) => dispatch(actGetRoomDetailsFail(error)),
         );
     };
@@ -99,8 +99,15 @@ const actGetRoomReview = (roomId) => {
         dispatch(actGetRoomReviewRequest());
 
         callApi(
-            reviewApi.getReviewListByRoom(roomId),
-            (response) => dispatch(actGetRoomReviewSuccess(response)),
+            reviewApi.getReviewListByRoom(),
+            (response) => {
+                let arrComment = [...response.content];
+
+                let arrCommentId = arrComment.filter((item) => {
+                    return item.maPhong == roomId;
+                });
+                dispatch(actGetRoomReviewSuccess(arrCommentId));
+            },
             (error) => dispatch(actGetRoomReviewFail(error)),
         );
     };

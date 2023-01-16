@@ -1,18 +1,18 @@
 import axiosClient from "./config/axiosClient";
 
-const resourceName = "rooms";
+const resourceName = "phong-thue";
 
 const roomApi = {
     createRoom: (room) => {
         return axiosClient.post(resourceName, room);
     },
     getRoomList: (locationId) => {
-        if (locationId !== "all-rooms") {
-            const url = resourceName + `?locationId=${locationId}`;
+        if (locationId) {
+            console.log(locationId);
+            const url = resourceName + `/lay-phong-theo-vi-tri?maViTri=${locationId}`;
             return axiosClient.get(url);
-        } else {
-            return axiosClient.get(resourceName);
         }
+        return axiosClient.get(resourceName);
     },
     getRoomDetails: (roomId) => {
         const url = `${resourceName}/${roomId}`;
@@ -23,8 +23,7 @@ const roomApi = {
         return axiosClient.delete(url);
     },
     createBooking: (data) => {
-        const url = `${resourceName}/booking`;
-        return axiosClient.post(url, data);
+        return axiosClient.post(resourceName, data);
     },
     updateRoom: (id, room) => {
         const url = `${resourceName}/${id}`;

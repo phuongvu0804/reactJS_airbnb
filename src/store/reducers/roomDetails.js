@@ -3,7 +3,7 @@ import * as actTypes from "../constants/roomDetails";
 const initState = {
     loading: false,
     roomDetails: null,
-    roomReviews: null,
+    roomReviews: [],
     roomBooked: null,
     roomSaved: [],
     errorRoomDetails: null,

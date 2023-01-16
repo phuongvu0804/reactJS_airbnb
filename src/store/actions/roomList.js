@@ -42,13 +42,14 @@ const actGetFilteredListFail = (error) => {
     };
 };
 
-const actGetRoomList = (locationId = "all-rooms") => {
+const actGetRoomList = (locationId) => {
     return (dispatch) => {
         dispatch(actGetRoomListRequest());
+        console.log("actGetRoomList");
 
         callApi(
             roomApi.getRoomList(locationId),
-            (response) => dispatch(actGetRoomListSuccess(response)),
+            (response) => dispatch(actGetRoomListSuccess(response.content)),
             (error) => dispatch(actGetRoomListFail(error)),
         );
     };
