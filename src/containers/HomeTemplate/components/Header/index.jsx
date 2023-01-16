@@ -149,7 +149,7 @@ const Header = () => {
 
                     <Box className="main-header__actions" sx={{ flexGrow: 0 }}>
                         <Button className="actions__btn" component={Link} to="/">
-                             Become a host
+                            Become a host
                         </Button>
                         <IconButton className="actions__btn">
                             <LanguageIcon />

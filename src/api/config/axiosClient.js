@@ -1,6 +1,5 @@
 import axios from "axios";
 import apiConfig from "./apiConfig";
-import { logError, validateResponse } from "./request";
 
 const axiosClient = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -8,12 +7,13 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
     (config) => {
-        config.headers.tokenByClass = apiConfig.authToken;
-
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (user) {
-            config.headers.token = `${user?.token}`;
-        }
+        config = {
+            ...config,
+            headers: {
+                tokenCybersoft: apiConfig.TokenCyberSoft,
+                Token: JSON.parse(localStorage.getItem("user")),
+            },
+        };
 
         return config;
     },

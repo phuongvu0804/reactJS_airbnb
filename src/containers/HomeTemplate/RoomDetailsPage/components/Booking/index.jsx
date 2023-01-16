@@ -104,12 +104,12 @@ function Booking({ data }) {
         return guestTotal;
     };
 
-    const roomPrice = data.price.toLocaleString("en-US");
+    const roomPrice = data.giaTien.toLocaleString("en-US");
     const startDate = moment(checkIn, "YYYY-MM-DD");
     const endDate = moment(checkOut, "YYYY-MM-DD");
     const totalDaysStay = moment.duration(endDate.diff(startDate)).asDays() + 1; //Adjust day calculation to match with Airbnb rule
     const serviceFee = 100000;
-    const priceByTotalDays = totalDaysStay * data.price;
+    const priceByTotalDays = totalDaysStay * data.giaTien;
     const totalPrice = priceByTotalDays + serviceFee;
     const totalGuest = calculateTotalGuest();
 
@@ -118,7 +118,7 @@ function Booking({ data }) {
 
         if (!formErrors) {
             const bookingData = {
-                roomId: data._id,
+                roomId: data.id,
                 checkIn: moment(checkIn).format(),
                 checkOut: moment(checkOut).format(),
             };

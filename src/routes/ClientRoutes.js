@@ -18,6 +18,7 @@ const ClientRoutes = {
     element: <HomeTemplate />,
     children: [
         { path: "", element: <HomePage /> },
+        { path: "room-list", element: <RoomListPage /> },
         { path: "room-list/:id", element: <RoomListPage /> },
         { path: "room-details/:id", element: <RoomDetailsPage /> },
         {

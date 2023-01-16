@@ -48,7 +48,7 @@ function BookingModal({
     const handleBooking = () => {
         const user = localStorage.getItem("user");
         const bookingData = {
-            roomId: data._id,
+            roomId: data.id,
             checkIn: moment(checkIn).format(),
             checkOut: moment(checkOut).format(),
         };
@@ -125,7 +125,7 @@ function BookingModal({
                     <div className="booking-card__bill">
                         <div className="booking-card__bill-item">
                             <span className="booking-card__bill-name">
-                                VND {data.price.toLocaleString("en-US")} x {totalDaysStay} days
+                                VND {data.giaTien.toLocaleString("en-US")} x {totalDaysStay} days
                             </span>
                             <div className="booking-card__bill-price">
                                 <span className="bill-price__number">

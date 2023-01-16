@@ -4,6 +4,8 @@
         height: 250px;
         img {
             border-radius: var(--border-card);
+            object-position: center;
+            object-fit: cover;
             width: 100%;
             height: 100%;
         }

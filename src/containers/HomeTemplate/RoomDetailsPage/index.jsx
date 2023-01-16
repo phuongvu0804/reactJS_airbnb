@@ -36,8 +36,8 @@ function RoomDetailsPage() {
     const [favorite, setFavorite] = useState(false);
 
     useEffect(() => {
-        dispatch(actGetRoomDetails(roomId.id));
         dispatch(actGetRoomReview(roomId.id));
+        dispatch(actGetRoomDetails(roomId.id));
 
         roomsSaved?.forEach((room) => {
             if (room === roomId.id) {
@@ -68,9 +68,9 @@ function RoomDetailsPage() {
     ) : (
         <div id="room-details-page">
             <Container maxWidth="lg">
-                <h3 className="page__main-title room-details__title">{roomDetails?.name}</h3>
+                <h3 className="page__main-title room-details__title">{roomDetails?.tenPhong}</h3>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <p className="room-details__location">{roomDetails?.locationId?.name}</p>
+                    <p className="room-details__location"></p>
                     <div>
                         <Button className="room-details__btn">
                             <IosShare />
@@ -87,7 +87,7 @@ function RoomDetailsPage() {
                     </div>
                 </Box>
                 <div className="room-details__img">
-                    <Image src={roomDetails?.image} alt={roomDetails?.name} />
+                    <Image src={roomDetails?.hinhAnh} alt={roomDetails?.tenPhong} />
                 </div>
                 <Box sx={{ display: "flex" }}>
                     <div className="room-details__content">
@@ -98,7 +98,7 @@ function RoomDetailsPage() {
                         <Divider />
 
                         <div className="room-details__desc">
-                            <p>{roomDetails?.description.slice(0, visible)}</p>
+                            <p>{roomDetails?.moTa.slice(0, visible)}</p>
 
                             {visible < roomDetails && (
                                 <LoadMoreBtn

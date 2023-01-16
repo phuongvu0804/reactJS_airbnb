@@ -14,7 +14,7 @@ import RoomCard from "./components/RoomCard";
 //Others
 import "./style.scss";
 import { actCreateSave } from "@/store/actions/roomDetails";
-import { actGetRoomListRequest, actGetRoomListSuccess } from "@/store/actions/roomList";
+import { actGetRoomList, actGetRoomListRequest, actGetRoomListSuccess } from "@/store/actions/roomList";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
 import { modernCriteria } from "./constants";
 import { callApi } from "@/api/config/request";
@@ -35,79 +35,87 @@ function RoomListPage() {
     const [visible, setVisible] = useState(8);
     const [serverError, setServerError] = useState(null);
 
+    // const handleGetRoomList = () => {
+    //     switch (locationId.id) {
+    //         case "place-entire":
+    //             dispatch(actGetRoomListRequest());
+    //             callApi(
+    //                 roomApi.getRoomList("all-rooms"),
+    //                 (response) => {
+    //                     const roomList = response.filter((room) => room.guests >= 5);
+    //                     dispatch(actGetRoomListSuccess(roomList));
+    //                 },
+    //                 (error) => {
+    //                     setServerError(error);
+    //                 },
+    //             );
+    //             break;
+
+    //         case "place-modern":
+    //             dispatch(actGetRoomListRequest());
+    //             callApi(
+    //                 roomApi.getRoomList("all-rooms"),
+    //                 (response) => {
+    //                     const roomList = response.filter((room) => {
+    //                         for (let key of modernCriteria) {
+    //                             if (room[key]) {
+    //                                 return room;
+    //                             }
+    //                         }
+    //                     });
+    //                     dispatch(actGetRoomListSuccess(roomList));
+    //                 },
+    //                 (error) => {
+    //                     setServerError(error);
+    //                 },
+    //             );
+    //             break;
+
+    //         case "place-nature":
+    //             dispatch(actGetRoomListRequest());
+    //             callApi(
+    //                 roomApi.getRoomList("all-rooms"),
+    //                 (response) => {
+    //                     const roomList = response.filter((room) => {
+    //                         for (let key of modernCriteria) {
+    //                             if (room[key]) {
+    //                                 return false;
+    //                             }
+    //                             return room;
+    //                         }
+    //                     });
+    //                     dispatch(actGetRoomListSuccess(roomList));
+    //                 },
+    //                 (error) => {
+    //                     setServerError(error);
+    //                 },
+    //             );
+    //             break;
+
+    //         default:
+    //             dispatch(actGetRoomListRequest());
+    //             callApi(
+    //                 roomApi.getRoomList(locationId.id),
+    //                 (response) => {
+    //                     dispatch(actGetRoomListSuccess(response));
+    //                 },
+    //                 (error) => {
+    //                     setServerError(error);
+    //                 },
+    //             );
+    //     }
+    // };
+
     const handleGetRoomList = () => {
-        switch (locationId.id) {
-            case "place-entire":
-                dispatch(actGetRoomListRequest());
-                callApi(
-                    roomApi.getRoomList("all-rooms"),
-                    (response) => {
-                        const roomList = response.filter((room) => room.guests >= 5);
-                        dispatch(actGetRoomListSuccess(roomList));
-                    },
-                    (error) => {
-                        setServerError(error);
-                    },
-                );
-                break;
-
-            case "place-modern":
-                dispatch(actGetRoomListRequest());
-                callApi(
-                    roomApi.getRoomList("all-rooms"),
-                    (response) => {
-                        const roomList = response.filter((room) => {
-                            for (let key of modernCriteria) {
-                                if (room[key]) {
-                                    return room;
-                                }
-                            }
-                        });
-                        dispatch(actGetRoomListSuccess(roomList));
-                    },
-                    (error) => {
-                        setServerError(error);
-                    },
-                );
-                break;
-
-            case "place-nature":
-                dispatch(actGetRoomListRequest());
-                callApi(
-                    roomApi.getRoomList("all-rooms"),
-                    (response) => {
-                        const roomList = response.filter((room) => {
-                            for (let key of modernCriteria) {
-                                if (room[key]) {
-                                    return false;
-                                }
-                                return room;
-                            }
-                        });
-                        dispatch(actGetRoomListSuccess(roomList));
-                    },
-                    (error) => {
-                        setServerError(error);
-                    },
-                );
-                break;
-
-            default:
-                dispatch(actGetRoomListRequest());
-                callApi(
-                    roomApi.getRoomList(locationId.id),
-                    (response) => {
-                        dispatch(actGetRoomListSuccess(response));
-                    },
-                    (error) => {
-                        setServerError(error);
-                    },
-                );
+        if (locationId) {
         }
     };
 
     useEffect(() => {
-        handleGetRoomList();
+        // handleGetRoomList();
+        console.log("run");
+
+        dispatch(actGetRoomList(locationId.id));
     }, [locationId.id]);
 
     const handleOpen = () => setOpen(true);
@@ -146,8 +154,8 @@ function RoomListPage() {
     const renderRoomCardList = () => {
         return roomList
             ?.slice(0, visible)
-            .map((room) => (
-                <RoomCard key={room._id} room={room} handleLikeClass={handleLikeClass} handleLike={handleLike} />
+            .map((room, index) => (
+                <RoomCard key={index} room={room} handleLikeClass={handleLikeClass} handleLike={handleLike} />
             ));
     };
 

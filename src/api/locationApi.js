@@ -1,6 +1,6 @@
 import axiosClient from "./config/axiosClient";
 
-const resourceName = "locations";
+const resourceName = "vi-tri";
 
 const locationApi = {
     getLocationList: (searchData) => {
@@ -8,10 +8,11 @@ const locationApi = {
             return axiosClient.get(resourceName);
         }
 
-        const url = resourceName + `?location=${searchData}`;
+        const url = resourceName + `/${searchData}`;
         return axiosClient.get(url);
     },
     getLocationListByEvaluation: (evaluation) => {
+        //Not available
         const url = resourceName + `/by-valueate?valueate=${evaluation}`;
         return axiosClient.get(url);
     },
@@ -19,6 +20,7 @@ const locationApi = {
         const url = `${resourceName}/${id}`;
         return axiosClient.get(url);
     },
+    //Below are not available
     addLocation: (location) => {
         const url = resourceName;
         return axiosClient.post(url, location);

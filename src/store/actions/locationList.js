@@ -29,7 +29,7 @@ const actGetLocationList = (searchData = "") => {
         callApi(
             locationApi.getLocationList(searchData),
             (response) => {
-                dispatch(actGetLocationListSuccess(response));
+                dispatch(actGetLocationListSuccess(response.content));
             },
             (error) => {
                 dispatch(actGetLocationListFail(error));
