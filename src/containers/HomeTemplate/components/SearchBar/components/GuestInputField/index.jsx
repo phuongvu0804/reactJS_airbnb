@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 //Material UI
-import { FormControl, Button, IconButton, Divider, Popper } from "@mui/material";
+import { FormControl, Button, IconButton, Divider, Popper, Box } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
@@ -11,7 +11,7 @@ import AnimalModal from "../AnimalModal";
 import CloseBtn from "@/components/CloseBtn";
 import { settings, minGuest, maxGuest } from "./constants";
 
-function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNumber, totalGuest }) {
+function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNumber, onHandleTotalGuest }) {
     const [openAnimalModal, setOpenAnimalModal] = useState(false);
 
     const renderGuestInputField = () => {
@@ -31,15 +31,19 @@ function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNum
                             <p className="group__sub-text">{item.subText}</p>
                         )}
                     </div>
+
                     <div className="group__filter">
                         <IconButton
                             className="group__filter-btn"
                             onClick={() => {
-                                if (totalGuest >= minGuest)
+                                const totalGuest = onHandleTotalGuest();
+
+                                if (totalGuest >= minGuest) {
                                     return setGuestNumber({
                                         ...guestNumber,
                                         [item.inputName]: guestNumber[item.inputName] - 1,
                                     });
+                                }
                             }}
                         >
                             <RemoveCircleOutlineIcon />
@@ -50,11 +54,14 @@ function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNum
                         <IconButton
                             className="group__filter-btn"
                             onClick={() => {
-                                if (totalGuest <= maxGuest)
+                                const totalGuest = onHandleTotalGuest();
+
+                                if (totalGuest <= maxGuest) {
                                     return setGuestNumber({
                                         ...guestNumber,
                                         [item.inputName]: guestNumber[item.inputName] + 1,
                                     });
+                                }
                             }}
                         >
                             <AddCircleOutlineIcon />
@@ -75,7 +82,7 @@ function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNum
             open={open}
         >
             <CloseBtn onClick={onClick} sx={{ display: { xs: "flex", sm: "none" } }} />
-            {renderGuestInputField()}
+            <Box sx={{ py: 4 }}>{renderGuestInputField()}</Box>
             <AnimalModal onOpen={openAnimalModal} onClose={() => setOpenAnimalModal(false)} />
         </Popper>
     );

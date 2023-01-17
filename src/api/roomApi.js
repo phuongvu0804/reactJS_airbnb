@@ -8,7 +8,6 @@ const roomApi = {
     },
     getRoomList: (locationId) => {
         if (locationId) {
-            console.log(locationId);
             const url = resourceName + `/lay-phong-theo-vi-tri?maViTri=${locationId}`;
             return axiosClient.get(url);
         }

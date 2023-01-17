@@ -3,7 +3,7 @@ form.search-item__sub-modal {
     top: 0 !important;
     left: 0% !important;
     z-index: 1;
-    max-height: calc(100vh - 150px);
+    max-height: calc(100vh - 100px);
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -70,7 +70,7 @@ div.sub-modal__group {
         right: 12px !important;
         left: 12px !important;
         top: 50% !important;
-        transform: translateY(60%) !important;
+        transform: translateY(-30%) !important;
 
         &.search-item__sub-modal--guest {
             padding: 14px 24px;

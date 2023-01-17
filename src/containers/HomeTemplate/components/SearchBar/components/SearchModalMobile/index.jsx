@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 //Material UI
 import { Modal, Typography, TextField, FormControl, FormLabel, InputAdornment, Button } from "@mui/material";
@@ -11,10 +11,33 @@ import "./style.scss";
 import GuestInputField from "../GuestInputField";
 import SubmitBtn from "@/components/SubmitBtn";
 import CloseBtn from "@/components/CloseBtn";
+import { LocationOn } from "@mui/icons-material";
+import { handleFilterResultList, renderPosition } from "../../constants";
+import { useSelector } from "react-redux";
 
-function SearchModalMobile({ onOpen, onClose, guestNumber, setGuestNumber, searchData, setSearchData, onSubmit }) {
+function SearchModalMobile({
+    onOpen,
+    onClose,
+    guestNumber,
+    setGuestNumber,
+    searchData,
+    setSearchData,
+    resultList,
+    setResultList,
+    filteredValues,
+    setFilteredValues,
+    isActiveSearchResult,
+    setIsActiveSearchResult,
+    onHandleTotalGuest,
+    onSubmit,
+}) {
+    const LOCATION_LIST = useSelector((state) => state.locationList.data);
     const [value, setValue] = useState(new Date());
     const [anchorEl, setAnchorEl] = useState(null);
+
+    useEffect(() => {
+        handleFilterResultList(searchData, LOCATION_LIST, setResultList);
+    }, [searchData]);
 
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -61,9 +84,21 @@ function SearchModalMobile({ onOpen, onClose, guestNumber, setGuestNumber, searc
                         }}
                         onChange={(e) => setSearchData(e.target.value)}
                         value={searchData}
+                        onClick={() => setIsActiveSearchResult(true)}
                     />
+                    {isActiveSearchResult && (
+                        <div className="search-bar__result-list">
+                            {renderPosition(
+                                resultList,
+                                filteredValues,
+                                setFilteredValues,
+                                setSearchData,
+                                setIsActiveSearchResult,
+                            )}
+                        </div>
+                    )}
                 </FormControl>
-                <FormControl className="search-modal__search-item">
+                <FormControl className="search-modal__search-item" onClick={() => setIsActiveSearchResult(false)}>
                     <FormLabel className="search-item__title">When</FormLabel>
                     <MobileDatePicker
                         value={value}
@@ -73,7 +108,7 @@ function SearchModalMobile({ onOpen, onClose, guestNumber, setGuestNumber, searc
                         renderInput={(params) => <TextField className="search-item__input" {...params} />}
                     />
                 </FormControl>
-                <FormControl className="search-modal__search-item">
+                <FormControl className="search-modal__search-item" onClick={() => setIsActiveSearchResult(false)}>
                     <FormLabel className="search-item__title">Who</FormLabel>
                     <Button className="search-item__text" ia-describedby={id} onClick={handleClick}>
                         Add guests
@@ -85,6 +120,7 @@ function SearchModalMobile({ onOpen, onClose, guestNumber, setGuestNumber, searc
                         onClick={handleClick}
                         guestNumber={guestNumber}
                         setGuestNumber={setGuestNumber}
+                        onHandleTotalGuest={onHandleTotalGuest}
                     />
                 </FormControl>
                 <div className="sub-modal__search-btn">

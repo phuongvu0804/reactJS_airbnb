@@ -113,7 +113,6 @@ function RoomListPage() {
 
     useEffect(() => {
         // handleGetRoomList();
-        console.log("run");
 
         dispatch(actGetRoomList(locationId.id));
     }, [locationId.id]);

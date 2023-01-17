@@ -45,7 +45,6 @@ const actGetFilteredListFail = (error) => {
 const actGetRoomList = (locationId) => {
     return (dispatch) => {
         dispatch(actGetRoomListRequest());
-        console.log("actGetRoomList");
 
         callApi(
             roomApi.getRoomList(locationId),

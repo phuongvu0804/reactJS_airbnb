@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //Material UI
 import TextField from "@mui/material/TextField";
@@ -8,7 +8,7 @@ import { Box, Divider, FormControl, FormLabel, IconButton, Typography } from "@m
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { Search } from "@mui/icons-material";
+import { LocationOn, Search } from "@mui/icons-material";
 
 //Components
 import SubmitBtn from "@/components/SubmitBtn";
@@ -30,23 +30,13 @@ import {
 } from "@/store/actions/roomList";
 import { locationApi, roomApi } from "@/api";
 import { callApi } from "@/api/config/request";
-import { searchTabsMobile } from "./constants";
+import { handleFilterResultList, renderPosition, searchTabsMobile } from "./constants";
+import { useEffect } from "react";
 
 function SearchBar({ searchCategory }) {
-    const style = {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: 400,
-        bgcolor: "white",
-        border: "2px solid #000",
-        boxShadow: 24,
-        p: 4,
-    };
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const LOCATION_LIST = useSelector((state) => state.locationList.data);
 
     const [openModal, setOpenModal] = useState(false);
     const [checkInTime, setCheckInTime] = useState(new Date());
@@ -59,9 +49,24 @@ function SearchBar({ searchCategory }) {
         Pets: 0,
     });
     const [anchorEl, setAnchorEl] = useState(null);
+    const [resultList, setResultList] = useState([]);
+    const [filteredValues, setFilteredValues] = useState({
+        locationId: null,
+        locationName: null,
+        checkInTime: null,
+        checkOutTime: null,
+        guestNumber: 0,
+    });
+    const [isActiveSearchResult, setIsActiveSearchResult] = useState(false);
+
+    console.log(isActiveSearchResult);
+    useEffect(() => {
+        handleFilterResultList(searchData, LOCATION_LIST, setResultList);
+    }, [searchData]);
 
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
+        setIsActiveSearchResult(false);
     };
 
     const open = Boolean(anchorEl);
@@ -83,73 +88,71 @@ function SearchBar({ searchCategory }) {
         return guestTotal;
     };
 
-    const totalGuest = calculateTotalGuest();
+    const handleGetRoomByLocation = (locationId) => {
+        callApi(
+            roomApi.getRoomList(locationId),
+            (resp) => {
+                //Check if location has any room
+                if (resp.content.length !== 0) {
+                    //Filter rooms by guest number
+                    if (filteredValues.totalGuest !== 0) {
+                        const filteredResp = resp.content.filter((room) => room.guests >= filteredValues.totalGuest);
 
-    const handleGetRoomByLocation = (locationList) => {
-        //Check if location exists
-        if (locationList && locationList?.length !== 0) {
-            const locationId = locationList[0]._id;
-            dispatch(actGetRoomListRequest());
-
-            callApi(
-                roomApi.getRoomList(locationId),
-                (resp) => {
-                    //Check if location has any room
-                    if (resp.length !== 0) {
-                        const guestTotal = calculateTotalGuest();
-
-                        //Filter rooms by guest number
-                        if (guestTotal !== 0) {
-                            const filteredResp = resp.filter((room) => room.guests >= guestTotal);
-
-                            //Check if room with filter exists
-                            if (filteredResp.length === 0) {
-                                return dispatch(actGetRoomListFail("Location has no accomodation satisfied"));
-                            }
-                            dispatch(actGetRoomListSuccess(filteredResp));
-                            navigate(`room-list/${locationId}`);
+                        //Check if room with filter exists
+                        if (filteredResp.length === 0) {
+                            dispatch(actGetRoomListFail("Location has no accomodation satisfied"));
                         } else {
-                            dispatch(actGetRoomListSuccess(resp));
-                            navigate(`room-list/${locationId}`);
+                            dispatch(actGetRoomListSuccess(filteredResp.content));
                         }
+
+                        navigate(`room-list/${locationId}`);
                     } else {
-                        return dispatch(actGetRoomListFail("Location has no accomodation"));
+                        dispatch(actGetRoomListSuccess(resp));
+                        navigate(`room-list/${locationId}`);
                     }
-                },
-                (resp) => dispatch(actGetRoomListFail(resp)),
-            );
-        } else {
-            //Navigate to page with no result
-            dispatch(actGetRoomListFail("Location doesn't exist"));
-            navigate("room-list/all-rooms");
-        }
+                } else {
+                    return dispatch(actGetRoomListFail("Location has no accomodation"));
+                }
+            },
+            (resp) => dispatch(actGetRoomListFail(resp)),
+        );
     };
 
-    const handleRoomList = () => {
-        dispatch(actGetLocationListRequest());
+    const handleDispatchRoomList = () => {
+        if (searchCategory === "Stays") {
+            dispatch(actGetLocationListRequest());
 
-        callApi(
-            locationApi.getLocationList(searchData),
-            (resp) => {
-                dispatch(actGetLocationListSuccess(resp));
-                handleGetRoomByLocation(resp);
-            },
-            (err) => {
-                dispatch(actGetLocationListFail(err));
-            },
-        );
+            if (!filteredValues.locationId) {
+                dispatch(actGetRoomList(""));
+                navigate("room-list");
+            } else {
+                callApi(
+                    locationApi.getLocationList(filteredValues.locationId),
+                    (resp) => {
+                        handleGetRoomByLocation(filteredValues.locationId);
+                    },
+                    (err) => {
+                        dispatch(actGetLocationListFail(err));
+                    },
+                );
+            }
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (searchCategory === "Stays") {
-            if (searchData === "") {
-                dispatch(actGetRoomList());
-                navigate("room-list/all-rooms");
-            } else {
-                handleRoomList();
-            }
-        }
+        console.log("handleSubmitt");
+
+        const totalGuest = calculateTotalGuest();
+        setFilteredValues({
+            ...filteredValues,
+            totalGuest,
+            checkInTime,
+            checkOutTime,
+        });
+
+        handleDispatchRoomList();
+
         handleCloseModal();
     };
 
@@ -194,12 +197,21 @@ function SearchBar({ searchCategory }) {
                             variant="outlined"
                             value={searchData}
                             onChange={(e) => setSearchData(e.target.value)}
+                            onClick={() => setIsActiveSearchResult(true)}
                         />
                     </FormControl>
+                    {isActiveSearchResult && (
+                        <div className="search-bar__result-list" onClick={() => setIsActiveSearchResult(true)}>
+                            {renderPosition(resultList, filteredValues, setFilteredValues, setSearchData)}
+                        </div>
+                    )}
                 </Box>
                 <Divider className="search-bar__divider" orientation="vertical" variant="middle" flexItem />
                 <Box className="search-bar__input-wrapper" sx={{ flex: 1 }}>
-                    <FormControl className="search-bar__input-control search-bar__input-control--where">
+                    <FormControl
+                        className="search-bar__input-control search-bar__input-control--where"
+                        onClick={() => setIsActiveSearchResult(false)}
+                    >
                         <FormLabel className="search-bar__input-label">Check in</FormLabel>
                         <DesktopDatePicker
                             value={checkInTime}
@@ -215,7 +227,10 @@ function SearchBar({ searchCategory }) {
                 </Box>
                 <Divider className="search-bar__divider" orientation="vertical" variant="middle" flexItem />
                 <Box className="search-bar__input-wrapper" sx={{ flex: 1 }}>
-                    <FormControl className="search-bar__input-control search-bar__input-control--where">
+                    <FormControl
+                        className="search-bar__input-control search-bar__input-control--where"
+                        onClick={() => setIsActiveSearchResult(false)}
+                    >
                         <FormLabel className="search-bar__input-label">Check out</FormLabel>
                         <DesktopDatePicker
                             value={checkOutTime}
@@ -245,7 +260,7 @@ function SearchBar({ searchCategory }) {
                         anchorEl={anchorEl}
                         guestNumber={guestNumber}
                         setGuestNumber={setGuestNumber}
-                        totalGuest={totalGuest}
+                        onHandleTotalGuest={calculateTotalGuest}
                     />
                     <SubmitBtn className="seacrh-bar__form-btn" startIcon={<Search />} variant="contained"></SubmitBtn>
                 </Box>
@@ -262,6 +277,13 @@ function SearchBar({ searchCategory }) {
                 setGuestNumber={setGuestNumber}
                 searchData={searchData}
                 setSearchData={setSearchData}
+                resultList={resultList}
+                setResultList={setResultList}
+                filteredValues={filteredValues}
+                setFilteredValues={setFilteredValues}
+                isActiveSearchResult={isActiveSearchResult}
+                setIsActiveSearchResult={setIsActiveSearchResult}
+                onHandleTotalGuest={calculateTotalGuest}
                 onSubmit={handleSubmit}
             />
         </div>
