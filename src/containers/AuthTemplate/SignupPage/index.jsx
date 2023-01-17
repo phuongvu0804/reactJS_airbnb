@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@/hooks";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +9,7 @@ import { LoadingButton } from "@mui/lab";
 
 // Components
 import Input from "../components/Input";
+import { Navigate } from "react-router-dom";
 
 // Form handler
 import { useForm } from "react-hook-form";
@@ -18,6 +20,7 @@ import { signupSchema } from "@/validators";
 import { actSignup } from "@/store/actions/auth";
 
 const SignupPage = () => {
+    const auth = useAuth();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [radioValue, setRadioValue] = useState(true);
@@ -35,6 +38,10 @@ const SignupPage = () => {
         },
     });
     const { signup } = useSelector((state) => state.auth);
+
+    if (auth.user) {
+        return <Navigate to="/" replace />;
+    }
 
     const handleChangeRadio = (event) => {
         const booleanValue = event.target.value === "true";
