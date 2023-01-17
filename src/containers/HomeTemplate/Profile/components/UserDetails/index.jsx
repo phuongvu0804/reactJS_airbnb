@@ -20,7 +20,7 @@ function UserDetails({ data, wishLists }) {
             <WishList data={wishLists} />
             <Divider sx={{ my: "30px" }} />
 
-            <ShoppingCart data={data} />
+            {/* <ShoppingCart data={data} /> */}
         </>
     );
 }
@@ -34,7 +34,7 @@ function Loading() {
             <WishList.Loading />
             <Divider sx={{ my: "30px" }} />
 
-            <ShoppingCart.Loading />
+            {/* <ShoppingCart.Loading /> */}
         </>
     );
 }

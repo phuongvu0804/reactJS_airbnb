@@ -11,6 +11,7 @@ import moment from "moment";
 import ProfileModal from "../ProfileModal";
 
 function UserInfo({ data }) {
+    console.log(data);
     const [openModal, setOpenModal] = useState(false);
     const [serverResponse, setServerResponse] = useState(null);
 

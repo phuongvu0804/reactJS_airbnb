@@ -48,7 +48,7 @@ const actGetUserData = (userId) => {
 
         callApi(
             userApi.getUserDetails(userId),
-            (response) => dispatch(actGetUserDataSuccess(response)),
+            (response) => dispatch(actGetUserDataSuccess(response.content)),
             (error) => dispatch(actGetUserDataFail(error)),
         );
     };

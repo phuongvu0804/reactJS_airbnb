@@ -17,8 +17,8 @@ function Profile() {
     const userData = useSelector((state) => state.user.data);
     const loading = useSelector((state) => state.user.loading);
     const wishLists = useSelector((state) => state.roomDetails.roomSaved);
-    const userId = JSON.parse(localStorage.getItem("user"))?._id;
-
+    const userId = JSON.parse(localStorage.getItem("user"))?.id;
+    console.log(JSON.parse(localStorage.getItem("user")));
     useEffect(() => {
         dispatch(actGetUserData(userId));
     }, [userId]);

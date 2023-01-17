@@ -23,7 +23,7 @@ function ProfileTabletMobile({ data, wishLists }) {
             <Divider sx={{ width: "100%", my: "var(--margin-3)" }} />
             <WishList data={wishLists} />
             <Divider sx={{ width: "100%", my: "var(--margin-3)" }} />
-            <ShoppingCart data={data} />
+            {/* <ShoppingCart data={data} /> */}
         </Grid>
     );
 }
@@ -39,7 +39,7 @@ function Loading() {
             <Divider sx={{ width: "100%", my: "var(--margin-3)" }} />
             <WishList.Loading />
             <Divider sx={{ width: "100%", my: "var(--margin-3)" }} />
-            <ShoppingCart.Loading />
+            {/* <ShoppingCart.Loading /> */}
         </Grid>
     );
 }
