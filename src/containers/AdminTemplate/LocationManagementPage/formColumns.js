@@ -1,29 +1,29 @@
 export const formColumns = [
     {
         id: 1,
-        name: "name",
+        name: "tenViTri",
         label: "Location",
         type: "text",
         placeholder: "170 Ethiopia",
     },
     {
         id: 2,
-        name: "country",
+        name: "quocGia",
         label: "Country",
         type: "text",
         placeholder: "Wakanda",
     },
     {
         id: 3,
-        name: "province",
+        name: "tinhThanh",
         label: "Province",
         type: "text",
         placeholder: "Nupakachi",
     },
-    {
-        id: 4,
-        name: "valueate",
-        label: "Rating",
-        type: "rating",
-    },
+    // {
+    //     id: 4,
+    //     name: "valueate",
+    //     label: "Rating",
+    //     type: "rating",
+    // },
 ];

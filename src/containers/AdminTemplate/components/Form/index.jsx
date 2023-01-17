@@ -109,17 +109,17 @@ const Form = ({
         },
         {
             onSuccess: (data) => {
-                if (!getValues("image") || typeof getValues("image") === "string") {
+                if (!getValues("hinhAnh") || typeof getValues("hinhAnh") === "string") {
                     dispatch(actOpenModal(`${functionality} ${firstLevelSubpath.slice(0, -1)} successfully!`));
                     return;
                 }
 
-                const id = data.data.id;
+                const id = data.data?.content?.id;
 
                 const photoKey = firstLevelSubpath.slice(0, -1);
 
                 const photoFormData = new FormData();
-                photoFormData.append(photoKey, getValues("image"));
+                photoFormData.append(photoKey, getValues("hinhAnh"));
                 mutationPhoto.mutate({ id, photoFormData });
             },
         },
@@ -136,24 +136,24 @@ const Form = ({
 
     const handleUpdatePhoto = (event) => {
         const image = event.target.files[0];
-        setValue("image", image);
+        setValue("hinhAnh", image);
         setAnchorEl(null);
     };
 
     const handleDisplayPhoto = () => {
-        if (!getValues("image")) {
+        if (!getValues("hinhAnh")) {
             return "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
         }
 
-        if (typeof getValues("image") === "string") {
-            return getValues("image");
+        if (typeof getValues("hinhAnh") === "string") {
+            return getValues("hinhAnh");
         }
 
-        return URL.createObjectURL(getValues("image"));
+        return URL.createObjectURL(getValues("hinhAnh"));
     };
 
     const handleRemovePhoto = () => {
-        setValue("image", null);
+        setValue("hinhAnh", null);
         setAnchorEl(null);
     };
 
@@ -161,7 +161,7 @@ const Form = ({
      *  Handle submit
      */
     const handleSubmitData = (value) => {
-        let { image, facilities, ...details } = value;
+        let { hinhAnh, facilities, ...details } = value;
 
         // Convert facilities array to object
         if (facilities) {
@@ -211,7 +211,7 @@ const Form = ({
                                 Upload a photo
                             </MenuItem>
                             <input
-                                {...register("image")}
+                                {...register("hinhAnh")}
                                 id="upload-photo"
                                 type="file"
                                 style={{ display: "none" }}
@@ -221,7 +221,7 @@ const Form = ({
                             <MenuItem
                                 className="menu-handle-img__item"
                                 onClick={handleRemovePhoto}
-                                disabled={!getValues("image")}
+                                disabled={!getValues("hinhAnh")}
                             >
                                 Remove photo
                             </MenuItem>

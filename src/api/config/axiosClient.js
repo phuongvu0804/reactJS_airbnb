@@ -11,7 +11,7 @@ axiosClient.interceptors.request.use(
             ...config,
             headers: {
                 tokenCybersoft: apiConfig.TokenCyberSoft,
-                Token: JSON.parse(localStorage.getItem("user")),
+                Token: JSON.parse(localStorage.getItem("user"))?.token,
             },
         };
 

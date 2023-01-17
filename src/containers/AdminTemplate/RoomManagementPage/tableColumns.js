@@ -2,12 +2,12 @@ import Image from "@/components/Image";
 
 export const tableColumns = [
     {
-        field: "name",
+        field: "tenPhong",
         headerName: "Room",
         flex: 2,
     },
     {
-        field: "image",
+        field: "hinhAnh",
         headerName: "Image",
         flex: 2,
         align: "center",
@@ -18,24 +18,24 @@ export const tableColumns = [
                     width="120"
                     height="70"
                     style={{ objectFit: "cover" }}
-                    src={params.row.image}
-                    alt={params.row.name}
+                    src={params.row.hinhAnh}
+                    alt={params.row.tenPhong}
                 />
             );
         },
     },
     {
-        field: "price",
+        field: "giaTien",
         headerName: "Price",
         flex: 1,
         align: "center",
         headerAlign: "center",
         renderCell: (params) => {
-            if (!params.row.price) {
+            if (!params.row.giaTien) {
                 return <span>${0}</span>;
             }
 
-            const formattedCurrency = params.row.price
+            const formattedCurrency = params.row.giaTien
                 .toLocaleString("en-US", {
                     style: "currency",
                     currency: "USD",
@@ -46,28 +46,28 @@ export const tableColumns = [
         },
     },
     {
-        field: "guests",
+        field: "khach",
         headerName: "Guest",
         flex: 0.8,
         align: "center",
         headerAlign: "center",
     },
     {
-        field: "bedRoom",
+        field: "phongNgu",
         headerName: "Bedroom",
         flex: 1,
         align: "center",
         headerAlign: "center",
     },
     {
-        field: "bath",
+        field: "phongTam",
         headerName: "Bath",
         flex: 0.8,
         align: "center",
         headerAlign: "center",
     },
     {
-        field: "description",
+        field: "moTa",
         headerName: "Description",
         flex: 3.5,
         headerAlign: "center",

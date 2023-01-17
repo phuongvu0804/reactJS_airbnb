@@ -21,15 +21,15 @@ const Edit = () => {
     const { state } = useLocation();
 
     const defaultValues = {
-        name: "",
-        guests: 0,
-        bedRoom: 0,
-        bath: 0,
-        description: "",
-        price: 0,
+        tenPhong: "",
+        khach: 0,
+        phongNgu: 0,
+        phongTam: 0,
+        moTa: "",
+        giaTien: 0,
         facilities: [],
-        locationId: state?.id,
-        image: null,
+        maViTri: state?.id,
+        hinhAnh: null,
     };
 
     return (

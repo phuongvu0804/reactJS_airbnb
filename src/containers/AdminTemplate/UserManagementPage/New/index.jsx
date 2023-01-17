@@ -22,7 +22,7 @@ const defaultValues = {
     phone: "",
     birthday: "",
     gender: true,
-    type: "ADMIN",
+    role: "ADMIN",
 };
 
 let formColumnsWithPassword = [...formColumns];

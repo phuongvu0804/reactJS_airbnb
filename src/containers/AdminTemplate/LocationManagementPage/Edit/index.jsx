@@ -16,11 +16,10 @@ import { formColumns } from "../formColumns";
 const { EDIT } = FUNCTIONALITY;
 
 const defaultValues = {
-    name: "",
-    province: "",
-    country: "",
-    valueate: 0,
-    image: null,
+    tenViTri: "",
+    tinhThanh: "",
+    quocGia: "",
+    hinhAnh: null,
 };
 
 const Edit = () => {

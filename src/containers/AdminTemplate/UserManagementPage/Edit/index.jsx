@@ -32,7 +32,7 @@ const Edit = () => {
             columns={formColumns}
             validator={userSchema.edit}
             getRequest={userApi.getUserDetails}
-            putRequest={userApi.updateUser}
+            putRequest={userApi.editUser}
         />
     );
 };

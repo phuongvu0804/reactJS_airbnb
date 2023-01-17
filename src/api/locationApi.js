@@ -11,6 +11,9 @@ const locationApi = {
         const url = resourceName + `/${searchData}`;
         return axiosClient.get(url);
     },
+    getLocations: () => {
+        return axiosClient.get(resourceName);
+    },
     getLocationListByEvaluation: (evaluation) => {
         //Not available
         const url = resourceName + `/by-valueate?valueate=${evaluation}`;
@@ -30,7 +33,7 @@ const locationApi = {
         return axiosClient.put(url, location);
     },
     updateLocationPhoto: (id, photo) => {
-        const url = `${resourceName}/upload-images/${id}`;
+        const url = `${resourceName}/upload-hinh-vitri?maViTri=${id}`;
         return axiosClient.post(url, photo);
     },
     deleteLocation: (id) => {

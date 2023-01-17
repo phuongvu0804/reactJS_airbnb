@@ -29,22 +29,22 @@ const userSchema = {
  *  Location
  */
 const locationSchema = yup.object({
-    name: yup.string().required(msg.required),
-    province: yup.string().required(msg.required),
-    country: yup.string().required(msg.required),
-    valueate: yup.number(),
+    tenViTri: yup.string().required(msg.required),
+    tinhThanh: yup.string().required(msg.required),
+    quocGia: yup.string().required(msg.required),
+    // valueate: yup.number(),
 });
 
 /*
  *  Room
  */
 const roomSchema = yup.object({
-    name: yup.string().required(msg.required),
-    guests: yup.number(),
-    bedRoom: yup.number(),
-    bath: yup.number(),
-    description: yup.string().required(msg.required),
-    price: yup.number(),
+    tenPhong: yup.string().required(msg.required),
+    khach: yup.number(),
+    phongNgu: yup.number(),
+    phongTam: yup.number(),
+    moTa: yup.string().required(msg.required),
+    giaTien: yup.number(),
     facilities: yup.array(),
     // locationId: yup.string(),
 });

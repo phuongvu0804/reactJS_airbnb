@@ -14,7 +14,7 @@ const LocationManagementPage = () => {
     return (
         <Datatable
             columns={tableColumns}
-            getRequest={locationApi.getLocationList}
+            getRequest={locationApi.getLocations}
             deleteRequest={locationApi.deleteLocation}
             rowsPerPageOptions={[3, 4, 5]}
             rowHeight={80}

@@ -128,12 +128,12 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
 
     const renderAdditionalInfo = () => {
         switch (currentSubpath.prevLevel) {
-            case "locations":
-                return (
-                    <Typography component="h4" variant="h6" sx={{ mb: 1, fontSize: "17px", color: "var(--gray)" }}>
-                        {rows[0].locationId.name}, {rows[0].locationId.province}, {rows[0].locationId.country}
-                    </Typography>
-                );
+            // case "locations":
+            //     return (
+            //         <Typography component="h4" variant="h6" sx={{ mb: 1, fontSize: "17px", color: "var(--gray)" }}>
+            //             {rows[0].locationId.name}, {rows[0].locationId.province}, {rows[0].locationId.country}
+            //         </Typography>
+            //     );
             case "service":
                 return;
             default:
@@ -183,7 +183,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
             <div className="datatable-wrapper">
                 <div className="datatable">
                     <div className="top">
-                        <div className="search">
+                        {/* <div className="search">
                             <input
                                 value={searchKey.current}
                                 type="text"
@@ -195,7 +195,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                             ) : (
                                 <Search />
                             )}
-                        </div>
+                        </div> */}
                         <Link
                             to="new"
                             state={{ id: searchParams.get(currentSubpath.prevLevel.slice(0, -1)) }}

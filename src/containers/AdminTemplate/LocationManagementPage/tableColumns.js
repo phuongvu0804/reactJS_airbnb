@@ -6,13 +6,12 @@ import { Star } from "@mui/icons-material";
 
 export const tableColumns = [
     {
-        field: "name",
+        field: "tenViTri",
         headerName: "Location",
         flex: 2,
     },
-
     {
-        field: "image",
+        field: "hinhAnh",
         headerName: "Image",
         flex: 2,
         align: "center",
@@ -23,44 +22,44 @@ export const tableColumns = [
                     width="120"
                     height="70"
                     style={{ objectFit: "cover" }}
-                    src={params.row.image}
+                    src={params.row.hinhAnh}
                     alt={params.row.name}
                 />
             );
         },
     },
-    {
-        field: "valueate",
-        headerName: "Rating",
-        flex: 1,
-        align: "center",
-        headerAlign: "center",
-        renderCell: (params) => {
-            const perfectRating = params.row.valueate === 10;
-            const perfectRatingClass = perfectRating ? "perfect" : "";
+    // {
+    //     field: "valueate",
+    //     headerName: "Rating",
+    //     flex: 1,
+    //     align: "center",
+    //     headerAlign: "center",
+    //     renderCell: (params) => {
+    //         const perfectRating = params.row.valueate === 10;
+    //         const perfectRatingClass = perfectRating ? "perfect" : "";
 
-            return (
-                <Stack
-                    direction="row"
-                    spacing={0.5}
-                    alignItems="center"
-                    justifyContent="center"
-                    className={`rating-wrapper ${perfectRatingClass}`}
-                >
-                    <span>{params.row.valueate}</span> <Star className={`star ${perfectRatingClass}`} />
-                </Stack>
-            );
-        },
-    },
+    //         return (
+    //             <Stack
+    //                 direction="row"
+    //                 spacing={0.5}
+    //                 alignItems="center"
+    //                 justifyContent="center"
+    //                 className={`rating-wrapper ${perfectRatingClass}`}
+    //             >
+    //                 <span>{params.row.valueate}</span> <Star className={`star ${perfectRatingClass}`} />
+    //             </Stack>
+    //         );
+    //     },
+    // },
     {
-        field: "country",
+        field: "quocGia",
         headerName: "Country",
         flex: 1.8,
         align: "center",
         headerAlign: "center",
     },
     {
-        field: "province",
+        field: "tinhThanh",
         headerName: "Province",
         flex: 2,
         headerAlign: "center",
