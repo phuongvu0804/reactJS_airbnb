@@ -30,7 +30,9 @@ export const tableColumns = [
         align: "center",
         headerAlign: "center",
         renderCell: (params) => {
-            return <div>{moment(params.row.birthday).format("DD-MM-YYYY")}</div>;
+            const momentDate = moment(params.row.birthday).format("DD-MM-YYYY");
+            const date = momentDate === "Invalid date" ? params.row.birthday : momentDate;
+            return <div>{date}</div>;
         },
     },
     {
@@ -38,12 +40,6 @@ export const tableColumns = [
         headerName: "Phone",
         flex: 1.7,
         align: "center",
-        headerAlign: "center",
-    },
-    {
-        field: "address",
-        headerName: "Address",
-        flex: 3.5,
         headerAlign: "center",
     },
 ];

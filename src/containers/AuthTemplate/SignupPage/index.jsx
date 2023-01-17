@@ -43,8 +43,7 @@ const SignupPage = () => {
     };
 
     const handleSignup = (user) => {
-        console.log("user", user);
-        // dispatch(actSignup(user, navigate));
+        dispatch(actSignup(user, navigate));
     };
 
     return (

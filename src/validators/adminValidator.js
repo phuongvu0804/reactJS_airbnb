@@ -15,7 +15,6 @@ const userSchema = {
         birthday: yup.date().nullable().typeError(msg.birthday.invalid).max(yesterday, msg.birthday.max),
         password: yup.string().matches(pattern.password, msg.password),
         phone: yup.string().required(msg.required).matches(pattern.phone, msg.phone),
-        address: yup.string().required(msg.required),
     }),
     edit: yup.object({
         name: yup.string().required(msg.required),
@@ -23,7 +22,6 @@ const userSchema = {
         gender: yup.boolean(),
         birthday: yup.date().nullable().typeError(msg.birthday.invalid).max(yesterday, msg.birthday.max),
         phone: yup.string().required(msg.required).matches(pattern.phone, msg.phone),
-        address: yup.string().required(msg.required),
     }),
 };
 

@@ -21,7 +21,7 @@ const actLogin = (user, auth, navigate) => {
 
         try {
             const { data } = await authApi.login(user);
-            user = { ...data.user, token: data.token };
+            user = { ...data.content.user, token: data.content.token };
             dispatch(actLoginSuccess());
             auth.login(user);
             navigate(-1);

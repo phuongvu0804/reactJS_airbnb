@@ -8,7 +8,7 @@ const RequireAuth = ({ children, roles }) => {
         return <Navigate to="/auth/login" />;
     }
 
-    const isAllowed = roles.includes(auth.user.type);
+    const isAllowed = roles.includes(auth.user.role);
     if (isAllowed) {
         return children;
     }

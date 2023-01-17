@@ -22,7 +22,6 @@ const defaultValues = {
     birthday: "",
     gender: true,
     type: "ADMIN",
-    address: "",
 };
 
 const Edit = () => {

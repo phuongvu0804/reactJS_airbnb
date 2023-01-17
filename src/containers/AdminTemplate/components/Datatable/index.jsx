@@ -51,7 +51,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
     const { data, isLoading } = useQuery(queryKey, getRequest, {
         refetchOnWindowFocus: false,
     });
-    let rows = data?.data || [];
+    let rows = data?.data?.content || [];
 
     /*
      *  Handle search users
@@ -99,7 +99,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
             dispatch(actOpenModal(`Delete ${firstLevelSubpath.slice(0, -1)} successfully!`));
             (async () => {
                 await queryClient.invalidateQueries(queryKey);
-                rows = queryClient.getQueryData(queryKey).data;
+                rows = queryClient.getQueryData(queryKey).data?.content;
                 handleSearch({ target: { value: searchKey.current } });
             })();
         },
@@ -113,7 +113,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
      *  Handle view details
      */
     const handleViewDetails = (params) => {
-        navigate(`details/${params.row._id}`);
+        navigate(`details/${params.row.id}`);
     };
 
     /*
@@ -152,7 +152,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                 <div className="cell-actions">
                     {currentSubpath?.nextLevel && (
                         <Link
-                            to={`/${rootPage}/${currentSubpath.nextLevel}?${currentSubpath.title}=${params.row._id}`}
+                            to={`/${rootPage}/${currentSubpath.nextLevel}?${currentSubpath.title}=${params.row.id}`}
                             state={{ prevPath: firstLevelSubpath }}
                             style={{ textDecoration: "none" }}
                         >
@@ -162,7 +162,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                         </Link>
                     )}
                     <Link
-                        to={`edit/${params.row._id}`}
+                        to={`edit/${params.row.id}`}
                         state={{ id: searchParams.get(currentSubpath.prevLevel.slice(0, -1)) }}
                         style={{ textDecoration: "none" }}
                     >
@@ -170,7 +170,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                             <Edit />
                         </IconButton>
                     </Link>
-                    <IconButton className="cell-action btn-delete" onClick={() => handleDelete(params.row._id)}>
+                    <IconButton className="cell-action btn-delete" onClick={() => handleDelete(params.row.id)}>
                         <Delete />
                     </IconButton>
                 </div>
@@ -212,7 +212,7 @@ const Datatable = ({ columns, getRequest, deleteRequest, ...tableControls }) => 
                         pageSize={pageSize}
                         onPageSizeChange={handleChangePageSize}
                         onRowDoubleClick={handleViewDetails}
-                        getRowId={(row) => row._id}
+                        getRowId={(row) => row.id}
                         autoHeight
                         loading={isLoading}
                         headerHeight={45}

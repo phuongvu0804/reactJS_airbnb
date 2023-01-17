@@ -32,14 +32,6 @@ export const formColumns = [
         label: "Birthday",
         type: "date",
     },
-    {
-        id: 7,
-        name: "address",
-        label: "Address",
-        type: "text",
-        multiline: true,
-        placeholder: "170 St. Esdan, Wakanda, Earth",
-    },
 ];
 
 export const passwordColumn = {

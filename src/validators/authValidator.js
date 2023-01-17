@@ -22,7 +22,6 @@ const signupSchema = yup.object({
     birthday: yup.date().nullable().typeError(msg.birthday.invalid).max(yesterday, msg.birthday.max),
     password: yup.string().matches(pattern.password, msg.password),
     phone: yup.string().required(msg.required).matches(pattern.phone, msg.phone),
-    address: yup.string().required(msg.required),
 });
 
 export { loginSchema, signupSchema };

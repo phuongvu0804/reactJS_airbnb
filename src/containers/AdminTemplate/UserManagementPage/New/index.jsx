@@ -23,7 +23,6 @@ const defaultValues = {
     birthday: "",
     gender: true,
     type: "ADMIN",
-    address: "",
 };
 
 let formColumnsWithPassword = [...formColumns];

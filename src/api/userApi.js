@@ -20,7 +20,7 @@ const userApi = {
         return axiosClient.put(url, user);
     },
     deleteUser: (id) => {
-        const url = `${resourceName}/${id}`;
+        const url = `${resourceName}/?id=${id}`;
         return axiosClient.delete(url);
     },
     editUserPhoto: (photo) => {

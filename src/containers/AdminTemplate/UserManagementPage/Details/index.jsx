@@ -21,7 +21,6 @@ const defaultValues = {
     phone: "",
     birthday: "",
     gender: true,
-    address: "",
 };
 
 const Details = () => {

@@ -71,7 +71,7 @@ const Form = ({
             enabled: functionality !== ADD,
             refetchOnWindowFocus: false,
             onSuccess: (data) => {
-                const details = data.data;
+                const details = data?.data?.content;
 
                 for (const key in defaultValues) {
                     if (key === "birthday") {
@@ -114,7 +114,7 @@ const Form = ({
                     return;
                 }
 
-                const id = data.data._id;
+                const id = data.data.id;
 
                 const photoKey = firstLevelSubpath.slice(0, -1);
 
