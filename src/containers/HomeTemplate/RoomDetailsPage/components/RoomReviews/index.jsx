@@ -13,7 +13,6 @@ import WaveSkeleton from "@/components/WaveSkeleton";
 function RoomReviews({ data }) {
     const [visible, setVisible] = useState(6);
 
-    console.log(data?.roomReviews);
     return data?.roomReviews ? (
         <Container maxWidth="lg" className="room-review">
             <h4 className="room-review__total-review">{data.roomReviews.length} reviews</h4>

@@ -48,7 +48,9 @@ const actGetRoomList = (locationId) => {
 
         callApi(
             roomApi.getRoomList(locationId),
-            (response) => dispatch(actGetRoomListSuccess(response.content)),
+            (response) => {
+                dispatch(actGetRoomListSuccess(response.content));
+            },
             (error) => dispatch(actGetRoomListFail(error)),
         );
     };

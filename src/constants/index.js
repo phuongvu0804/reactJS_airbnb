@@ -9,4 +9,12 @@ const FUNCTIONALITY = {
     DETAILS: "Details",
 };
 
-export { ROLE, FUNCTIONALITY };
+const calculateTotalGuest = (guestNumber) => {
+    let guestTotal = 0;
+    for (let guest in guestNumber) {
+        guestTotal += guestNumber[guest];
+    }
+    return guestTotal;
+};
+
+export { ROLE, FUNCTIONALITY, calculateTotalGuest };

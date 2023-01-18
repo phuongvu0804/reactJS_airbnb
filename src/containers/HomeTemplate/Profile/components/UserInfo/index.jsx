@@ -11,7 +11,6 @@ import moment from "moment";
 import ProfileModal from "../ProfileModal";
 
 function UserInfo({ data }) {
-    console.log(data);
     const [openModal, setOpenModal] = useState(false);
     const [serverResponse, setServerResponse] = useState(null);
 
@@ -86,13 +85,13 @@ function UserInfo({ data }) {
                 <h4 className="profile__sub-title">About</h4>
                 {data && renderBasicInfo()}
             </ul>
-            <ProfileModal
+            {/* <ProfileModal
                 open={openModal}
                 handleClose={handleCloseModal}
                 userData={data}
                 serverResponse={serverResponse}
                 setServerResponse={setServerResponse}
-            />
+            /> */}
         </>
     );
 }

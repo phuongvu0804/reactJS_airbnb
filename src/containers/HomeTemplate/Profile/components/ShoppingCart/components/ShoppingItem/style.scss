@@ -12,6 +12,8 @@
         height: var(--img-size);
         width: var(--img-size);
         border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
     }
 
     .shop-cart-item__content {

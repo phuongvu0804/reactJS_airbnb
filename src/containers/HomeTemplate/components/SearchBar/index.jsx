@@ -8,7 +8,7 @@ import { Box, Divider, FormControl, FormLabel, IconButton, Typography } from "@m
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocationOn, Search } from "@mui/icons-material";
+import { Search } from "@mui/icons-material";
 
 //Components
 import SubmitBtn from "@/components/SubmitBtn";
@@ -17,21 +17,13 @@ import GuestInputField from "./components/GuestInputField";
 
 //Others
 import "./style.scss";
-import {
-    actGetLocationListSuccess,
-    actGetLocationListFail,
-    actGetLocationListRequest,
-} from "@/store/actions/locationList";
-import {
-    actGetRoomListFail,
-    actGetRoomListSuccess,
-    actGetRoomList,
-    actGetRoomListRequest,
-} from "@/store/actions/roomList";
+import { actGetLocationListFail, actGetLocationListRequest } from "@/store/actions/locationList";
+import { actGetRoomListFail, actGetRoomListSuccess, actGetRoomList } from "@/store/actions/roomList";
 import { locationApi, roomApi } from "@/api";
 import { callApi } from "@/api/config/request";
 import { handleFilterResultList, renderPosition, searchTabsMobile } from "./constants";
 import { useEffect } from "react";
+import { calculateTotalGuest } from "@/constants";
 
 function SearchBar({ searchCategory }) {
     const dispatch = useDispatch();
@@ -59,7 +51,6 @@ function SearchBar({ searchCategory }) {
     });
     const [isActiveSearchResult, setIsActiveSearchResult] = useState(false);
 
-    console.log(isActiveSearchResult);
     useEffect(() => {
         handleFilterResultList(searchData, LOCATION_LIST, setResultList);
     }, [searchData]);
@@ -79,14 +70,6 @@ function SearchBar({ searchCategory }) {
     const handleCloseModal = () => setOpenModal(false);
 
     const handleOpenModal = () => setOpenModal(true);
-
-    const calculateTotalGuest = () => {
-        let guestTotal = 0;
-        for (let guest in guestNumber) {
-            guestTotal += guestNumber[guest];
-        }
-        return guestTotal;
-    };
 
     const handleGetRoomByLocation = (locationId) => {
         callApi(
@@ -120,8 +103,6 @@ function SearchBar({ searchCategory }) {
 
     const handleDispatchRoomList = () => {
         if (searchCategory === "Stays") {
-            dispatch(actGetLocationListRequest());
-
             if (!filteredValues.locationId) {
                 dispatch(actGetRoomList(""));
                 navigate("room-list");
@@ -141,9 +122,10 @@ function SearchBar({ searchCategory }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("handleSubmitt");
 
-        const totalGuest = calculateTotalGuest();
+        setIsActiveSearchResult(false);
+
+        const totalGuest = calculateTotalGuest(guestNumber);
         setFilteredValues({
             ...filteredValues,
             totalGuest,
@@ -202,7 +184,13 @@ function SearchBar({ searchCategory }) {
                     </FormControl>
                     {isActiveSearchResult && (
                         <div className="search-bar__result-list" onClick={() => setIsActiveSearchResult(true)}>
-                            {renderPosition(resultList, filteredValues, setFilteredValues, setSearchData)}
+                            {renderPosition(
+                                resultList,
+                                filteredValues,
+                                setFilteredValues,
+                                setSearchData,
+                                setIsActiveSearchResult,
+                            )}
                         </div>
                     )}
                 </Box>

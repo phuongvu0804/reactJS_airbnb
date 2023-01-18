@@ -36,7 +36,7 @@ function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNum
                         <IconButton
                             className="group__filter-btn"
                             onClick={() => {
-                                const totalGuest = onHandleTotalGuest();
+                                const totalGuest = onHandleTotalGuest(guestNumber);
 
                                 if (totalGuest >= minGuest) {
                                     return setGuestNumber({
@@ -54,7 +54,7 @@ function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNum
                         <IconButton
                             className="group__filter-btn"
                             onClick={() => {
-                                const totalGuest = onHandleTotalGuest();
+                                const totalGuest = onHandleTotalGuest(guestNumber);
 
                                 if (totalGuest <= maxGuest) {
                                     return setGuestNumber({

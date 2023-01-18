@@ -5,8 +5,8 @@ import { Divider, Grid } from "@mui/material";
 import { Container } from "@mui/system";
 
 //components
-import UserCard from "../UserCard";
-import UserDetails from "../UserDetails";
+import UserCard from "../../components/UserCard";
+import UserDetails from "../../components/UserDetails";
 //others
 
 function ProfilePC({ data, wishLists, shoppingCart }) {

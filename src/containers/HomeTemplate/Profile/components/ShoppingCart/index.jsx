@@ -10,12 +10,14 @@ import { Box } from "@mui/system";
 import ShoppingItem from "./components/ShoppingItem";
 
 //Others
-import { ticketApi } from "@/api";
+import { roomApi, ticketApi } from "@/api";
 import { callApi } from "@/api/config/request";
 import "./style.scss";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
+import { useSelector } from "react-redux";
 
 function ShoppingCart({ data }) {
+    const ticketList = useSelector((state) => state.ticket.data);
     const [shoppingList, setShoppingList] = useState([]);
     const [toastMsg, setToastMsg] = useState([]);
     const [openMsg, setOpenMsg] = useState(true);
@@ -41,32 +43,6 @@ function ShoppingCart({ data }) {
         },
         [toastMsg],
     );
-
-    useEffect(() => {
-        if (data) {
-            const booking = data.tickets;
-            booking.forEach((item) => {
-                ticketApi
-                    .getTicketDetails(item)
-                    .then((response) => {
-                        setShoppingList([...shoppingList, response]);
-                    })
-                    .catch((error) => {
-                        setTrashBin((prev) => [...prev, item]);
-                    });
-            });
-        }
-
-        const intervalId = setInterval(() => {
-            if (toastMsg.length > 0) {
-                handleDeleteToastMsg(toastMsg.length - 1);
-            }
-        }, 6000);
-
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, [toastMsg, data]);
 
     const handleDeleteBooking = (ticketId) => {
         callApi(
@@ -116,22 +92,36 @@ function ShoppingCart({ data }) {
     };
 
     const renderShoppingList = () => {
-        if (shoppingList.length) {
-            return (
-                <Grid container>
-                    {shoppingList?.slice(0, visible).map((item, index) => (
-                        <ShoppingItem
-                            data={item}
-                            key={index}
-                            onDelete={() => handleDeleteBooking(item.data._id)}
-                            toastMsg={toastMsg}
-                            setToastMsg={setToastMsg}
-                        />
-                    ))}
-                </Grid>
-            );
+        if (ticketList?.length) {
+            return ticketList
+                ?.slice(0, visible)
+                .map((item, index) => (
+                    <ShoppingItem
+                        data={item}
+                        key={index}
+                        onDelete={() => handleDeleteBooking(item.maPhong)}
+                        toastMsg={toastMsg}
+                        setToastMsg={setToastMsg}
+                    />
+                ));
         } else {
             return <p>Your shopping cart is empty.</p>;
+        }
+    };
+
+    const renderTrashBin = () => {
+        if (trashBin?.length) {
+            return trashBin.map((item, index) => (
+                <Typography key={index} sx={{ p: 1 }}>
+                    Ticket id: {item}
+                </Typography>
+            ));
+        } else {
+            return (
+                <Typography component="h6" sx={{ fontSize: 14, fontWeight: 400 }}>
+                    Your trash bin is empty
+                </Typography>
+            );
         }
     };
 
@@ -152,7 +142,7 @@ function ShoppingCart({ data }) {
             </Box>
 
             {renderToastMsg()}
-            {renderShoppingList()}
+            <Grid container>{renderShoppingList()}</Grid>
 
             {/* /Render deleted shopping cart */}
             <Popover
@@ -165,16 +155,10 @@ function ShoppingCart({ data }) {
                     horizontal: "left",
                 }}
             >
-                <Box sx={{ p: 1 }}>
-                    {trashBin.map((item, index) => (
-                        <Typography key={index} sx={{ p: 1 }}>
-                            Ticket id: {item}
-                        </Typography>
-                    ))}
-                </Box>
+                <Box sx={{ p: 1 }}>{renderTrashBin()}</Box>
             </Popover>
 
-            {visible < shoppingList?.length && (
+            {visible < ticketList?.length && (
                 <LoadMoreBtn className="__show-btn" variant="outlined" setVisible={setVisible} loadNumber={4} />
             )}
         </ul>

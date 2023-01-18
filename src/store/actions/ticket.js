@@ -34,4 +34,36 @@ const actEditTicket = (ticketId) => {
     };
 };
 
-export { actEditTicket };
+const actGetTicketListRequest = () => {
+    return {
+        type: actTypes.GET_TICKET_LIST_REQUEST,
+    };
+};
+
+const actGetTicketListSuccess = (data) => {
+    return {
+        type: actTypes.GET_TICKET_LIST_SUCCESS,
+        payload: data,
+    };
+};
+
+const actGetTicketListFail = (error) => {
+    return {
+        type: actTypes.GET_TICKET_LIST_FAIL,
+        payload: error,
+    };
+};
+
+const actGetTicketList = (userId) => {
+    return (dispatch) => {
+        dispatch(actGetTicketListRequest());
+
+        callApi(
+            ticketApi.getTicketListByUser(userId),
+            (response) => dispatch(actGetTicketListSuccess(response.content)),
+            (error) => dispatch(actGetTicketListFail(error)),
+        );
+    };
+};
+
+export { actEditTicket, actGetTicketList, actGetTicketListRequest, actGetTicketListSuccess, actGetTicketListFail };

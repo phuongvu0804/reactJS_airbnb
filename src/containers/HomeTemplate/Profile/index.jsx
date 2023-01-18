@@ -4,36 +4,45 @@ import { useEffect } from "react";
 import { Container } from "@mui/system";
 
 //components
-import ProfilePC from "./components/ProfilePC";
-import ProfileTabletMobile from "./components/ProfileTabletMobile";
+import ProfilePC from "./Layouts/ProfilePC";
+import ProfileTabletMobile from "./Layouts/ProfileTabletMobile";
 
 //others
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetUserData } from "@/store/actions/user";
+import { actGetTicketList } from "@/store/actions/ticket";
 
 function Profile() {
     const dispatch = useDispatch();
-    const userData = useSelector((state) => state.user.data);
-    const loading = useSelector((state) => state.user.loading);
+    const userData = useSelector((state) => state.user);
+    const ticketData = useSelector((state) => state.ticket);
     const wishLists = useSelector((state) => state.roomDetails.roomSaved);
-    const userId = JSON.parse(localStorage.getItem("user"))?.id;
-    console.log(JSON.parse(localStorage.getItem("user")));
+
+    //Fetch user's info + booking
     useEffect(() => {
+        const userId = JSON.parse(localStorage.getItem("user"))?.id;
+
         dispatch(actGetUserData(userId));
-    }, [userId]);
+        dispatch(actGetTicketList(userId));
+    }, []);
+
+    //Fetch booking's details
+    // useEffect(() => {
+
+    // })
 
     return (
         <Container id="profile-page" maxWidth="lg" sx={{ mt: "100px" }}>
-            {!userData || loading ? (
+            {userData.loading || ticketData.loading ? (
                 <>
                     <ProfilePC.Loading />
                     <ProfileTabletMobile.Loading />
                 </>
             ) : (
                 <>
-                    <ProfilePC data={userData} wishLists={wishLists} />
-                    <ProfileTabletMobile data={userData} wishLists={wishLists} />
+                    <ProfilePC data={userData.data} wishLists={wishLists} />
+                    <ProfileTabletMobile data={userData.data} wishLists={wishLists} />
                 </>
             )}
         </Container>

@@ -30,15 +30,8 @@ const Header = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [searchCategory, setSearchCategory] = useState("Stays");
-    const [navigateTo, setNavigateTo] = useState("");
 
     let navigate = useNavigate();
-
-    useEffect(() => {
-        if (navigateTo) {
-            navigate(navigateTo);
-        }
-    }, [navigateTo]);
 
     const user = localStorage.getItem("user");
     let settings = user ? withUserSettings : noUserSettings;
@@ -65,7 +58,7 @@ const Header = () => {
             localStorage.removeItem("user");
         }
         handleCloseUserMenu();
-        setNavigateTo(setting.link);
+        navigate(setting.link);
     };
 
     const TableTabletNavbar = () => {

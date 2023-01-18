@@ -21,9 +21,6 @@ const roomApi = {
         const url = `${resourceName}/${roomId}`;
         return axiosClient.delete(url);
     },
-    createBooking: (data) => {
-        return axiosClient.post(resourceName, data);
-    },
     updateRoom: (id, room) => {
         const url = `${resourceName}/${id}`;
         return axiosClient.put(url, room);

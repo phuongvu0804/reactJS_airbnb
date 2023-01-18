@@ -6,35 +6,29 @@ import Image from "@/components/Image";
 import WaveSkeleton from "@/components/WaveSkeleton";
 
 //Others
-import { actCreateSaveFail } from "@/store/actions/roomDetails";
+import { actCreateSaveFail, actGetRoomDetailsFail } from "@/store/actions/roomDetails";
 import { roomApi } from "@/api";
+import WishItem from "./components/WishItem";
 
 function WishList({ data }) {
     const dispatch = useDispatch();
     const [wishList, setWishList] = useState([]);
 
     useEffect(() => {
-        if (data.length !== 0) {
+        if (data?.length !== 0) {
             Promise.all(data.map((item) => roomApi.getRoomDetails(item)))
+
                 .then((response) => {
-                    setWishList(response);
+                    response.forEach((item) => setWishList((prev) => [...prev, item.data.content]));
                 })
-                .catch((error) => dispatch(actCreateSaveFail(error)));
+                .catch((error) => dispatch(actGetRoomDetailsFail(error)));
         }
     }, []);
 
-    const WishList = ({ data }) => {
-        if (data.length !== 0) {
-            return data?.map((item, index) => {
-                return (
-                    <li key={index} className="user-details__saved-room-item">
-                        <Image src={item?.data.image} alt={item?.data.name} />
-                        <div className="saved-room-item__content">
-                            <h4>{item?.data.name}</h4>
-                            <p>{item?.data.locationId?.name}</p>
-                        </div>
-                    </li>
-                );
+    const renderWishList = () => {
+        if (wishList?.length !== 0) {
+            return wishList.map((item, index) => {
+                return <WishItem key={index} data={item} />;
             });
         } else {
             return <p>Your wishlist is empty</p>;
@@ -44,7 +38,7 @@ function WishList({ data }) {
     return (
         <ul className="user-details__saved-room-list">
             <h4 className="profile__sub-title">Your wishlists</h4>
-            <WishList data={wishList} />
+            <div>{renderWishList()}</div>
         </ul>
     );
 }

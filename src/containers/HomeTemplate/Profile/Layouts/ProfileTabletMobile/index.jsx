@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import { Divider, Grid } from "@mui/material";
 
 //components
-import UserProfile from "../UserProfile";
-import UserVerification from "../UserVerification";
-import DataChecked from "../DataChecked";
-import WishList from "../WishList";
-import ShoppingCart from "../ShoppingCart";
+import UserProfile from "../../components/UserProfile";
+import UserVerification from "../../components/UserVerification";
+import DataChecked from "../../components/DataChecked";
+import WishList from "../../components/WishList";
+import ShoppingCart from "../../components/ShoppingCart";
 
 //others
 
@@ -23,7 +23,7 @@ function ProfileTabletMobile({ data, wishLists }) {
             <Divider sx={{ width: "100%", my: "var(--margin-3)" }} />
             <WishList data={wishLists} />
             <Divider sx={{ width: "100%", my: "var(--margin-3)" }} />
-            {/* <ShoppingCart data={data} /> */}
+            <ShoppingCart data={data} />
         </Grid>
     );
 }
@@ -39,7 +39,7 @@ function Loading() {
             <Divider sx={{ width: "100%", my: "var(--margin-3)" }} />
             <WishList.Loading />
             <Divider sx={{ width: "100%", my: "var(--margin-3)" }} />
-            {/* <ShoppingCart.Loading /> */}
+            <ShoppingCart.Loading />
         </Grid>
     );
 }

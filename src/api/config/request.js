@@ -57,7 +57,7 @@ const logError = (err) => {
     return false;
 };
 
-const callApi = (api, onRequest, onError) => {
+const callApi = (api, onRequest, onError, onFinally) => {
     api.then(validateResponse)
 
         .then((data) => {
@@ -67,7 +67,9 @@ const callApi = (api, onRequest, onError) => {
             logError(err);
             onError && onError(err);
         })
-        .finally(() => {});
+        .finally(() => {
+            onFinally && onFinally();
+        });
 };
 
 export { callApi };

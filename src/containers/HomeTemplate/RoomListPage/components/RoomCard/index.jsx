@@ -23,7 +23,7 @@ function RoomCard({ room, handleLikeClass, handleLike }) {
                 </IconButton>
             </div>
             <Box className="room-card__content" component={Link} to={`/room-details/${room.id}`}>
-                <h5>{room.name}</h5>
+                <h5>{room.tenPhong}</h5>
                 <div className="room-card__body">
                     <p className="room-card__body-item">{room.phongNgu} bedroom</p>
                     <p className="room-card__body-item">{room.phongTam} bathroom</p>

@@ -1,4 +1,4 @@
-import { reviewApi, roomApi } from "@/api";
+import { reviewApi, roomApi, ticketApi } from "@/api";
 import { callApi } from "@/api/config/request";
 import * as actTypes from "../constants/roomDetails";
 
@@ -118,7 +118,7 @@ const actCreateBooking = (data) => {
         dispatch(actCreateBookingRequest());
 
         callApi(
-            roomApi.createBooking(data),
+            ticketApi.createTicket(data),
             (response) => dispatch(actCreateBookingSuccess(response)),
             (error) => dispatch(actCreateBookingFail(error)),
         );
@@ -137,4 +137,11 @@ const actCreateSave = (data) => {
     };
 };
 
-export { actGetRoomDetails, actGetRoomReview, actCreateBooking, actCreateSave, actCreateSaveFail };
+export {
+    actGetRoomDetails,
+    actGetRoomReview,
+    actCreateBooking,
+    actCreateSave,
+    actCreateSaveFail,
+    actGetRoomDetailsFail,
+};

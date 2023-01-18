@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import moment from "moment";
@@ -16,6 +16,7 @@ import BookingModal from "../BookingModal";
 import "./style.scss";
 import { actCreateBooking } from "@/store/actions/roomDetails";
 import { today } from "../../constants";
+import { calculateTotalGuest } from "@/constants";
 
 function Booking({ data }) {
     const navigate = useNavigate();
@@ -31,6 +32,7 @@ function Booking({ data }) {
     });
     const [openModal, setOpenModal] = useState(false);
     const [formErrors, setFormErrors] = useState(null);
+
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
 
@@ -96,14 +98,6 @@ function Booking({ data }) {
         setAnchorEl(anchorEl ? null : event.currentTarget);
     };
 
-    const calculateTotalGuest = () => {
-        let guestTotal = 0;
-        for (let guest in guestNumber) {
-            guestTotal += guestNumber[guest];
-        }
-        return guestTotal;
-    };
-
     const roomPrice = data.giaTien.toLocaleString("en-US");
     const startDate = moment(checkIn, "YYYY-MM-DD");
     const endDate = moment(checkOut, "YYYY-MM-DD");
@@ -111,16 +105,18 @@ function Booking({ data }) {
     const serviceFee = 100000;
     const priceByTotalDays = totalDaysStay * data.giaTien;
     const totalPrice = priceByTotalDays + serviceFee;
-    const totalGuest = calculateTotalGuest();
+    const totalGuest = calculateTotalGuest(guestNumber);
 
     const handleBooking = () => {
-        const user = localStorage.getItem("user");
+        const user = JSON.parse(localStorage.getItem("user"));
 
         if (!formErrors) {
             const bookingData = {
-                roomId: data.id,
-                checkIn: moment(checkIn).format(),
-                checkOut: moment(checkOut).format(),
+                maPhong: data.id,
+                ngayDen: moment(checkIn).format(),
+                ngayDi: moment(checkOut).format(),
+                maNguoiDung: user.id,
+                soLuongKhach: totalGuest,
             };
 
             if (user) {
@@ -185,6 +181,7 @@ function Booking({ data }) {
                             anchorEl={anchorEl}
                             guestNumber={guestNumber}
                             setGuestNumber={setGuestNumber}
+                            onHandleTotalGuest={calculateTotalGuest}
                             totalGuest={totalGuest}
                         />
                     </Box>
