@@ -11,16 +11,16 @@ import WishList from "../WishList";
 import "./style.scss";
 import ShoppingCart from "../ShoppingCart";
 
-function UserDetails({ data, wishLists }) {
+function UserDetails({ data, timeOutId }) {
     return (
         <>
             <UserInfo data={data} />
             <Divider sx={{ my: "30px" }} />
 
-            <WishList data={wishLists} />
+            <WishList />
             <Divider sx={{ my: "30px" }} />
 
-            <ShoppingCart data={data} />
+            <ShoppingCart data={data} timeOutId={timeOutId} />
         </>
     );
 }

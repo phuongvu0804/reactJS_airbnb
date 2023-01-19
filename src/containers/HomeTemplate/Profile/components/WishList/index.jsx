@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 //components
 import Image from "@/components/Image";
@@ -9,28 +9,38 @@ import WaveSkeleton from "@/components/WaveSkeleton";
 import { actCreateSaveFail, actGetRoomDetailsFail } from "@/store/actions/roomDetails";
 import { roomApi } from "@/api";
 import WishItem from "./components/WishItem";
+import { Skeleton } from "@mui/material";
 
-function WishList({ data }) {
+function WishList() {
     const dispatch = useDispatch();
+    const data = useSelector((state) => state.roomDetails.roomSaved);
     const [wishList, setWishList] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setWishList([]);
+
+        //add loading when waiting for api fetching
+
         if (data?.length !== 0) {
+            setLoading(true);
             Promise.all(data.map((item) => roomApi.getRoomDetails(item)))
 
                 .then((response) => {
                     response.forEach((item) => setWishList((prev) => [...prev, item.data.content]));
                 })
-                .catch((error) => dispatch(actGetRoomDetailsFail(error)));
+                .catch((error) => dispatch(actGetRoomDetailsFail(error)))
+                .finally(() => setLoading(false));
         }
-    }, []);
+    }, [data]);
+    console.log(wishList);
 
     const renderWishList = () => {
         if (wishList?.length !== 0) {
             return wishList.map((item, index) => {
                 return <WishItem key={index} data={item} />;
             });
-        } else {
+        } else if (wishList?.length !== 0 && !loading) {
             return <p>Your wishlist is empty</p>;
         }
     };
@@ -38,6 +48,7 @@ function WishList({ data }) {
     return (
         <ul className="user-details__saved-room-list">
             <h4 className="profile__sub-title">Your wishlists</h4>
+            {loading && <Skeleton variant="rounded" width="100%" height={60} />}
             <div>{renderWishList()}</div>
         </ul>
     );

@@ -24,17 +24,21 @@ import images from "@/assets/images";
 //Others
 import "./style.scss";
 import SearchBar from "../SearchBar";
-import { pages, noUserSettings, withUserSettings } from "./constants";
+import { pages, noUserProfileMenu, withUserProfileMenu } from "./constants";
+import { LOCAL_STORAGE_KEY } from "@/constants";
 
 const Header = () => {
+    const user = localStorage.getItem(LOCAL_STORAGE_KEY);
+    let navigate = useNavigate();
+
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [searchCategory, setSearchCategory] = useState("Stays");
+    const [profileMenu, setProfileMenu] = useState([]);
 
-    let navigate = useNavigate();
-
-    const user = localStorage.getItem("user");
-    let settings = user ? withUserSettings : noUserSettings;
+    useEffect(() => {
+        user ? setProfileMenu(withUserProfileMenu) : setProfileMenu(noUserProfileMenu);
+    }, [user]);
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -53,12 +57,13 @@ const Header = () => {
         handleCloseNavMenu();
     };
 
-    const handleSetting = (setting) => {
-        if (setting.label === "Log out") {
-            localStorage.removeItem("user");
+    const handleClickButton = (button) => {
+        if (button.label === "Log out") {
+            localStorage.removeItem(LOCAL_STORAGE_KEY);
+            navigate("/");
+        } else {
+            navigate(button.link);
         }
-        handleCloseUserMenu();
-        navigate(setting.link);
     };
 
     const TableTabletNavbar = () => {
@@ -174,16 +179,19 @@ const Header = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <div key={setting.label}>
+                            {profileMenu.map((item) => (
+                                <div key={item.label}>
                                     <MenuItem
                                         className="sub-nav__item"
-                                        key={setting.label}
-                                        onClick={() => handleSetting(setting)}
+                                        key={item.label}
+                                        onClick={() => {
+                                            handleCloseUserMenu();
+                                            handleClickButton(item);
+                                        }}
                                     >
-                                        {setting.label}
+                                        {item.label}
                                     </MenuItem>
-                                    {setting.divider ? <Divider /> : ""}
+                                    {item.divider ? <Divider /> : ""}
                                 </div>
                             ))}
                         </Menu>

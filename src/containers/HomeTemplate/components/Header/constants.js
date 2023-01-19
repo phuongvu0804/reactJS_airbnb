@@ -1,6 +1,6 @@
 const pages = ["Stays", "Online Experiences"];
 
-const noUserSettings = [
+const noUserProfileMenu = [
     {
         label: "Sign up",
         link: "/auth/signup",
@@ -28,7 +28,7 @@ const noUserSettings = [
     },
 ];
 
-const withUserSettings = [
+const withUserProfileMenu = [
     {
         label: "Log out",
         link: "/",
@@ -56,4 +56,4 @@ const withUserSettings = [
     },
 ];
 
-export { pages, noUserSettings, withUserSettings };
+export { pages, noUserProfileMenu, withUserProfileMenu };

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 //Material UI
 import { Container } from "@mui/system";
@@ -9,9 +10,9 @@ import ProfileTabletMobile from "./Layouts/ProfileTabletMobile";
 
 //others
 import "./style.scss";
-import { useDispatch, useSelector } from "react-redux";
 import { actGetUserData } from "@/store/actions/user";
 import { actGetTicketList } from "@/store/actions/ticket";
+import { LOCAL_STORAGE_KEY } from "@/constants";
 
 function Profile() {
     const dispatch = useDispatch();
@@ -21,16 +22,11 @@ function Profile() {
 
     //Fetch user's info + booking
     useEffect(() => {
-        const userId = JSON.parse(localStorage.getItem("user"))?.id;
+        const userId = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))?.id;
 
         dispatch(actGetUserData(userId));
         dispatch(actGetTicketList(userId));
     }, []);
-
-    //Fetch booking's details
-    // useEffect(() => {
-
-    // })
 
     return (
         <Container id="profile-page" maxWidth="lg" sx={{ mt: "100px" }}>

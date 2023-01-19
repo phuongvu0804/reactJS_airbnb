@@ -1,7 +1,14 @@
 .user-details__saved-room-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    list-style: none;
     margin-bottom: 20px;
+}
+
+.user-details__saved-room-item > div {
+    display: flex;
+    align-items: center;
     cursor: pointer;
 }
 
@@ -14,4 +21,8 @@
 
 .saved-room-item__content {
     margin-left: 10px;
+}
+
+.saved-room-item__button {
+    color: var(--primary);
 }

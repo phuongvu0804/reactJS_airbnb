@@ -1,26 +1,26 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 //Material UI
 import WaveSkeleton from "@/components/WaveSkeleton";
-import { Close } from "@mui/icons-material";
-import { Alert, Button, Collapse, Grid, IconButton, Modal, Popover, Typography } from "@mui/material";
+import { Button, Grid, Popover, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
 //Components
 import ShoppingItem from "./components/ShoppingItem";
 
 //Others
-import { roomApi, ticketApi } from "@/api";
+import { ticketApi } from "@/api";
 import { callApi } from "@/api/config/request";
 import "./style.scss";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
-import { useSelector } from "react-redux";
+import { actCloseAlert, actOpenAlert } from "@/store/actions/alert";
+import { errorDeleteAlert, successDeleteAlert } from "../../constants";
 
-function ShoppingCart({ data }) {
+function ShoppingCart({ data, timeOutId }) {
+    const dispatch = useDispatch();
     const ticketList = useSelector((state) => state.ticket.data);
-    const [shoppingList, setShoppingList] = useState([]);
     const [toastMsg, setToastMsg] = useState([]);
-    const [openMsg, setOpenMsg] = useState(true);
     const [visible, setVisible] = useState(4);
     const [trashBin, setTrashBin] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -36,59 +36,18 @@ function ShoppingCart({ data }) {
     const open = Boolean(anchorEl);
     const id = open ? "simple-popover" : undefined;
 
-    const handleDeleteToastMsg = useCallback(
-        (errorKey) => {
-            const deletedArray = toastMsg.filter((item, index) => index !== errorKey);
-            setToastMsg(deletedArray);
-        },
-        [toastMsg],
-    );
-
     const handleDeleteBooking = (ticketId) => {
         callApi(
             ticketApi.deleteTicket(ticketId),
             (response) => {
-                setToastMsg([
-                    ...toastMsg,
-                    {
-                        type: "success",
-                        content: "Your have deleted successfully!",
-                    },
-                ]);
+                dispatch(actOpenAlert(successDeleteAlert));
             },
             (error) => {
-                setToastMsg([
-                    ...toastMsg,
-                    {
-                        type: "error",
-                        content: error || "Sorry, there was an error from the serve",
-                    },
-                ]);
-                setOpenMsg(true);
+                dispatch(actOpenAlert(errorDeleteAlert));
             },
         );
-    };
 
-    const renderToastMsg = () => {
-        if (toastMsg.length > 0) {
-            return toastMsg?.map((item, index) => {
-                const errorKey = index;
-                return (
-                    <Collapse className="toast-msg" key={errorKey} in={openMsg} sx={{ mb: "6px" }}>
-                        <Alert
-                            severity={item.type}
-                            action={
-                                <IconButton size="small" color="inherit" onClick={() => handleDeleteToastMsg(errorKey)}>
-                                    <Close />
-                                </IconButton>
-                            }
-                        >
-                            {item.content}
-                        </Alert>
-                    </Collapse>
-                );
-            });
-        }
+        timeOutId = window.setTimeout(() => dispatch(actCloseAlert()), 5000);
     };
 
     const renderShoppingList = () => {
@@ -141,7 +100,6 @@ function ShoppingCart({ data }) {
                 )}
             </Box>
 
-            {renderToastMsg()}
             <Grid container>{renderShoppingList()}</Grid>
 
             {/* /Render deleted shopping cart */}

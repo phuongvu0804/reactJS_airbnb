@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //Material UI
 import { Favorite } from "@mui/icons-material";
@@ -12,13 +12,21 @@ import Image from "@/components/Image";
 //others
 import "./style.scss";
 import WaveSkeleton from "@/components/WaveSkeleton";
+import { handleLike } from "@/constants";
+import { useDispatch } from "react-redux";
 
-function RoomCard({ room, handleLikeClass, handleLike }) {
+function RoomCard({ room, handleLikeClass, likedRoomList }) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     return (
         <Grid item xs={12} sm={4} md={3} className="room-list__room-card">
             <div className="room-card__img">
                 <Image src={room.hinhAnh} alt="room's image" />
-                <IconButton className={handleLikeClass(room.id)} onClick={() => handleLike(room.id)}>
+                <IconButton
+                    className={handleLikeClass(room.id)}
+                    onClick={() => handleLike(room.id, likedRoomList, dispatch, navigate)}
+                >
                     <Favorite />
                 </IconButton>
             </div>

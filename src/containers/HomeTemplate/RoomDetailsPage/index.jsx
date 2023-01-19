@@ -21,47 +21,57 @@ import LoadMoreBtn from "@/components/LoadMoreBtn";
 import "./style.scss";
 import { actCreateSave, actGetRoomDetails, actGetRoomReview } from "@/store/actions/roomDetails";
 import RoomDetailsLoading from "./components/RoomDetailsLoading";
+import { LOCAL_STORAGE_KEY } from "@/constants";
 
 function RoomDetailsPage() {
-    const roomId = useParams();
+    let roomId = useParams();
+    roomId = Number(roomId.id);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const roomDetails = useSelector((state) => state.roomDetails.roomDetails);
     const roomDetailsData = useSelector((state) => state.roomDetails);
-    let roomsSaved = useSelector((state) => state.roomDetails.roomSaved);
+    const roomsSaved = useSelector((state) => state.roomDetails.roomSaved);
     const loading = useSelector((state) => state.roomDetails.loading);
 
     const [visible, setVisible] = useState(105);
     const [favorite, setFavorite] = useState(false);
 
+    //Fetch room's data
     useEffect(() => {
-        dispatch(actGetRoomReview(roomId.id));
-        dispatch(actGetRoomDetails(roomId.id));
+        dispatch(actGetRoomReview(roomId));
+        dispatch(actGetRoomDetails(roomId));
+    }, []);
 
+    //Handle liked function
+    useEffect(() => {
         roomsSaved?.forEach((room) => {
-            if (room === roomId.id) {
+            //if user has liked this room, display it
+            if (room === roomId) {
                 setFavorite(true);
             }
         });
-    }, [roomId.id]);
+    }, []);
 
-    const handleSave = () => {
-        const user = localStorage.getItem("user");
+    const handleLike = () => {
+        const user = localStorage.getItem(LOCAL_STORAGE_KEY);
+        let filteredList = [...roomsSaved];
+
         if (user) {
             setFavorite(!favorite);
 
             if (!favorite) {
-                roomsSaved = [...roomsSaved, roomId.id];
+                filteredList = [...filteredList, roomId];
             } else {
-                roomsSaved = roomsSaved.filter((item) => item !== roomId.id);
+                filteredList = filteredList.filter((item) => item !== roomId);
             }
 
-            dispatch(actCreateSave(roomsSaved));
+            dispatch(actCreateSave(filteredList));
         } else {
             navigate("/auth/login");
         }
     };
+
     //rooms errors roomdetails
     return !roomDetailsData || !roomDetails || loading ? (
         <RoomDetailsLoading />
@@ -78,7 +88,7 @@ function RoomDetailsPage() {
                         </Button>
                         <Button
                             className={favorite ? "room-details__btn active" : "room-details__btn"}
-                            onClick={handleSave}
+                            onClick={handleLike}
                         >
                             <FavoriteBorder className="room-details__btn--not-active" />
                             <Favorite className="room-details__btn-active" />

@@ -13,16 +13,11 @@ import RoomCard from "./components/RoomCard";
 
 //Others
 import "./style.scss";
-import { actCreateSave } from "@/store/actions/roomDetails";
-import { actGetRoomList, actGetRoomListRequest, actGetRoomListSuccess } from "@/store/actions/roomList";
+import { actGetRoomList } from "@/store/actions/roomList";
 import LoadMoreBtn from "@/components/LoadMoreBtn";
-import { modernCriteria } from "./constants";
-import { callApi } from "@/api/config/request";
-import { roomApi } from "@/api";
 
 function RoomListPage() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const locationId = useParams();
 
     let roomList = useSelector((state) => state.roomList.filteredList);
@@ -44,30 +39,10 @@ function RoomListPage() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const handleLike = (id) => {
-        const user = localStorage.getItem("user");
-        if (user) {
-            if (roomsSaved.length !== 0) {
-                const isExisted = roomsSaved.indexOf(id) !== -1;
-                if (isExisted) {
-                    roomsSaved = roomsSaved.filter((item) => item !== id);
-                } else {
-                    roomsSaved = [...roomsSaved, id];
-                }
-
-                dispatch(actCreateSave(roomsSaved));
-            } else {
-                dispatch(actCreateSave([...roomsSaved, id]));
-            }
-        } else {
-            navigate("/auth/login");
-        }
-    };
-
     const handleLikeClass = (id) => {
         let className = "room-card__favorite-btn";
         roomsSaved?.forEach((item) => {
-            if (item === id) {
+            if (item == id) {
                 className = `${className} active`;
             }
         });
@@ -78,7 +53,7 @@ function RoomListPage() {
         return roomList
             ?.slice(0, visible)
             .map((room, index) => (
-                <RoomCard key={index} room={room} handleLikeClass={handleLikeClass} handleLike={handleLike} />
+                <RoomCard key={index} room={room} handleLikeClass={handleLikeClass} likedRoomList={roomsSaved} />
             ));
     };
 
