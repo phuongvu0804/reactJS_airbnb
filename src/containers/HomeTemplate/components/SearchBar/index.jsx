@@ -90,14 +90,14 @@ function SearchBar({ searchCategory }) {
 
                         navigate(`room-list/${locationId}`);
                     } else {
-                        dispatch(actGetRoomListSuccess(resp));
+                        dispatch(actGetRoomListSuccess(resp.content));
                         navigate(`room-list/${locationId}`);
                     }
                 } else {
                     return dispatch(actGetRoomListFail("Location has no accomodation"));
                 }
             },
-            (resp) => dispatch(actGetRoomListFail(resp)),
+            (error) => dispatch(actGetRoomListFail(error.content)),
         );
     };
 
@@ -123,6 +123,7 @@ function SearchBar({ searchCategory }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        console.log("click");
         setIsActiveSearchResult(false);
 
         const totalGuest = calculateTotalGuest(guestNumber);
@@ -138,13 +139,13 @@ function SearchBar({ searchCategory }) {
         handleCloseModal();
     };
 
-    const SearchBarMobile = ({ onClick }) => {
+    const SearchBarMobile = () => {
         return (
             <Box className="search-bar-mobile" sx={{ display: { xs: "block", sm: "none" } }}>
-                <IconButton className="search-bar__search-btn" onClick={onClick}>
+                <IconButton className="search-bar__search-btn" onClick={handleOpenModal}>
                     <SearchIcon />
                 </IconButton>
-                <div className="search-bar__content" onClick={onClick}>
+                <div className="search-bar__content" onClick={handleOpenModal}>
                     <h3 className="search-bar__title">Where to?</h3>
                     <ul className="search-bar__text-wrapper">
                         {searchTabsMobile.map((item, index) => (
@@ -154,7 +155,7 @@ function SearchBar({ searchCategory }) {
                         ))}
                     </ul>
                 </div>
-                <IconButton className="search-bar__filter-btn" onClick={onClick}>
+                <IconButton className="search-bar__filter-btn" onClick={handleOpenModal}>
                     <TuneIcon />
                 </IconButton>
             </Box>
@@ -255,7 +256,7 @@ function SearchBar({ searchCategory }) {
             </Box>
             {/* Search for PC + Tablet ends */}
 
-            <SearchBarMobile onClick={handleOpenModal} />
+            <SearchBarMobile />
             <SearchModalMobile
                 onOpen={openModal}
                 onClose={handleCloseModal}

@@ -70,7 +70,8 @@ div.sub-modal__group {
         right: 12px !important;
         left: 12px !important;
         top: 50% !important;
-        transform: translateY(-30%) !important;
+        height: 100vh;
+        transform: translateY(-50%) !important;
 
         &.search-item__sub-modal--guest {
             padding: 14px 24px;

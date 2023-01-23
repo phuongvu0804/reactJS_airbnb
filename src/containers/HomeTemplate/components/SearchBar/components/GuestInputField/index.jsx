@@ -43,6 +43,10 @@ function GuestInputField({ id, open, anchorEl, onClick, guestNumber, setGuestNum
                                         ...guestNumber,
                                         [item.inputName]: guestNumber[item.inputName] - 1,
                                     });
+                                } else {
+                                    return {
+                                        ...guestNumber,
+                                    };
                                 }
                             }}
                         >

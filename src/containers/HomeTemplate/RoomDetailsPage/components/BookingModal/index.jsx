@@ -16,6 +16,8 @@ import CloseBtn from "@/components/CloseBtn";
 import { modalStyle, buttonStyle } from "./constants";
 import GuestInputField from "@/containers/HomeTemplate/components/SearchBar/components/GuestInputField";
 import { actCreateBooking } from "@/store/actions/roomDetails";
+import { LOCAL_STORAGE_KEY } from "@/constants";
+import "./BookingModal.scss";
 
 function BookingModal({
     onOpen,
@@ -28,6 +30,7 @@ function BookingModal({
     setCheckOut,
     totalDaysStay,
     totalGuest,
+    onHandleTotalGuest,
     ...others
 }) {
     const navigate = useNavigate();
@@ -38,6 +41,7 @@ function BookingModal({
     const id = open ? "simple-popover" : undefined;
 
     const handleClick = (event) => {
+        console.log("click");
         setAnchorEl(event.currentTarget);
     };
 
@@ -46,7 +50,7 @@ function BookingModal({
     };
 
     const handleBooking = () => {
-        const user = localStorage.getItem("user");
+        const user = localStorage.getItem(LOCAL_STORAGE_KEY);
         const bookingData = {
             roomId: data.id,
             checkIn: moment(checkIn).format(),
@@ -119,6 +123,7 @@ function BookingModal({
                                 guestNumber={others.guestNumber}
                                 setGuestNumber={others.setGuestNumber}
                                 totalGuest={totalGuest}
+                                onHandleTotalGuest={onHandleTotalGuest}
                             />
                         </Box>
                     </div>
