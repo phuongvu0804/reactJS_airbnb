@@ -33,6 +33,7 @@ const actGetLocationList = (searchData = "") => {
             },
             (error) => {
                 dispatch(actGetLocationListFail(error));
+                console.log(error);
             },
         );
     };

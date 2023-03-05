@@ -17,7 +17,7 @@ import GuestInputField from "./components/GuestInputField";
 
 //Others
 import "./style.scss";
-import { actGetLocationListFail, actGetLocationListRequest } from "@/store/actions/locationList";
+import { actGetLocationListFail } from "@/store/actions/locationList";
 import { actGetRoomListFail, actGetRoomListSuccess, actGetRoomList } from "@/store/actions/roomList";
 import { locationApi, roomApi } from "@/api";
 import { callApi } from "@/api/config/request";
