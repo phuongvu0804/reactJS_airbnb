@@ -37,7 +37,7 @@ To run the project, run the following command:
 
 To experience more the project, try to sign in with this account:
 
--   username: phuongvu@airbnb.io
+-   username: test-account@gmail.com
 -   password: 123456Phuong@
 
 ## Contributors
