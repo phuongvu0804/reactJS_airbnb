@@ -9,6 +9,7 @@ const RequireAuth = ({ children, roles }) => {
     }
 
     const isAllowed = roles.includes(auth.user.role);
+
     if (isAllowed) {
         return children;
     }

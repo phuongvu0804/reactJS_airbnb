@@ -2,7 +2,7 @@ import { actCreateSave } from "@/store/actions/roomDetails";
 
 const ROLE = {
     ADMIN: "ADMIN",
-    CLIENT: "CLIENT",
+    CLIENT: "USER",
 };
 
 const FUNCTIONALITY = {
